@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+                        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+   <constant name="struts.devMode" value="false" />
+   <constant name="struts.custom.i18n.resources" value="global" />
+
+   <package name="default" namespace="/" extends="struts-default" >
+      <action name="login" class="example.UserAction"  method="execute">
+         <result name="input">/index.jsp</result>
+         <result name="success">/success.jsp</result>
+      </action>
+      
+      <action name="locale" class="example.LocaleAction" method="execute">
+         <result name="success">/index.jsp</result>
+      </action>
+   </package>
+</struts>
