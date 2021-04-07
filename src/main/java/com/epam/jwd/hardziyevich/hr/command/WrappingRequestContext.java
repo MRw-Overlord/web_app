@@ -2,24 +2,36 @@ package com.epam.jwd.hardziyevich.hr.command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Optional;
 
 public class WrappingRequestContext implements RequestContext {
 
     private final HttpServletRequest request;
 
-    public WrappingRequestContext(HttpServletRequest request) {
+    private WrappingRequestContext(HttpServletRequest request) {
         this.request = request;
     }
 
     @Override
-    public void setAttribute(String name, Object obj) {
-        request.setAttribute(name, obj);
+    public void setAttribute(String name, Object object) {
+        request.setAttribute(name, object);
+    }
+
+    @Override
+    public Object getAttribute(String name) {
+        return request.getAttribute(name);
+    }
+
+    @Override
+    public String getParameter(String name) {
+        return request.getParameter(name);
     }
 
     @Override
     public void invalidateSession() {
         final HttpSession session = request.getSession(false);
-        if(session != null){
+        if (session != null) {
             session.invalidate();
         }
     }
@@ -31,11 +43,17 @@ public class WrappingRequestContext implements RequestContext {
     }
 
     @Override
-    public Object getAttribute(String name) {
-        return request.getAttribute(name);
+    public HttpSession getSession() {
+        return request.getSession();
     }
 
-    public static RequestContext of(HttpServletRequest request){
+    @Override
+    public Optional<List<String>> getParameterValues(String name) {
+        return Optional.empty();
+    }
+
+    public static RequestContext of(HttpServletRequest request) {
         return new WrappingRequestContext(request);
     }
+
 }

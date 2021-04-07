@@ -1,20 +1,28 @@
 package com.epam.jwd.hardziyevich.hr.pool;
 
 import java.sql.Connection;
-import java.sql.Driver;
+import com.mysql.cj.jdbc.Driver;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.ResourceBundle;
+import java.util.Stack;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
+
+    private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
+
+    final Lock lock = new ReentrantLock();
+    final Condition notFull = lock.newCondition();
+    public static final int INITIAL_CONNECTIONS_AMOUNT = 8;
+    private final Stack<ProxyConnection> connections = new Stack<>();
+
     private static ConnectionPool instance = null;
-    private static final int INITIAL_CONNECTION_AMOUNT = 8;
-    private final ArrayBlockingQueue<ProxyConnection> connections  =
-            new ArrayBlockingQueue<>(INITIAL_CONNECTION_AMOUNT);
-    public static final String URL = "jdbc:mysql://localhost:3306/hr_webapp?serverTimezone=Europe/Moscow";
-    public static final String USER = "root";
-    public static final String PASSWORD = "root";
 
     private ConnectionPool(){
 
@@ -26,72 +34,87 @@ public class ConnectionPool {
         }
         return instance;
     }
-
-    private Connection getConnection() {
-        Connection conn = null;
+    public Connection retrieveConnection() {
+        ProxyConnection conn = null;
+        lock.lock();
         try {
-            conn = DriverManager.getConnection(URL);
-        } catch (Exception e) {
-            e.printStackTrace();
+            final Thread thread = new Thread(ConnectionPool.getInstance()::initConnections);
+            thread.start();
+            while (connections.empty()) {
+                notFull.await();
+            }
+            conn = connections.pop();
+        } catch (InterruptedException e) {
+            logger.error(e.getMessage());
+        } finally {
+            lock.unlock();
         }
         return conn;
     }
 
-    public Connection retrieveConnection(){
-        try {
-            return connections.take();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-             throw new IllegalStateException(e);
-        }
-    }
-
-    public void returnConnection(Connection connection){
-        //todo: check connection on fake
-        try {
-            connections.put((ProxyConnection) connection);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            throw new IllegalStateException(e);
-        }
-    }
-
-
-    public void init() throws SQLException, InterruptedException {
-        //todo: database initialization procedures
-        registerDrivers();
-        for(int i = 0; i < INITIAL_CONNECTION_AMOUNT; i++){
-            final Connection realConnection = DriverManager.getConnection(URL, USER, PASSWORD);
-            final ProxyConnection proxyConnection = new ProxyConnection(realConnection);
-            connections.put(proxyConnection);
-        }
-    }
-
-    public void destroy(){
-        //todo: connection destroy procedures
-        connections.forEach(ProxyConnection::closeConnection); //real close
-        deregisterDrivers();
-    }
-
-
-    private static void registerDrivers(){
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            DriverManager.registerDriver(DriverManager.getDriver("jdbc:mysql://localhost:3306/hr"));
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void deregisterDrivers(){
-        Enumeration<Driver> drivers = DriverManager.getDrivers();
-        while(drivers.hasMoreElements()){
+    void returnConnection(Connection connection) {
+        if (connection instanceof ProxyConnection) {
+            ProxyConnection proxyConnection = (ProxyConnection) connection;
             try {
-                DriverManager.deregisterDriver(drivers.nextElement());
+                proxyConnection.setAutoCommit(true);
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
+            }
+            connections.push(proxyConnection);
+        }
+    }
+
+    public void initConnections() {
+        lock.lock();
+        try {
+            DriverManager.registerDriver(new Driver());
+            ResourceBundle resourceBundle = ResourceBundle.getBundle("hr_webapp");
+            final String dbUrl = "jdbc:mysql://" +
+                    resourceBundle.getString("database.host") + ':' +
+                    resourceBundle.getString("database.port") + '/' +
+                    resourceBundle.getString("database.name") + '?' +
+                    resourceBundle.getString("database.params");
+            final String dbUser = resourceBundle.getString("database.user");
+            final String dbPassword = resourceBundle.getString("database.password");
+            increaseConnections(dbUrl, dbUser, dbPassword);
+            reduceConnections();
+            notFull.signal();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void reduceConnections() {
+        for (int i = connections.size(); i > INITIAL_CONNECTIONS_AMOUNT; i--) {
+            final ProxyConnection connection = connections.pop();
+            connection.realClose();
+        }
+    }
+
+    private void increaseConnections(String dbUrl, String dbUser, String dbPassword) {
+        for (int i = connections.size(); i < INITIAL_CONNECTIONS_AMOUNT; i++) {
+            final Connection connection;
+            try {
+                connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+                final ProxyConnection proxyConnection = new ProxyConnection(connection);
+                connections.push(proxyConnection);
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
             }
         }
     }
 
+    public void destroy() {
+        connections.forEach(ProxyConnection::realClose);
+        final Enumeration<java.sql.Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            try {
+                DriverManager.deregisterDriver(drivers.nextElement());
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
+            }
+        }
+    }
 }

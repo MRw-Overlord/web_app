@@ -12,12 +12,7 @@ public class ApplicationListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        try {
-            ConnectionPool.getInstance().init();
-        } catch (SQLException | InterruptedException e) {
-            e.printStackTrace();
-            throw new IllegalStateException(e);
-        }
+        ConnectionPool.getInstance().initConnections();
     }
 
     @Override

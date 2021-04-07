@@ -30,13 +30,14 @@ public class ApplicationController extends HttpServlet {
         process(request, response);
     }
 
-    private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final HttpSession session = request.getSession();
+    private void process(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         final String commandName = request.getParameter(COMMAND_PARAMETER_NAME);
         final Command businessCommand = Command.of(commandName);
         final ResponseContext result = businessCommand.execute(WrappingRequestContext.of(request));
         if (result.isRedirect()) {
-            //todo
+            String urlToRedirect = result.getUrlToRedirect();
+            response.sendRedirect(urlToRedirect);
         } else {
             final RequestDispatcher dispatcher = request.getRequestDispatcher(result.getPage());
             dispatcher.forward(request, response);

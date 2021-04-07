@@ -68,15 +68,14 @@ public class ProxyConnection implements Connection {
 
     @Override
     public void close() {
-        //todo: return to connection pool
         ConnectionPool.getInstance().returnConnection(this);
     }
 
-    void closeConnection() {
+    void realClose() {
         try {
             realConnection.close();
         } catch (SQLException e) {
-            //todo: logging
+            e.printStackTrace();
         }
     }
 
