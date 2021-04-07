@@ -1,0 +1,11 @@
+ul.menu {
+    position: page;
+    bottom: 20px;
+    right: 190px;
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(4, 160px);
+    grid-template-rows: repeat(1, 50px);
+    grid-auto-rows: minmax(30px, auto);
+    grid-gap:70px;
+}
