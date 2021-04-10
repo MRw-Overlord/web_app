@@ -1,15 +1,21 @@
 package com.epam.jwd.hardziyevich.hr.command;
 
 import com.epam.jwd.hardziyevich.hr.command.page.ShowAllUserCommand;
+import com.epam.jwd.hardziyevich.hr.command.page.ShowLoginPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowMainPageCommand;
-import com.epam.jwd.hardziyevich.hr.command.user.LoginCommand;
-import com.epam.jwd.hardziyevich.hr.command.user.LogoutCommand;
+import com.epam.jwd.hardziyevich.hr.command.page.ShowSignUpPageCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.LoginCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.LogoutCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.SignUpCommand;
 
 public enum CommandManager {
     LOGIN(LoginCommand.getInstance()),
     LOGOUT(LogoutCommand.getInstance()),
-    DEFAULT(ShowMainPageCommand.getInstance()),
-    SHOW_USERS(ShowAllUserCommand.getInstance());
+    SIGNUP(SignUpCommand.getInstance()),
+    SHOW_LOGIN_PAGE(ShowLoginPageCommand.getInstance()),
+    SHOW_SIGNUP_PAGE(ShowSignUpPageCommand.getInstance()),
+    DEFAULT(ShowMainPageCommand.getInstance());
+
 
     private final Command command;
 
