@@ -5,7 +5,7 @@ import com.epam.jwd.hardziyevich.hr.command.RequestContext;
 import com.epam.jwd.hardziyevich.hr.command.ResponseContext;
 
 public class ShowMainPageCommand implements Command {
-    private static ShowMainPageCommand instance;
+    private static ShowMainPageCommand instance = null;
 
     private ShowMainPageCommand(){
 
@@ -18,10 +18,10 @@ public class ShowMainPageCommand implements Command {
         return instance;
     }
 
-    private static final ResponseContext MAIN_PAGE_RESPONSE = new ResponseContext() {
+    public static final ResponseContext MAIN_PAGE_RESPONSE = new ResponseContext() {
         @Override
         public String getPage() {
-            return "/WEB-INF/view/jsp/main.jsp";
+            return "/WEB-INF/jsp/main.jsp";
         }
 
         @Override
@@ -30,10 +30,30 @@ public class ShowMainPageCommand implements Command {
         }
     };
 
+    public static final ResponseContext MAIN_PAGE_RESPONSE_REDIRECT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return "/WEB-INF/jsp/main.jsp";
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return true;
+        }
+
+        @Override
+        public String getUrlToRedirect() {
+            return "/";
+        }
+    };
 
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {
-        return MAIN_PAGE_RESPONSE;
+        ResponseContext context = MAIN_PAGE_RESPONSE;
+        if (requestContext.getAttribute("redirect") != null) {
+            context = MAIN_PAGE_RESPONSE_REDIRECT;
+        }
+        return context;
     }
 }

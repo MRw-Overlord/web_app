@@ -1,4 +1,4 @@
-package com.epam.jwd.hardziyevich.hr.command.user;
+package com.epam.jwd.hardziyevich.hr.command.specificCommand;
 
 import com.epam.jwd.hardziyevich.hr.command.Command;
 import com.epam.jwd.hardziyevich.hr.command.RequestContext;

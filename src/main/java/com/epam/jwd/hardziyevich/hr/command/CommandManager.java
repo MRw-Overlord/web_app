@@ -2,8 +2,8 @@ package com.epam.jwd.hardziyevich.hr.command;
 
 import com.epam.jwd.hardziyevich.hr.command.page.ShowAllUserCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowMainPageCommand;
-import com.epam.jwd.hardziyevich.hr.command.user.LoginCommand;
-import com.epam.jwd.hardziyevich.hr.command.user.LogoutCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.LoginCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.LogoutCommand;
 
 public enum CommandManager {
     LOGIN(LoginCommand.getInstance()),
