@@ -34,6 +34,7 @@
         </div>
     </c:if>--%>
 </div>
+
 <jsp:include page="includeJsp/popupCookie.jsp"/>
 
 <jsp:include page="includeJsp/footer.jsp" />
