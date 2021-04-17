@@ -5,10 +5,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>! Java Exception !</title>
+    <link href="${pageContext.request.contextPath}/error/page/css/404.css" rel="stylesheet">
+
 </head>
 <body>
-<h2>Exception occurred while processing the request</h2>
+<h1>Exception occurred while processing the request</h1>
 <p>Type: <%= exception%></p>
 <p>Message: <%= message%></p>
 </body>

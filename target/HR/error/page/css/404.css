@@ -66,3 +66,12 @@ H1:hover:after {
     3px 3px lemonchiffon,
     4px 4px lemonchiffon;
 }
+
+P {
+    border: 1px solid #860707;
+    padding: 5px;
+    background-color: rgba(92, 109, 109, 0.47);
+    font-size: 1.5em;
+
+
+}
