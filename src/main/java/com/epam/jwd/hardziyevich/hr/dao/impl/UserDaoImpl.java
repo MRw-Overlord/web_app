@@ -45,11 +45,11 @@ public class UserDaoImpl implements UserDao {
             "SET user_table.user_login=?, user_table.user_password=?, user_info.user_firstName=?, user_info.user_lastName=?, user_info.user_email=?, \n" +
             "    user_info.age=?, user_table.user_role_name=?, user_table.user_status=?  where user_table.user_id=?";
     public static final String CREATE_USER_QUERY = "INSERT INTO user_table(user_login, user_password) VALUES (?, ?)"; //todo: check user_role_name
-    private static final String INCREASE_MONEY_QUERY = "update user_table set money=money+? where id=?";
     private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
 
     @Override
     public boolean create(User object) {
+        boolean result = false;
         try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
              final PreparedStatement statement = connection.prepareStatement(CREATE_USER_QUERY)) {
             final String login = object.getLogin();
@@ -57,11 +57,11 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, login);
             statement.setString(2, password);
             statement.executeUpdate();
-            return true;
+            result = true;
         } catch (SQLException e) {
             logger.error(e.getMessage());
-            return false;
         }
+        return result;
     }
 
     @Override

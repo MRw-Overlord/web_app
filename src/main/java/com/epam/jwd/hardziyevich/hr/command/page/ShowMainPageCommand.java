@@ -3,16 +3,22 @@ package com.epam.jwd.hardziyevich.hr.command.page;
 import com.epam.jwd.hardziyevich.hr.command.Command;
 import com.epam.jwd.hardziyevich.hr.command.RequestContext;
 import com.epam.jwd.hardziyevich.hr.command.ResponseContext;
+import com.epam.jwd.hardziyevich.hr.model.entityDto.VacancyDto;
+import com.epam.jwd.hardziyevich.hr.service.VacancyService;
+import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShowMainPageCommand implements Command {
     private static ShowMainPageCommand instance = null;
 
-    private ShowMainPageCommand(){
+    private ShowMainPageCommand() {
 
     }
 
-    public static ShowMainPageCommand getInstance(){
-        if(instance == null){
+    public static ShowMainPageCommand getInstance() {
+        if (instance == null) {
             instance = new ShowMainPageCommand();
         }
         return instance;
@@ -47,6 +53,7 @@ public class ShowMainPageCommand implements Command {
         }
     };
 
+    private final VacancyService vacancyService = VacancyServiceImpl.getInstance();
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {
@@ -54,6 +61,9 @@ public class ShowMainPageCommand implements Command {
         if (requestContext.getAttribute("redirect") != null) {
             context = MAIN_PAGE_RESPONSE_REDIRECT;
         }
+
+        List<VacancyDto> vacancies = vacancyService.findAllRelevantVacancies().orElse(new ArrayList<>());
+        requestContext.setAttribute("relevantVacancies", vacancies);
         return context;
     }
 }

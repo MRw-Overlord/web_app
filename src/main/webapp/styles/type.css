@@ -77,8 +77,21 @@
     font-size: 15px;
 }
 
+.secondary-input {
+    position: absolute;
+    float: left;
+    color: #0e4ac2;
+}
+
 .error-page-message {
     font-family:"Times New Roman", serif;
     font-weight: bold;
     font-size: 30px
+}
+
+.secondary-vacancy{
+    font-family:"Times New Roman", serif;
+    font-weight: lighter;
+    font-size: 25px;
+    color: #10307f;
 }

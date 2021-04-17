@@ -13,9 +13,10 @@
 }
 
 .badge-link {
+    color: #242424;
     height: fit-content;
 }
 
-.races-container {
+.vacancies-container {
     max-width: 900px;
 }
