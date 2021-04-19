@@ -45,4 +45,6 @@ public interface UserService extends CommonService<User, UserDto> {
      * @return true if committed otherwise false
      */
     boolean create(User object);
+
+    Optional<UserDto> editProfileUser(String login, String name, String lastName, String email, Integer age);
 }

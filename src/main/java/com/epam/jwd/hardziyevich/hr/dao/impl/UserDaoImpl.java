@@ -30,12 +30,12 @@ public class UserDaoImpl implements UserDao {
         return instance;
     }
 
-    public static final String GET_ALL_USERS_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_id, user_status\n" +
+    public static final String GET_ALL_USERS_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_id, user_status, avatarPath\n" +
             "from user_table\n" +
             "JOIN user_info\n" +
             "ON user_table.user_id = user_info.user_id";
 
-    public static final String GET_USER_BY_LOGIN_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status\n" +
+    public static final String GET_USER_BY_LOGIN_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath\n" +
             "from user_table\n" +
             "JOIN user_info\n" +
             "ON user_table.user_id = user_info.user_id\n" +
@@ -44,6 +44,7 @@ public class UserDaoImpl implements UserDao {
             "INNER JOIN user_info ON user_info.user_id=user_table.user_id\n" +
             "SET user_table.user_login=?, user_table.user_password=?, user_info.user_firstName=?, user_info.user_lastName=?, user_info.user_email=?, \n" +
             "    user_info.age=?, user_table.user_role_name=?, user_table.user_status=?  where user_table.user_id=?";
+    public static final String UPDATE_USER_PROFILE = "UPDATE user_info SET user_firstName=?, user_lastName=?, user_email=?, age=? WHERE user_id=?; ";
     public static final String CREATE_USER_QUERY = "INSERT INTO user_table(user_login, user_password) VALUES (?, ?)"; //todo: check user_role_name
     private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
 
@@ -78,13 +79,29 @@ public class UserDaoImpl implements UserDao {
                         resultSet.getString("user_lastName"),
                         resultSet.getInt("age"),
                         resultSet.getString("user_email"),
-                        resultSet.getString("password"),
-                        resultSet.getString("user_status")));
+                        resultSet.getString("user_password"),
+                        resultSet.getString("user_status"),
+                resultSet.getString("avatarPath")));
             }
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
         return Optional.of(users);
+    }
+
+    @Override
+    public void updateProfile(User object, String name, String lastName, String email, Integer age ){
+        try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             final PreparedStatement statement = connection.prepareStatement(UPDATE_USER_PROFILE)) {
+            statement.setString(1, object.getFirstName());
+            statement.setString(2, object.getLastName());
+            statement.setString(3, object.getEmail());
+            statement.setInt(4, object.getAge());
+            statement.setInt(5, (int) object.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
     }
 
     @Override
@@ -120,15 +137,16 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, login);
             final ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                user = new User(resultSet.getLong("user_id"),
+                user = new User(resultSet.getInt("user_id"),
                         resultSet.getString("user_login"),
                         Role.defineRoleByName(resultSet.getString("user_role_name")),
                         resultSet.getString("user_firstName"),
                         resultSet.getString("user_lastName"),
                         resultSet.getInt("age"),
                         resultSet.getString("user_email"),
-                        resultSet.getString("password"),
-                        resultSet.getString("user_status"));
+                        resultSet.getString("user_password"),
+                        resultSet.getString("user_status"),
+                        resultSet.getString("avatarPath"));
             }
         } catch (SQLException e) {
             logger.error(e.getMessage());

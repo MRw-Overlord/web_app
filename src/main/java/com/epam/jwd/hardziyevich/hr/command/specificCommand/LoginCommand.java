@@ -42,14 +42,12 @@ public class LoginCommand implements Command {
         ResponseContext response;
         if (userDto.isPresent()) {
             UserDto user = userDto.get();
-
             requestContext.setSessionAttribute("login", user.getLogin());
             requestContext.setSessionAttribute("firstName", user.getFirstName());
             requestContext.setSessionAttribute("lastName", user.getLastName());
             requestContext.setSessionAttribute("age", user.getAge());
             requestContext.setSessionAttribute("email", user.getEmail());
             requestContext.setSessionAttribute("role", user.getRole().getRoleName());
-
             ActiveUserPool.getInstance().add(user.getLogin());
             requestContext.setAttribute("redirect", true);
             response = ShowMainPageCommand.getInstance().execute(requestContext);

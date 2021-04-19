@@ -17,7 +17,7 @@ public interface VacancyDao extends CommonDao<Vacancy> {
     /**
      * Method is used to retrieve all vacancy by status from database
      *
-     * @param vacancy describes the specified Horse model
+     * @param vacancyStatus describes the specified Horse model
      * @return Optional List of all retrieved Vacancy models
      */
     Optional<List<Vacancy>> findAllByStatus(Status vacancyStatus);

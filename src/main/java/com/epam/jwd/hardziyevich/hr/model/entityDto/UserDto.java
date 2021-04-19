@@ -13,9 +13,10 @@ public class UserDto {
     private String email;
     private Role role;
     private String status;
+    private String avatarPath;
 
     public UserDto(String login, String firstName, String lastName,
-                   int age, String email, Role role, String status) {
+                   int age, String email, Role role, String status,String avatarPath) {
         this.login = login;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -23,6 +24,7 @@ public class UserDto {
         this.email = email;
         this.role = role;
         this.status = status;
+        this.avatarPath = avatarPath;
     }
 
     public String getLogin() {
@@ -81,16 +83,38 @@ public class UserDto {
         this.status = status;
     }
 
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return age == userDto.age && Objects.equals(login, userDto.login) && Objects.equals(firstName, userDto.firstName) && Objects.equals(lastName, userDto.lastName) && Objects.equals(email, userDto.email) && role == userDto.role && Objects.equals(status, userDto.status);
+        return age == userDto.age && Objects.equals(login, userDto.login) && Objects.equals(firstName, userDto.firstName) && Objects.equals(lastName, userDto.lastName) && Objects.equals(email, userDto.email) && role == userDto.role && Objects.equals(status, userDto.status) && Objects.equals(avatarPath, userDto.avatarPath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, firstName, lastName, age, email, role, status);
+        return Objects.hash(login, firstName, lastName, age, email, role, status, avatarPath);
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "login='" + login + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                ", status='" + status + '\'' +
+                ", avatarPath='" + avatarPath + '\'' +
+                '}';
     }
 }

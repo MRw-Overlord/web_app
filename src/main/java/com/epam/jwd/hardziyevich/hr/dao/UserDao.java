@@ -11,6 +11,8 @@ import java.util.Optional;
  *
  */
 public interface UserDao extends  CommonDao<User>{
+    void updateProfile(User object, String name, String lastName, String email, Integer age);
+
     /**
      * Method is used to retrieve specified user from database by its login
      *

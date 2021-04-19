@@ -76,6 +76,11 @@
     font-weight: lighter;
     font-size: 15px;
 }
+.secondary-profile {
+    font-family:"Times New Roman", serif;
+    font-weight: lighter;
+    font-size: 20px;
+}
 
 .secondary-input {
     position: absolute;

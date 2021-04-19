@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 
 public class UserServiceImpl implements UserService {
-
     private static UserServiceImpl instance = null;
+
     public static final String ANTIHACK_PASSWARD = "$2a$10$Z6P43xL3xPINRYG6pPwxxunfz53zO9jZ6gC.HDtzkQoQNXh52Prry";
     private UserDaoImpl userDao;
 
@@ -29,13 +29,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean create(UserDto object) {
-        return false;
+    public Optional<UserDto> editProfileUser(String login, String name, String lastName, String email, Integer age) {
+        final Optional<User> byLogin = userDao.findByLogin(login);
+        byLogin.ifPresent(user -> userDao.updateProfile(user, name, lastName, email, age));
+        UserDto userDto = null;
+        if (byLogin.isPresent()) {
+            userDto = convertToDto(byLogin.get());
+        }
+        return Optional.ofNullable(userDto);
     }
 
     @Override
-    public boolean create(User object) {
-        return userDao.create(object);
+    public Optional<UserDto> findUserByLogin(String login) {
+        UserDto userDto = null;
+        final Optional<User> byLogin = userDao.findByLogin(login);
+        if (byLogin.isPresent()) {
+            userDto = convertToDto(byLogin.get());
+        }
+        return Optional.ofNullable(userDto);
     }
 
     @Override
@@ -48,26 +59,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean create(UserDto object) {
+        return false;
+    }
+
+    @Override
+    public boolean create(User object) {
+        return userDao.create(object);
+    }
+
+    @Override
     public Optional<UserDto> loginUser(String login, String password) {
         UserDto userDto = null;
-        UserDaoImpl modifiedUserDao = (UserDaoImpl) userDao;
-        Optional<User> user = modifiedUserDao.findByLogin(login);
+        Optional<User> user = userDao.findByLogin(login);
         if (user.isPresent()) {
             if (BCrypt.checkpw(password, user.get().getPassword())) {
                 userDto = convertToDto(user.get());
             }
         } else {
             BCrypt.checkpw(password, ANTIHACK_PASSWARD);
-        }
-        return Optional.ofNullable(userDto);
-    }
-
-    @Override
-    public Optional<UserDto> findUserByLogin(String login) {
-        UserDto userDto = null;
-        final Optional<User> byLogin = userDao.findByLogin(login);
-        if (byLogin.isPresent()) {
-            userDto = convertToDto(byLogin.get());
         }
         return Optional.ofNullable(userDto);
     }
@@ -97,7 +107,7 @@ public class UserServiceImpl implements UserService {
         return new UserDto(user.getLogin(),
                 user.getFirstName(), user.getLastName(),
                 user.getAge(), user.getEmail(), user.getRole(),
-                user.getStatus());
+                user.getStatus(), user.getAvatarPath());
     }
 
     public void setUserDao(UserDaoImpl userDao) {

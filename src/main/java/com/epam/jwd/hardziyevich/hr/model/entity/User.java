@@ -12,9 +12,10 @@ public class User {
     private String email;
     private String password;
     private String status;
+    private String avatarPath;
 
-    public User(long id, String login, Role role, String firstName, String lastName,
-                int age, String email, String password, String status) {
+    public User(long id, String login, Role role, String firstName, String lastName, int age,
+                String email, String password, String status, String avatarPath) {
         this.id = id;
         this.login = login;
         this.role = role;
@@ -24,6 +25,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.status = status;
+        this.avatarPath = avatarPath;
     }
 
     public User(String login, String password) {
@@ -117,12 +119,20 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && age == user.age && Objects.equals(login, user.login) && role == user.role && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(status, user.status);
+        return id == user.id && age == user.age && Objects.equals(login, user.login) && role == user.role && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(status, user.status) && Objects.equals(avatarPath, user.avatarPath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, role, firstName, lastName, age, email, password, status);
+        return Objects.hash(id, login, role, firstName, lastName, age, email, password, status, avatarPath);
+    }
+
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
     }
 
     @Override
@@ -137,6 +147,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", status='" + status + '\'' +
+                ", avatarPath='" + avatarPath + '\'' +
                 '}';
     }
 }

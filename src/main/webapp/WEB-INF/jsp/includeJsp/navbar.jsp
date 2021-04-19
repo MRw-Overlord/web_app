@@ -21,13 +21,13 @@
                     <a href="${pageContext.request.contextPath}/controller?command=show_admin_page"
                        class="navbar-link"><fmt:message key="common.navbar.admin" /></a>
                 </c:if>
-                <a href="${pageContext.request.contextPath}profile"
+                <a href="${pageContext.request.contextPath}/profile"
                    class="navbar-link"><fmt:message key="common.navbar.profile" /></a>
                 <a href="${pageContext.request.contextPath}/controller?command=logout"
                    class="navbar-link"><fmt:message key="common.navbar.logout" /></a>
             </c:when>
             <c:otherwise>
-                <a href="${pageContext.request.contextPath}login"
+                <a href="${pageContext.request.contextPath}/controller?command=show_login_page"
                    class="navbar-link"><fmt:message key="common.navbar.login" /></a>
                 <a href="${pageContext.request.contextPath}/controller?command=show_signup_page"
                    class="navbar-link"><fmt:message key="common.navbar.signup" /></a>
