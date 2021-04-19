@@ -40,10 +40,8 @@
                         <input class="auth-input" type="text" name="age"
                                placeholder="<fmt:message key="page.profile.word.age"/>" required>
                     </p>
-                    <button class="common-button" type="submit" href="#close">
-                        <a href="#close" title="Close" class="close">
+                    <button class="common-button" type="submit">
                             <fmt:message key="page.profile.word.confirm"/>
-                        </a>
                     </button>
                 </form>
             </div>

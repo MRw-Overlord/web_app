@@ -93,10 +93,10 @@ public class UserDaoImpl implements UserDao {
     public void updateProfile(User object, String name, String lastName, String email, Integer age ){
         try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
              final PreparedStatement statement = connection.prepareStatement(UPDATE_USER_PROFILE)) {
-            statement.setString(1, object.getFirstName());
-            statement.setString(2, object.getLastName());
-            statement.setString(3, object.getEmail());
-            statement.setInt(4, object.getAge());
+            statement.setString(1, name);
+            statement.setString(2, lastName);
+            statement.setString(3, email);
+            statement.setInt(4, age);
             statement.setInt(5, (int) object.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

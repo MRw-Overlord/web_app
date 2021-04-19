@@ -8,6 +8,7 @@ import com.epam.jwd.hardziyevich.hr.model.entityDto.UserDto;
 import com.epam.jwd.hardziyevich.hr.service.UserService;
 import com.epam.jwd.hardziyevich.hr.service.impl.UserServiceImpl;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
@@ -30,7 +31,9 @@ public class EditProfileCommand implements Command {
     @Override
     public ResponseContext execute(RequestContext requestContext) {
         ResponseContext responseResult = null;
-        final String login = String.valueOf(requestContext.getParameter("login"));
+        HttpServletRequest request;
+        HttpSession session = requestContext.getSession();
+        final String login = String.valueOf(session.getAttribute("login"));
         final String name = String.valueOf(requestContext.getParameter("name"));
         final String lastName = String.valueOf(requestContext.getParameter("lastName"));
         final String email = String.valueOf(requestContext.getParameter("email"));
