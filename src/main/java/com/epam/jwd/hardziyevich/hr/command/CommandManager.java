@@ -1,5 +1,6 @@
 package com.epam.jwd.hardziyevich.hr.command;
 
+import com.epam.jwd.hardziyevich.hr.command.page.ShowAdminPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowLoginPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowMainPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowNotFoundPageCommand;
@@ -21,7 +22,8 @@ public enum CommandManager {
     DEFAULT(ShowMainPageCommand.getInstance()),
     SHOW_VACANCY_PAGE(ShowVacancyPageCommand.getInstance()),
     SHOW_NOT_FOUND_PAGE(ShowNotFoundPageCommand.getInstance()),
-    SHOW_PROFILE_PAGE(ShowProfilePageCommand.getInstance());
+    SHOW_PROFILE_PAGE(ShowProfilePageCommand.getInstance()),
+    SHOW_ADMIN_PAGE(ShowAdminPageCommand.getInstance());
 
     private final Command command;
 

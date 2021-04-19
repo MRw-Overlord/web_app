@@ -30,9 +30,7 @@ public class LoginProtectionFilter implements Filter {
         if (command == null) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else if (command.equalsIgnoreCase("show_profile_page") ||
-                command.equalsIgnoreCase("bet") ||
-                command.equalsIgnoreCase("logout") ||
-                command.equalsIgnoreCase("show_bets_page")) {
+                command.equalsIgnoreCase("logout")) {
             RequestDispatcher requestDispatcher;
             if (session != null) {
                 if (session.getAttribute("login") == null) {

@@ -34,21 +34,14 @@ public class AdminProtectionFilter implements Filter {
         if (command == null) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else if (command.equalsIgnoreCase("show_admin_page") ||
-                command.equalsIgnoreCase("show_create_horse_page") ||
-                command.equalsIgnoreCase("show_create_race_page") ||
-                command.equalsIgnoreCase("show_edit_race_page") ||
-                command.equalsIgnoreCase("create_race") ||
-                command.equalsIgnoreCase("create_horse") ||
-                command.equalsIgnoreCase("delete_race") ||
-                command.equalsIgnoreCase("finish_race") ||
-                command.equalsIgnoreCase("update_race") ||
+                command.equalsIgnoreCase("ban_recruiter") ||
                 command.equalsIgnoreCase("ban_user") ||
-                command.equalsIgnoreCase("unban_user")) {
+                command.equalsIgnoreCase("appoint_recruiter")) {
             RequestDispatcher requestDispatcher;
             if (session != null) {
-                if (session.getAttribute("role") != Role.ADMIN) {
-                    httpRes.setStatus(FORBIDDEN_STATUS);
-                    requestDispatcher = httpReq.getRequestDispatcher("/controller?command=show_forbidden_page");
+                if (session.getAttribute("role") != Role.ADMIN.name()) {
+                    httpRes.setStatus(FORBIDDEN_STATUS); //todo: create error page 403
+                    requestDispatcher = httpReq.getRequestDispatcher("/controller?command=show_forbidden_page"); //todo: create this command
                     requestDispatcher.forward(servletRequest, servletResponse);
                     return;
                 }

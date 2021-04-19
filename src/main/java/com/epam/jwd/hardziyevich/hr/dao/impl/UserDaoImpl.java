@@ -30,7 +30,7 @@ public class UserDaoImpl implements UserDao {
         return instance;
     }
 
-    public static final String GET_ALL_USERS_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_id, user_status, avatarPath\n" +
+    public static final String GET_ALL_USERS_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath\n" +
             "from user_table\n" +
             "JOIN user_info\n" +
             "ON user_table.user_id = user_info.user_id";
