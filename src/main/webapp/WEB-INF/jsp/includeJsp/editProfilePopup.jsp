@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/editProfilePopup.css"/>
 </head>
 <body>
-<script src="popup.js"></script>
+<script src="../../../static/popup.js"></script>
 <a href="#openModal" class="btn">
     <fmt:message key="page.profile.word.editProfile"/>
 </a>

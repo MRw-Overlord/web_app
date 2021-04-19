@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/navbar.css">
 </head>
 <body>
-<script src="popup.js"></script>
 <a href="#openModal" ><img src="styles/img/Cookies-Logo.jpg" width="90" height="50"></a>
 <div id="openModal" class="modal">
     <div class="modal-dialog">
@@ -24,6 +23,6 @@
         </div>
     </div>
 </div>
-
+<script src="${pageContext.request.contextPath}/static/popup.js"></script>
 </body>
 </html>
