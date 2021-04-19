@@ -26,7 +26,39 @@
             <div class="user-info">
                 <div class="header"><c:out value="${user.login}" /></div>
                 <div class="secondary">
-                    <fmt:formatNumber value="${user.capital}" type="currency"/>
+                    <fmt:message key="page.profile.word.name"/>
+                    <c:if test="${not empty user.firstName}">
+                        <c:out value="${user.firstName}"/>
+                    </c:if>
+                    <c:if test="${empty user.firstName}">
+                        <c:out value="<Emty>"/>
+                    </c:if>
+                    <br>
+                    <fmt:message key="page.profile.word.lastName"/>
+                    <c:if test="${not empty user.lastName}">
+                        <c:out value="${user.lastName}"/>
+                    </c:if>
+                    <c:if test="${empty user.lastName}">
+                        <c:out value="<Empty>"/>
+                    </c:if>
+                    <br>
+                    <fmt:message key="page.profile.word.email"/>
+                    <c:if test="${not empty user.email}">
+                        <c:out value="${user.email}"/>
+                    </c:if>
+                    <c:if test="${empty user.email}">
+                        <c:out value="<Empty>"/>
+                    </c:if>
+                    <br>
+                    <fmt:message key="page.profile.word.age"/>
+                    <c:if test="${not empty user.age}">
+                        <c:out value="${user.age}"/>
+                    </c:if>
+                    <c:if test="${empty user.age}">
+                        <c:out value="<Empty>"/>
+                    </c:if>
+                    <br>
+                    <jsp:include page="includeJsp/editProfilePopup.jsp"/>
                 </div>
             </div>
         </div>
