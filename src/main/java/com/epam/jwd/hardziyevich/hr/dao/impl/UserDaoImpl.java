@@ -115,7 +115,8 @@ public class UserDaoImpl implements UserDao {
             statement.setString(5, object.getEmail());
             statement.setInt(6, object.getAge());
             statement.setString(7,object.getRole().name());
-            statement.setInt(8, object.retrieveStatusId());
+            statement.setString(8, object.getStatus());
+            statement.setString(9, String.valueOf(object.getId()));
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e.getMessage());

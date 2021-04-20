@@ -1,4 +1,4 @@
-package com.epam.jwd.hardziyevich.hr.filter;
+package com.epam.jwd.hardziyevich.hr.filter.old;
 
 
 import com.epam.jwd.hardziyevich.hr.model.entity.Role;
@@ -32,13 +32,13 @@ public class ServletSecurityFilter implements Filter {
         String command = httpServletRequest.getParameter("command");
 
         Role role = (Role) httpSession.getAttribute("UserType");
-        if(role == null){
+        /*if(role == null){
             role = Role.GUEST;
             httpSession.setAttribute("UserType", role);
             RequestDispatcher requestDispatcher = httpServletRequest.getServletContext()
                     .getRequestDispatcher("/controller?command="); //todo: make a command
             requestDispatcher.forward(httpServletRequest, httpServletResponse);
-        }
+        }*/
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 

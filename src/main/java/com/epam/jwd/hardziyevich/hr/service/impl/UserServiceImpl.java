@@ -1,11 +1,13 @@
 package com.epam.jwd.hardziyevich.hr.service.impl;
 
 import com.epam.jwd.hardziyevich.hr.dao.impl.UserDaoImpl;
+import com.epam.jwd.hardziyevich.hr.model.entity.Role;
 import com.epam.jwd.hardziyevich.hr.model.entity.User;
 import com.epam.jwd.hardziyevich.hr.model.entityDto.UserDto;
 import com.epam.jwd.hardziyevich.hr.pool.ActiveUserPool;
 import com.epam.jwd.hardziyevich.hr.service.UserService;
 import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,8 +23,8 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-    public static UserServiceImpl getInstance(){
-        if(instance == null){
+    public static UserServiceImpl getInstance() {
+        if (instance == null) {
             instance = new UserServiceImpl(UserDaoImpl.getInstance());
         }
         return instance;
@@ -37,6 +39,26 @@ public class UserServiceImpl implements UserService {
             userDto = convertToDto(byLogin.get());
         }
         return Optional.ofNullable(userDto);
+    }
+
+    @Override
+    public void appointRecruiter(String recruiterLogin) {
+        final Optional<User> recruiterOptional = userDao.findByLogin(recruiterLogin);
+        if (recruiterOptional.isPresent()) {
+            User recruiter = recruiterOptional.get();
+            recruiter.setRole(Role.HR);
+            userDao.update(recruiter);
+        }
+    }
+
+    @Override
+    public void banRecruiter(String recruiterLogin) {
+        final Optional<User> recruiterOptional = userDao.findByLogin(recruiterLogin);
+        if (recruiterOptional.isPresent()) {
+            User recruiter = recruiterOptional.get();
+            recruiter.setRole(Role.GUEST);
+            userDao.update(recruiter);
+        }
     }
 
     @Override
@@ -87,7 +109,7 @@ public class UserServiceImpl implements UserService {
         final Optional<User> userOptional = userDao.findByLogin(login);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            user.setStatus("BANNED");
+            user.setStatus("HIDDEN");
             userDao.update(user);
             ActiveUserPool.getInstance().remove(user.getLogin());
         }

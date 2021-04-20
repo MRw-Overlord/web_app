@@ -111,7 +111,7 @@ public class User {
      * @return 0 if user ACTIVE or if user BANNED 1
      */
     public int retrieveStatusId() {
-        return "ACTIVE".equalsIgnoreCase(status) ? 0 : 1; //1-- banned
+        return "ACTIVE".equalsIgnoreCase(status) ? 0 : 1; //1-- banned equals hidden
     }
 
     @Override

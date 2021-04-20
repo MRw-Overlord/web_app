@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public enum Role {
     GUEST(0),
-    CLIENT(1),
+    HR(1),
     ADMIN(2);
 
     private long id = 0;

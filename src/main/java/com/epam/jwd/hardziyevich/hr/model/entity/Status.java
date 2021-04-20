@@ -5,8 +5,8 @@ import com.epam.jwd.hardziyevich.hr.exception.UnknownEntityException;
 import java.util.Arrays;
 
 public enum Status {
-    HIDDEN(0),
-    ACTIVE(1);
+    HIDDEN(1),
+    ACTIVE(0);
     private final int id;
     Status(int id){
         this.id = id;

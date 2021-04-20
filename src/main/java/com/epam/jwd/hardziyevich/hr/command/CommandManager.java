@@ -7,10 +7,14 @@ import com.epam.jwd.hardziyevich.hr.command.page.ShowNotFoundPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowProfilePageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowSignUpPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowVacancyPageCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.AppointRecruiterCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.BanRecruiterCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.BanUserCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.EditProfileCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.LoginCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.LogoutCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.SignUpCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.UnbanUserCommand;
 
 public enum CommandManager {
     LOGIN(LoginCommand.getInstance()),
@@ -23,7 +27,12 @@ public enum CommandManager {
     SHOW_VACANCY_PAGE(ShowVacancyPageCommand.getInstance()),
     SHOW_NOT_FOUND_PAGE(ShowNotFoundPageCommand.getInstance()),
     SHOW_PROFILE_PAGE(ShowProfilePageCommand.getInstance()),
-    SHOW_ADMIN_PAGE(ShowAdminPageCommand.getInstance());
+    SHOW_ADMIN_PAGE(ShowAdminPageCommand.getInstance()),
+    APPOINT_RECRUITER(AppointRecruiterCommand.getInstance()),
+    BAN_RECRUITER(BanRecruiterCommand.getInstance()),
+    BAN_USER(BanUserCommand.getInstance()),
+    UNBAN_USER(UnbanUserCommand.getInstance());
+
 
     private final Command command;
 

@@ -4,10 +4,10 @@
     width: fit-content;
     border-radius: 50px;
     border: none;
-    background-color: #6CC4FF;
-    color: white;
     padding: 10px 20px;
     left: 50px;
+    background-color: #6CC4FF;
+    color: white;
     max-width: 200px;
 }
 
@@ -38,6 +38,11 @@
 
 .common-button-inline:hover {
     cursor: pointer;
+}
+
+.common-button-inline.attention{
+    background-color: #cd1515;
+
 }
 
 .admin-content {

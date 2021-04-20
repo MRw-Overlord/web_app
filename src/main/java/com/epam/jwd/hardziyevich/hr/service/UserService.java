@@ -47,4 +47,8 @@ public interface UserService extends CommonService<User, UserDto> {
     boolean create(User object);
 
     Optional<UserDto> editProfileUser(String login, String name, String lastName, String email, Integer age);
+
+    void appointRecruiter(String recruiterLogin);
+
+    void banRecruiter(String recruiterLogin);
 }
