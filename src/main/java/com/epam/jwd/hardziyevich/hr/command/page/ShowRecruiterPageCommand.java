@@ -9,33 +9,31 @@ import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
 
 import java.util.stream.Collectors;
 
-public class ShowAdminPageCommand implements Command {
-    private static ShowAdminPageCommand instance = null;
+public class ShowRecruiterPageCommand implements Command {
+    private static ShowRecruiterPageCommand instance;
 
-    private ShowAdminPageCommand() {
+    private ShowRecruiterPageCommand(){
 
     }
 
-    public static ShowAdminPageCommand getInstance() {
-        if (instance == null) {
-            instance = new ShowAdminPageCommand();
+    public static ShowRecruiterPageCommand getInstance(){
+        if(instance == null){
+            instance = new ShowRecruiterPageCommand();
         }
         return instance;
     }
-
     private final static String VACANCIES_LIST_TYPE = "vacancies";
-    private final static String HR_LIST_TYPE = "hr";
     private final static String USERS_LIST_TYPE = "users";
-    private final static String LIST_TYPE_PARAM = "adminListType";
+    private final static String LIST_TYPE_PARAM = "recruiterListType";
 
-    //todo: create in userService
+
     private final VacancyServiceImpl vacancyService = VacancyServiceImpl.getInstance();
     private final UserService userService = UserServiceImpl.getInstance();
 
-    public static final ResponseContext ADMIN_PAGE = new ResponseContext() {
+    public static final ResponseContext RECRUITER_PAGE = new ResponseContext() {
         @Override
         public String getPage() {
-            return "/WEB-INF/jsp/adminPage.jsp";
+            return "/WEB-INF/jsp/recruiterPage.jsp";
         }
 
         @Override
@@ -44,10 +42,10 @@ public class ShowAdminPageCommand implements Command {
         }
     };
 
-    public static final ResponseContext ADMIN_PANEL_REDIRECT = new ResponseContext() {
+    public static final ResponseContext RECRUITER_PANEL_REDIRECT = new ResponseContext() {
         @Override
         public String getPage() {
-            return "/WEB-INF/jsp/adminPage.jsp";
+            return "/WEB-INF/jsp/recruiterPage.jsp";
         }
 
         @Override
@@ -57,28 +55,29 @@ public class ShowAdminPageCommand implements Command {
 
         @Override
         public String getUrlToRedirect() {
-            return "/controller?command=show_admin_page";
+            return "/controller?command=show_recruiter_page";
         }
     };
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {
-        ResponseContext context = ADMIN_PAGE;
+        ResponseContext context = RECRUITER_PAGE;
         if (requestContext.getAttribute("redirect") != null) {
-            context = ADMIN_PANEL_REDIRECT;
+            context = RECRUITER_PANEL_REDIRECT;
         }
 
-        String adminListType = requestContext.getParameter(LIST_TYPE_PARAM);
-        if (adminListType == null) {
-            adminListType = USERS_LIST_TYPE;
+        String recruiterListType = requestContext.getParameter(LIST_TYPE_PARAM);
+        if (recruiterListType == null) {
+            recruiterListType = USERS_LIST_TYPE;
         }
-        requestContext.setAttribute(LIST_TYPE_PARAM, adminListType);
+        requestContext.setAttribute(LIST_TYPE_PARAM, recruiterListType);
 
 
         vacancyService.findAll().ifPresent(vacancyDtos -> requestContext.setAttribute(VACANCIES_LIST_TYPE, vacancyDtos));
         userService.findAll().ifPresent(users -> requestContext
                 .setAttribute(USERS_LIST_TYPE, users.stream()
-                        .filter(userDto -> !userDto.getRoleName().equalsIgnoreCase("ADMIN"))
+                        .filter(userDto -> !(userDto.getRoleName().equalsIgnoreCase("ADMIN")
+                                || userDto.getRoleName().equalsIgnoreCase("HR")))
                         .collect(Collectors.toList())));
         return context;
     }

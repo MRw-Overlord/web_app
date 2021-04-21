@@ -29,6 +29,13 @@ public class Vacancy {
         this.status = status;
     }
 
+    public Vacancy(int vacancyId, String vacancyName, String companyName, String description, String skillsDescription) {
+        this.vacancyName = vacancyName;
+        this.companyName = companyName;
+        this.description = description;
+        this.skillsDescription = skillsDescription;
+    }
+
     public int getId() {
         return id;
     }

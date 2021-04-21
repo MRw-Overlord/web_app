@@ -19,12 +19,12 @@
     <div class="admin-content">
         <form method="post">
             <select class="description" name="adminListType" onchange="this.form.submit();">
-                <option value="vacancies" ${adminListType == "vacancy" ? 'selected="selected"' : ''}><fmt:message key="page.admin.option.vacancies" /></option>
+                <option value="vacancies" ${adminListType == "vacancies" ? 'selected="selected"' : ''}><fmt:message key="page.admin.option.vacancies" /></option>
                 <option value="users" ${adminListType == "users" ? 'selected="selected"' : ''}><fmt:message key="page.admin.option.users" /></option>
             </select>
         </form>
         <c:choose>
-            <c:when test="${adminListType == 'vacancy'}">
+            <c:when test="${adminListType == 'vacancies'}">
                 <c:import url="includeJsp/admin/vacancyList.jsp" />
             </c:when>
             <c:when test="${adminListType == 'users'}">

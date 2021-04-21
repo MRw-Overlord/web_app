@@ -20,4 +20,5 @@ public interface RequestContext {
 
     Optional<List<String>> getParameterValues(String name);
 
+    void setCharacterEncoding(String s);
 }

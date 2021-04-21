@@ -23,6 +23,8 @@
         <div class="header"><c:out value="${vacancy.vacancyName}" /></div>
         <div class="secondary-vacancy"><fmt:message key="page.vacancy.word.description" /></div>
         <div class="description"><c:out value="${vacancy.description}" /></div>
+        <div class="secondary-vacancy"><fmt:message key="page.admin.input.vacancySkillsDescription" /></div>
+        <div class="description"><c:out value="${vacancy.skillsDescription}" /></div>
         <div class="secondary-vacancy"></div>
         <a class="common-button" href="<%--${pageContext.request.contextPath}/controller?command=show_bets_page&race_id=${race.id}--%>">
             <fmt:message key="page.vacancy.button.respond" />

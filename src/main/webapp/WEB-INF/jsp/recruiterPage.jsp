@@ -11,24 +11,24 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/admin.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/type.css" />
-    <title><fmt:message key="common.navbar.admin" /></title>
+    <title><fmt:message key="common.title.recruiterPage" /></title>
 </head>
 <body>
 <jsp:include page="includeJsp/navbar.jsp" />
 <div class="page-content">
     <div class="admin-content">
-        <form method="post">
-            <select class="description" name="adminListType" onchange="this.form.submit();">
-                <option value="vacancies" ${adminListType == "vacancies" ? 'selected="selected"' : ''}><fmt:message key="page.admin.option.vacancies" /></option>
-                <option value="users" ${adminListType == "users" ? 'selected="selected"' : ''}><fmt:message key="page.admin.option.users" /></option>
+        <form method="post" accept-charset="UTF-8">
+            <select class="description" name="recruiterListType" onchange="this.form.submit();">
+                <option value="vacancies" ${recruiterListType == "vacancies" ? 'selected="selected"' : ''}><fmt:message key="page.admin.option.vacancies" /></option>
+                <option value="users" ${recruiterListType == "users" ? 'selected="selected"' : ''}><fmt:message key="page.admin.option.users" /></option>
             </select>
         </form>
         <c:choose>
-            <c:when test="${adminListType == 'vacancies'}">
-                <c:import url="includeJsp/admin/vacancyList.jsp" />
+            <c:when test="${recruiterListType == 'vacancies'}">
+                <c:import url="includeJsp/recruiter/vacancyList.jsp" />
             </c:when>
-            <c:when test="${adminListType == 'users'}">
-                <c:import url="includeJsp/admin/usersList.jsp" />
+            <c:when test="${recruiterListType == 'users'}">
+                <c:import url="includeJsp/recruiter/usersList.jsp" />
             </c:when>
         </c:choose>
     </div>

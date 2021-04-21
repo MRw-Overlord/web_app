@@ -4,6 +4,8 @@ import com.epam.jwd.hardziyevich.hr.dao.VacancyDao;
 import com.epam.jwd.hardziyevich.hr.model.entity.Status;
 import com.epam.jwd.hardziyevich.hr.model.entity.Vacancy;
 import com.epam.jwd.hardziyevich.hr.pool.ConnectionPool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,12 +21,13 @@ public class VacancyDaoImpl implements VacancyDao {
             "(vacancy_id, vacancyName, companyName, description, skillsDescription, status) " +
             "values (?, ?, ?, ?, ?, ?)";
     public static final String FIND_ALL_VACANCY = "SELECT vacancy_id, vacancyName, companyName, description, skillsDescription, status from vacancy;";
-    public static final String UPDATE_VACANCY_QUERY = "UPDATE vacancy SET vacancy_id=?, vacancyName=?, companyName=?, description=?, skillsDescription=?, status=?;";
+    public static final String UPDATE_VACANCY_QUERY = "UPDATE vacancy SET vacancyName=?, companyName=?, description=?, skillsDescription=?, status=? where vacancy_id=?;";
     public static final String DELETE_VACANCY_QUERY = "DELETE from vacancy where vacancy_id=?";
     public static final String FIND_ALL_RELEVANT_VACANCIES = "SELECT vacancy_id, vacancyName, companyName, description, skillsDescription, status from vacancy where status = 'ACTIVE'";
     public static final String FIND_ALL_VACANCIES_BYSTATUS_QUERY = "SELECT vacancy_id, vacancyName, companyName, description, skillsDescription, status from vacancy where status = ?";
     public static final String FIND_ALL_VACANCIES_BY_ID_QUERY = "SELECT vacancy_id, vacancyName, companyName, description, skillsDescription, status from vacancy where vacancy_id=?";
     private static VacancyDaoImpl instance = null;
+    private static final Logger LOGGER = LogManager.getLogger(VacancyDaoImpl.class);
 
     private VacancyDaoImpl() {
 
@@ -56,7 +59,7 @@ public class VacancyDaoImpl implements VacancyDao {
                 e.printStackTrace();
             }
         } catch (SQLException e) {
-            e.getMessage();
+            LOGGER.error(e.getMessage());
         }
 
         return result;
@@ -80,6 +83,7 @@ public class VacancyDaoImpl implements VacancyDao {
                 vacancies.add(vacancy);
             }
         } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
         return Optional.of(vacancies);
@@ -89,13 +93,16 @@ public class VacancyDaoImpl implements VacancyDao {
     public Vacancy update(Vacancy object) {
         try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
              final PreparedStatement statement = connection.prepareStatement(UPDATE_VACANCY_QUERY)) {
-            statement.setInt(1, object.getId());
-            statement.setString(2, object.getVacancyName());
-            statement.setString(3, object.getCompanyName());
+            statement.setInt(6, object.getId());
+            statement.setString(1, object.getVacancyName());
+            statement.setString(2, object.getCompanyName());
+            statement.setString(3, object.getDescription());
             statement.setString(4, object.getSkillsDescription());
             statement.setString(5, object.getStatus().name());
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         return object;
     }
@@ -110,9 +117,11 @@ public class VacancyDaoImpl implements VacancyDao {
                 deleteVacancy.executeUpdate();
                 connection.commit();
             } catch (SQLException e) {
+                LOGGER.error(e.getMessage());
                 e.printStackTrace();
             }
         } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -134,6 +143,7 @@ public class VacancyDaoImpl implements VacancyDao {
                 vacancies.add(vacancy);
             }
         } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
         return Optional.of(vacancies);
@@ -156,6 +166,7 @@ public class VacancyDaoImpl implements VacancyDao {
                 vacancies.add(vacancy);
             }
         } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
         return Optional.of(vacancies);
@@ -177,6 +188,7 @@ public class VacancyDaoImpl implements VacancyDao {
                 return Optional.of(vacancy);
             }
         } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
         return Optional.empty();

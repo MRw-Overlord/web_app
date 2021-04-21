@@ -82,7 +82,7 @@ public class VacancyServiceImpl implements VacancyService {
     public boolean update(int vacancyId, String vacancyName, String companyName, String description, String skillsDescription, Status status) {
         boolean result = true;
         if (vacancyDao.findById(vacancyId).isPresent() && !(vacancyName.length() > 30 || companyName.length() > 30 || description.length() > 500
-                || vacancyName.isEmpty() || companyName.isEmpty() || description.isEmpty() || status != null)) {
+                || vacancyName.isEmpty() || companyName.isEmpty() || description.isEmpty() || status == null)) {
             Vacancy newVacancy = new Vacancy(vacancyId, vacancyName, companyName, description, skillsDescription, status);
             vacancyDao.update(newVacancy);
         } else {
@@ -107,5 +107,19 @@ public class VacancyServiceImpl implements VacancyService {
     public Vacancy convertToModel(VacancyDto vacancyDto) {
         return new Vacancy(vacancyDto.getVacancyName(), vacancyDto.getCompanyName(),
                 vacancyDto.getDescription(), vacancyDto.getSkillsDescription(), vacancyDto.getStatus());
+    }
+
+    @Override
+    public boolean update(int vacancyId, String vacancyName, String companyName, String description, String skillsDescription) {
+        boolean result = true;
+        final Optional<Vacancy> byId = vacancyDao.findById(vacancyId);
+        if (byId.isPresent() && !(vacancyName.length() > 30 || companyName.length() > 30 || description.length() > 500
+                || vacancyName.isEmpty() || companyName.isEmpty() || description.isEmpty())) {
+            Vacancy newVacancy = new Vacancy(vacancyId, vacancyName, companyName, description, skillsDescription, byId.get().getStatus());
+            vacancyDao.update(newVacancy);
+        } else {
+            result = false;
+        }
+        return result;
     }
 }

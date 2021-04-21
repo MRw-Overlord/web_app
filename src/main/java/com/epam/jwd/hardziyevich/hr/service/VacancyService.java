@@ -26,4 +26,5 @@ public interface VacancyService extends CommonService<Vacancy, VacancyDto> {
 
     Vacancy convertToModel(VacancyDto vacancyDto);
 
+    boolean update(int vacancyId, String vacancyName, String companyName, String description, String skillsDescription);
 }

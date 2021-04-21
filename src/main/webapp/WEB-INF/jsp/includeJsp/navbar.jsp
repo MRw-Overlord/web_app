@@ -21,6 +21,10 @@
                     <a href="${pageContext.request.contextPath}/controller?command=show_admin_page"
                        class="navbar-link"><fmt:message key="common.navbar.admin" /></a>
                 </c:if>
+                <c:if test="${sessionScope.role eq 'HR'}">
+                    <a href="${pageContext.request.contextPath}/controller?command=show_recruiter_page"
+                       class="navbar-link"><fmt:message key="common.navbar.recruiter" /></a>
+                </c:if>
                 <a href="${pageContext.request.contextPath}/profile"
                    class="navbar-link"><fmt:message key="common.navbar.profile" /></a>
                 <a href="${pageContext.request.contextPath}/controller?command=logout"

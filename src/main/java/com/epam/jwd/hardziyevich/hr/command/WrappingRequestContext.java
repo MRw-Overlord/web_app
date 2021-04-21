@@ -2,6 +2,7 @@ package com.epam.jwd.hardziyevich.hr.command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,15 @@ public class WrappingRequestContext implements RequestContext {
     @Override
     public Optional<List<String>> getParameterValues(String name) {
         return Optional.empty();
+    }
+
+    @Override
+    public void setCharacterEncoding(String s) {
+        try {
+            request.setCharacterEncoding("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     public static RequestContext of(HttpServletRequest request) {

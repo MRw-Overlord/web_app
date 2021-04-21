@@ -51,6 +51,24 @@ public class AdminProtectionFilter implements Filter {
                 requestDispatcher.forward(servletRequest, servletResponse);
                 return;
             }
+        } else if( command.equalsIgnoreCase("show_recruiter_page") ||
+                command.equalsIgnoreCase("create_vacancy") ||
+                command.equalsIgnoreCase("delete_vacancy") ||
+                command.equalsIgnoreCase("response_user")){
+            RequestDispatcher requestDispatcher;
+            if (session != null) {
+                if (session.getAttribute("role") != Role.HR.name()) {
+                    httpRes.setStatus(FORBIDDEN_STATUS); //todo: create error page 403
+                    requestDispatcher = httpReq.getRequestDispatcher("/controller?command=show_forbidden_page"); //todo: create this command
+                    requestDispatcher.forward(servletRequest, servletResponse);
+                    return;
+                }
+            } else {
+                httpRes.setStatus(FORBIDDEN_STATUS);
+                requestDispatcher = httpReq.getRequestDispatcher("/controller?command=show_forbidden_page");
+                requestDispatcher.forward(servletRequest, servletResponse);
+                return;
+            }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
