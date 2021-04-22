@@ -9,6 +9,9 @@
     <title>VacancyList</title>
 </head>
 <body>
+<div class="admin-list-item">
+    <a class="common-button-inline" href="${pageContext.request.contextPath}/controller?command=show_create_vacancy_page"><fmt:message key="page.vacancy.button.createVacancy"/></a>
+</div>
 <c:if test="${not empty vacancies}">
     <c:forEach var="vacancy" items="${vacancies}">
         <div class="admin-list-item">

@@ -21,9 +21,9 @@ public class ShowEditVacancyPageCommand implements Command {
             return false;
         }
     };
-    public static final String COMPANY_NAME_PARAM = "companyName";
     public static ShowEditVacancyPageCommand instance = null;
-    public static final String VACANCY_NAME_PARAM = "name";
+    public static final String COMPANY_NAME_PARAM = "companyName";
+    public static final String VACANCY_NAME_PARAM = "vacancyName"; //todo: check later
     public static final String VACANCY_DESCRIPTION_PARAM = "description";
     public static final String VACANCY_SKILLS_DESCRIPTION_PARAM = "skillsDescription";
     public static final String VACANCY_STATUS_PARAM = "status";

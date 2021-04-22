@@ -125,9 +125,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User delete(User object) {
+    public boolean delete(User object) {
         //todo: implement the function of deleting a user from the database
-        return null;
+        return false;
     }
 
     @Override

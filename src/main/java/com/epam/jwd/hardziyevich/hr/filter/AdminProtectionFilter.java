@@ -36,6 +36,7 @@ public class AdminProtectionFilter implements Filter {
         } else if (command.equalsIgnoreCase("show_admin_page") ||
                 command.equalsIgnoreCase("ban_recruiter") ||
                 command.equalsIgnoreCase("ban_user") ||
+                command.equalsIgnoreCase("delete_vacancy") ||
                 command.equalsIgnoreCase("appoint_recruiter")) {
             RequestDispatcher requestDispatcher;
             if (session != null) {
@@ -54,7 +55,8 @@ public class AdminProtectionFilter implements Filter {
         } else if( command.equalsIgnoreCase("show_recruiter_page") ||
                 command.equalsIgnoreCase("create_vacancy") ||
                 command.equalsIgnoreCase("delete_vacancy") ||
-                command.equalsIgnoreCase("response_user")){
+                command.equalsIgnoreCase("response_user") ||
+                command.equalsIgnoreCase("show_create_vacancy_page")){
             RequestDispatcher requestDispatcher;
             if (session != null) {
                 if (session.getAttribute("role") != Role.HR.name()) {

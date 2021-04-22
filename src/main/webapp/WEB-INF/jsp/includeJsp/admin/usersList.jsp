@@ -13,7 +13,7 @@
         <c:if test="${user.status == 'ACTIVE'}">
             <div class="admin-list-item">
                <p>
-                   ACTIVE USER:
+                   <fmt:message key="page.admin.option.activeUser"/>
                </p>
                 <div class="header admin-item-header">${user.login}</div>
                 <div class="admin-item-options">
@@ -40,7 +40,7 @@
         <c:if test="${user.status == 'HIDDEN'}">
             <div class="admin-list-item">
                 <p>
-                    HIDDEN USER:
+                    <fmt:message key="page.admin.option.hiddenUser"/>
                 </p>
                 <div class="header admin-item-header">${user.login}</div>
                 <div class="admin-item-options">

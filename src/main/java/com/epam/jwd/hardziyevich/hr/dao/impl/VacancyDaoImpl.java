@@ -18,8 +18,8 @@ import java.util.Optional;
 
 public class VacancyDaoImpl implements VacancyDao {
     public static final String CREATE_VACANCY_QUERY = "INSERT INTO vacancy " +
-            "(vacancy_id, vacancyName, companyName, description, skillsDescription, status) " +
-            "values (?, ?, ?, ?, ?, ?)";
+            "(vacancyName, companyName, description, skillsDescription, status) " +
+            "values (?, ?, ?, ?, ?)";
     public static final String FIND_ALL_VACANCY = "SELECT vacancy_id, vacancyName, companyName, description, skillsDescription, status from vacancy;";
     public static final String UPDATE_VACANCY_QUERY = "UPDATE vacancy SET vacancyName=?, companyName=?, description=?, skillsDescription=?, status=? where vacancy_id=?;";
     public static final String DELETE_VACANCY_QUERY = "DELETE from vacancy where vacancy_id=?";
@@ -48,20 +48,19 @@ public class VacancyDaoImpl implements VacancyDao {
              final PreparedStatement vacancyStatement = connection.prepareStatement(CREATE_VACANCY_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             connection.setAutoCommit(false);
             try {
-                vacancyStatement.setLong(1, object.getId());
-                vacancyStatement.setString(2, object.getVacancyName());
-                vacancyStatement.setString(3, object.getCompanyName());
+                vacancyStatement.setString(1, object.getVacancyName());
+                vacancyStatement.setString(2, object.getCompanyName());
                 vacancyStatement.setString(3, object.getDescription());
                 vacancyStatement.setString(4, object.getSkillsDescription());
                 vacancyStatement.setString(5, object.getStatus().name());
                 vacancyStatement.executeUpdate();
+                result = true;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
-
         return result;
     }
 
@@ -108,7 +107,8 @@ public class VacancyDaoImpl implements VacancyDao {
     }
 
     @Override
-    public Vacancy delete(Vacancy object) {
+    public boolean delete(Vacancy object) {
+        boolean result = false;
         try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
              final PreparedStatement deleteVacancy = connection.prepareStatement(DELETE_VACANCY_QUERY)) {
             connection.setAutoCommit(false);
@@ -116,6 +116,7 @@ public class VacancyDaoImpl implements VacancyDao {
                 deleteVacancy.setInt(1, object.getId());
                 deleteVacancy.executeUpdate();
                 connection.commit();
+                result = true;
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
                 e.printStackTrace();
@@ -124,7 +125,7 @@ public class VacancyDaoImpl implements VacancyDao {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
-        return null;
+        return result;
     }
 
     @Override

@@ -11,6 +11,10 @@
     <location>/error/page/404.jsp</location>
   </error-page>
   <error-page>
+    <error-code>403</error-code>
+    <location>/error/page/403.jsp</location>
+  </error-page>
+  <error-page>
     <exception-type>java.lang.Throwable</exception-type>
     <location>/error/errorJava/error.jsp</location>
   </error-page>

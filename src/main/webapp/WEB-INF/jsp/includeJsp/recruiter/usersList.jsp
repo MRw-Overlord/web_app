@@ -13,16 +13,14 @@
         <c:if test="${user.status == 'ACTIVE'}">
             <div class="admin-list-item">
                 <p>
-                    ACTIVE USER:
+                    <fmt:message key="page.admin.option.activeUser"/>
                 </p>
                 <div class="header admin-item-header">${user.login}</div>
                 <div class="admin-item-options">
-                    <a class="common-button-inline"
-                       href="${pageContext.request.contextPath}/controller?command=appoint_recruiter&login=${user.login}"><fmt:message
-                            key="page.admin.button.appointRecruiter"/></a>
+                    <%--<a class="common-button-inline"
+                       href="${pageContext.request.contextPath}/controller?command=appoint_recruiter&login=${user.login}">></a>
                     <a class="common-button-inline attention"
-                       href="${pageContext.request.contextPath}/controller?command=ban_user&login=${user.login}"><fmt:message
-                            key="page.admin.button.banUser"/></a>
+                       href="${pageContext.request.contextPath}/controller?command=ban_user&login=${user.login}"></a>--%>
                 </div>
             </div>
         </c:if>
@@ -31,7 +29,7 @@
         <c:if test="${user.status == 'HIDDEN'}">
             <div class="admin-list-item">
                 <p>
-                    HIDDEN USER:
+                    <fmt:message key="page.admin.option.hiddenUser"/>
                 </p>
                 <div class="header admin-item-header">${user.login}</div>
                 <div class="admin-item-options">

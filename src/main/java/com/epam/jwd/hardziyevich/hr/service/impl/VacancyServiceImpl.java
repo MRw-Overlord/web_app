@@ -93,12 +93,10 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public boolean delete(int vacancyId) {
-        boolean result = true;
+        boolean result = false;
         final Optional<Vacancy> vacancyOptional = vacancyDao.findById(vacancyId);
         if (vacancyOptional.isPresent()) {
-            vacancyDao.delete(vacancyOptional.get());
-        } else {
-            result = false;
+            result = vacancyDao.delete(vacancyOptional.get());
         }
         return result;
     }

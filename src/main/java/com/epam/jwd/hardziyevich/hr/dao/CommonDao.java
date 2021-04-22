@@ -43,5 +43,5 @@ public interface CommonDao<T> {
      * @param object describes a model we want to delete with the same ID in the table
      * @return passed object
      */
-    T delete(T object) throws SQLException;
+    boolean delete(T object) throws SQLException;
 }

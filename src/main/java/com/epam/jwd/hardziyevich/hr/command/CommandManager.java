@@ -1,7 +1,9 @@
 package com.epam.jwd.hardziyevich.hr.command;
 
 import com.epam.jwd.hardziyevich.hr.command.page.ShowAdminPageCommand;
+import com.epam.jwd.hardziyevich.hr.command.page.ShowCreateVacancyPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowEditVacancyPageCommand;
+import com.epam.jwd.hardziyevich.hr.command.page.ShowForbiddenPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowLoginPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowMainPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowNotFoundPageCommand;
@@ -12,6 +14,8 @@ import com.epam.jwd.hardziyevich.hr.command.page.ShowVacancyPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.AppointRecruiterCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.BanRecruiterCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.BanUserCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.CreateVacancyCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.DeleteVacancyCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.EditProfileCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.LoginCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.LogoutCommand;
@@ -37,7 +41,11 @@ public enum CommandManager {
     UNBAN_USER(UnbanUserCommand.getInstance()),
     SHOW_EDIT_VACANCY_PAGE(ShowEditVacancyPageCommand.getInstance()),
     UPDATE_VACANCY(UpdateVacancyCommand.getInstance()),
-    SHOW_RECRUITER_PAGE(ShowRecruiterPageCommand.getInstance());
+    SHOW_RECRUITER_PAGE(ShowRecruiterPageCommand.getInstance()),
+    DELETE_VACANCY(DeleteVacancyCommand.getInstance()),
+    SHOW_CREATE_VACANCY_PAGE(ShowCreateVacancyPageCommand.getInstance()),
+    CREATE_VACANCY(CreateVacancyCommand.getInstance()),
+    SHOW_FORBIDDEN_PAGE(ShowForbiddenPageCommand.getInstance());
 
 
     private final Command command;
