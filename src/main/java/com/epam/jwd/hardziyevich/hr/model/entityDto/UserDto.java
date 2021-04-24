@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class UserDto {
 
+    private int id;
     private String login;
     private String firstName;
     private String lastName;
@@ -15,8 +16,20 @@ public class UserDto {
     private String status;
     private String avatarPath;
 
+    public UserDto(int id, String login, String firstName, String lastName, int age, String email, Role role, String status, String avatarPath) {
+        this.id = id;
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.role = role;
+        this.status = status;
+        this.avatarPath = avatarPath;
+    }
+
     public UserDto(String login, String firstName, String lastName,
-                   int age, String email, Role role, String status,String avatarPath) {
+                   int age, String email, Role role, String status, String avatarPath) {
         this.login = login;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -120,5 +133,13 @@ public class UserDto {
                 ", status='" + status + '\'' +
                 ", avatarPath='" + avatarPath + '\'' +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

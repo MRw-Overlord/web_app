@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/vacancy.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/type.css" />
-    <title><fmt:message key="page.vacancy.word.vacancy" /> | <c:out value="${race.name}" /></title>
+    <title><fmt:message key="page.vacancy.word.vacancy" /> | <c:out value="${vacancy.vacancyName}" /></title>
 </head>
 <body>
 <jsp:include page="includeJsp/navbar.jsp" />
@@ -26,10 +26,14 @@
         <div class="secondary-vacancy"><fmt:message key="page.admin.input.vacancySkillsDescription" /></div>
         <div class="description"><c:out value="${vacancy.skillsDescription}" /></div>
         <div class="secondary-vacancy"></div>
-        <a class="common-button" href="<%--${pageContext.request.contextPath}/controller?command=show_bets_page&race_id=${race.id}--%>">
-            <fmt:message key="page.vacancy.button.respond" />
-        </a>
-        <div class="description" ><fmt:message key="page.vacancy.word.participants" />:</div>
+        <c:if test="${not empty sessionScope.login}">
+            <c:if test="${sessionScope.role eq 'GUEST'}">
+            <a class="common-button" href="${pageContext.request.contextPath}/controller?command=apply_vacancy&userLogin=${sessionScope.login}&vacancyId=${vacancy.vacancyId}">
+                <fmt:message key="page.vacancy.button.respond" />
+            </a>
+            </c:if>
+        </c:if>
+
     </div>
 </div>
 <jsp:include page="includeJsp/footer.jsp" />

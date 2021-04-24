@@ -29,16 +29,16 @@
     <fmt:message key="page.vacancy.button.createVacancy" var="createVacancy"/>
     <fmt:message key="page.admin.input.title.name" var="nameTitle"/>
     <form method="post" action="${pageContext.request.contextPath}/controller?command=create_vacancy" class="create-vacancy-form" accept-charset="UTF-8">
-        <input  accept-charset="UTF-8" class="create-form-input secondary" type="text" name="${vacancyNameParam}"
+        <input class="create-form-input secondary" type="text" name="${vacancyNameParam}"
                 placeholder="${vacancyName}" pattern=".{1,30}" title="${nameTitle}" required/>
-        <input accept-charset="UTF-8" class="create-form-input secondary" type="text" name="${companyNameParam}"
+        <input class="create-form-input secondary" type="text" name="${companyNameParam}"
                placeholder="${companyName}" pattern=".{1,30}" title="${nameTitle}" required/>
-        <input accept-charset="UTF-8" class="create-form-input secondary create-form-textarea" name="${vacancyDescriptionParam}"
+        <input class="create-form-input secondary create-form-textarea" name="${vacancyDescriptionParam}"
                   placeholder="${vacancyDescription}" required/>
-        <input accept-charset="UTF-8" class="create-form-input secondary create-form-textarea" name="${vacancySkillsDescriptionParam}"
+        <input class="create-form-input secondary create-form-textarea" name="${vacancySkillsDescriptionParam}"
                   placeholder="${vacancySkillsDescription}" required/>
 
-        <input accept-charset="UTF-8" class="common-button" type="submit" value="${createVacancy}">
+        <input class="common-button" type="submit" value="${createVacancy}">
     </form>
 </div>
 <jsp:include page="includeJsp/footer.jsp"/>

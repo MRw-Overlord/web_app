@@ -11,34 +11,14 @@
     <location>/error/page/404.jsp</location>
   </error-page>
   <error-page>
+    <error-code>403</error-code>
+    <location>/error/page/403.jsp</location>
+  </error-page>
+  <error-page>
     <exception-type>java.lang.Throwable</exception-type>
     <location>/error/errorJava/error.jsp</location>
   </error-page>
 
-
-
-  <!--<servlet>
-    <servlet-name>javaMail.jsp</servlet-name>
-    <jsp-file>jsps/javaMail.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>javaMail.jsp</servlet-name>
-    <url-pattern>jsps/javaMail.jsp</url-pattern>
-  </servlet-mapping>
-  <context-param>
-    <param-name>mail</param-name>
-    <param-value>/WEB-INF/classes/config/mail.properties</param-value>
-  </context-param>-->
-
-   <!-- <servlet>
-      <servlet-name>ApplicationController</servlet-name>
-      <servlet-class>com.epam.jwd.hardziyevich.hr.servlet.controller.ApplicationController</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-      <servlet-name>ApplicationController</servlet-name>
-      <url-pattern>/controller</url-pattern>
-    </servlet-mapping>-->
 
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

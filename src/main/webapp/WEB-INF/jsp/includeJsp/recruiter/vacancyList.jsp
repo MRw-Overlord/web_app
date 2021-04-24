@@ -21,7 +21,7 @@
             <div class="admin-item-options">
                 <a class="common-button-inline" href="${pageContext.request.contextPath}/controller?command=show_edit_vacancy_page&id=${vacancy.vacancyId}"><fmt:message key="page.admin.button.edit" /></a>
                 <a class="common-button-inline" href="${pageContext.request.contextPath}/controller?command=delete_vacancy&id=${vacancy.vacancyId}"><fmt:message key="page.admin.button.delete" /></a>
-                <a class="common-button-inline" href="${pageContext.request.contextPath}/controller?command=show_user_responses&id=${vacancy.vacancyId}"><fmt:message key="page.admin.button.showUsersResponses" /></a>
+                <a class="common-button-inline" href="${pageContext.request.contextPath}/controller?command=show_users_responses_page&id=${vacancy.vacancyId}"><fmt:message key="page.admin.button.showUsersResponses" /></a>
             </div>
         </div>
     </c:forEach>

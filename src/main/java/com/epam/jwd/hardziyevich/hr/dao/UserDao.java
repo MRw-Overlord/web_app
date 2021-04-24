@@ -21,4 +21,6 @@ public interface UserDao extends  CommonDao<User>{
      */
     Optional<User> findByLogin(String login);
 
+    Optional<User> findById(int id);
+
 }

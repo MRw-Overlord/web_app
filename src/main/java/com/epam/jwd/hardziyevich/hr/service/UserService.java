@@ -38,6 +38,8 @@ public interface UserService extends CommonService<User, UserDto> {
      */
     void unbanUser(String login);
 
+    Optional<UserDto> findUserById(int id);
+
     /**
      * Method is used to validate and create a new User in database
      *

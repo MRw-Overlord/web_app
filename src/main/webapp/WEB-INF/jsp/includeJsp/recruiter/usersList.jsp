@@ -17,10 +17,10 @@
                 </p>
                 <div class="header admin-item-header">${user.login}</div>
                 <div class="admin-item-options">
-                    <%--<a class="common-button-inline"
-                       href="${pageContext.request.contextPath}/controller?command=appoint_recruiter&login=${user.login}">></a>
-                    <a class="common-button-inline attention"
-                       href="${pageContext.request.contextPath}/controller?command=ban_user&login=${user.login}"></a>--%>
+                    <a class="common-button-inline"
+                       href="${pageContext.request.contextPath}/controller?command=show_vacancies_responses_page&login=${user.login}"><fmt:message
+                            key="page.admin.option.showResponses"/>
+                    </a>
                 </div>
             </div>
         </c:if>

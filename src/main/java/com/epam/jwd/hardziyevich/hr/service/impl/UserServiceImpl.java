@@ -72,6 +72,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<UserDto> findUserById(int id) {
+        UserDto userDto = null;
+        final Optional<User> byId = userDao.findById(id);
+        if (byId.isPresent()) {
+            userDto = convertToDto(byId.get());
+        }
+        return Optional.ofNullable(userDto);
+    }
+
+    @Override
     public Optional<List<UserDto>> findAll() {
         return userDao.findAll().map(
                 users -> users.stream()
@@ -126,7 +136,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDto convertToDto(User user) {
-        return new UserDto(user.getLogin(),
+        return new UserDto(user.getId(), user.getLogin(),
                 user.getFirstName(), user.getLastName(),
                 user.getAge(), user.getEmail(), user.getRole(),
                 user.getStatus(), user.getAvatarPath());

@@ -10,7 +10,9 @@ import com.epam.jwd.hardziyevich.hr.command.page.ShowNotFoundPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowProfilePageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowRecruiterPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowSignUpPageCommand;
+import com.epam.jwd.hardziyevich.hr.command.page.ShowUsersResponsesPage;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowVacancyPageCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.ApplyVacancyCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.AppointRecruiterCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.BanRecruiterCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.BanUserCommand;
@@ -45,7 +47,9 @@ public enum CommandManager {
     DELETE_VACANCY(DeleteVacancyCommand.getInstance()),
     SHOW_CREATE_VACANCY_PAGE(ShowCreateVacancyPageCommand.getInstance()),
     CREATE_VACANCY(CreateVacancyCommand.getInstance()),
-    SHOW_FORBIDDEN_PAGE(ShowForbiddenPageCommand.getInstance());
+    SHOW_FORBIDDEN_PAGE(ShowForbiddenPageCommand.getInstance()),
+    APPLY_VACANCY(ApplyVacancyCommand.getInstance()),
+    SHOW_USERS_RESPONSES_PAGE(ShowUsersResponsesPage.getInstance());
 
 
     private final Command command;

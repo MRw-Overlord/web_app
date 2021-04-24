@@ -7,6 +7,7 @@ import com.epam.jwd.hardziyevich.hr.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
+    private static final String GET_USER_BY_ID_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath\n" +
+            "from user_table\n" +
+            "JOIN user_info\n" +
+            "ON user_table.user_id = user_info.user_id\n" +
+            "WHERE user_table.user_id= ?";
     private static UserDaoImpl instance = null;
 
     private UserDaoImpl() {
@@ -72,7 +78,7 @@ public class UserDaoImpl implements UserDao {
              final Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(GET_ALL_USERS_QUERY);
             while (resultSet.next()) {
-                users.add(new User(resultSet.getLong("user_id"),
+                users.add(new User(resultSet.getInt("user_id"),
                         resultSet.getString("user_login"),
                         Role.defineRoleByName(resultSet.getString("user_role_name")),
                         resultSet.getString("user_firstName"),
@@ -81,7 +87,7 @@ public class UserDaoImpl implements UserDao {
                         resultSet.getString("user_email"),
                         resultSet.getString("user_password"),
                         resultSet.getString("user_status"),
-                resultSet.getString("avatarPath")));
+                        resultSet.getString("avatarPath")));
             }
         } catch (SQLException e) {
             logger.error(e.getMessage());
@@ -90,7 +96,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void updateProfile(User object, String name, String lastName, String email, Integer age ){
+    public void updateProfile(User object, String name, String lastName, String email, Integer age) {
         try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
              final PreparedStatement statement = connection.prepareStatement(UPDATE_USER_PROFILE)) {
             statement.setString(1, name);
@@ -114,7 +120,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(4, object.getLastName());
             statement.setString(5, object.getEmail());
             statement.setInt(6, object.getAge());
-            statement.setString(7,object.getRole().name());
+            statement.setString(7, object.getRole().name());
             statement.setString(8, object.getStatus());
             statement.setString(9, String.valueOf(object.getId()));
             statement.executeUpdate();
@@ -155,4 +161,31 @@ public class UserDaoImpl implements UserDao {
         return Optional.ofNullable(user);
     }
 
+    @Override
+    public Optional<User> findById(int id) {
+        User user = null;
+        try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             final PreparedStatement statement = connection.prepareStatement(GET_USER_BY_ID_QUERY)) {
+            statement.setInt(1, id);
+            final ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                user = new User(resultSet.getInt("user_id"),
+                        resultSet.getString("user_login"),
+                        Role.defineRoleByName(resultSet.getString("user_role_name")),
+                        resultSet.getString("user_firstName"),
+                        resultSet.getString("user_lastName"),
+                        resultSet.getInt("age"),
+                        resultSet.getString("user_email"),
+                        resultSet.getString("user_password"),
+                        resultSet.getString("user_status"),
+                        resultSet.getString("avatarPath"));
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return Optional.ofNullable(user);
+    }
+
 }
+

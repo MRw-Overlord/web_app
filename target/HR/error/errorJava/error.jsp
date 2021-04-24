@@ -7,12 +7,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${cookie['lang'].value}"/>
 <fmt:setBundle basename="lang"/>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title><fmt:message key="page.error.java.message.title"/></title>
     <link href="${pageContext.request.contextPath}/error/page/css/404.css" rel="stylesheet">
-
 </head>
 <body>
 <h1><fmt:message key="page.error.java.message"/></h1>

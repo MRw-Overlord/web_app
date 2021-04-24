@@ -3,7 +3,8 @@ package com.epam.jwd.hardziyevich.hr.model.entity;
 import java.util.Objects;
 
 public class User {
-    private long id;
+
+    private int id;
     private String login;
     private Role role;
     private String firstName;
@@ -14,7 +15,7 @@ public class User {
     private String status;
     private String avatarPath;
 
-    public User(long id, String login, Role role, String firstName, String lastName, int age,
+    public User(int id, String login, Role role, String firstName, String lastName, int age,
                 String email, String password, String status, String avatarPath) {
         this.id = id;
         this.login = login;
@@ -33,11 +34,11 @@ public class User {
         this.password = password;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

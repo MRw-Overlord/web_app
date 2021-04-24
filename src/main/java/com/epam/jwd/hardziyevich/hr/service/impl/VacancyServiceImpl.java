@@ -5,8 +5,6 @@ import com.epam.jwd.hardziyevich.hr.model.entity.Status;
 import com.epam.jwd.hardziyevich.hr.model.entity.Vacancy;
 import com.epam.jwd.hardziyevich.hr.model.entityDto.VacancyDto;
 import com.epam.jwd.hardziyevich.hr.service.VacancyService;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
