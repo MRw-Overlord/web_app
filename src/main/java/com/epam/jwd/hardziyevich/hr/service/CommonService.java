@@ -15,7 +15,7 @@ public interface CommonService<T, K> {
      * @param object describes a model
      * @return true if committed otherwise false
      */
-    boolean create(K object);
+    boolean create(T object);
 
     /**
      * Method is used to reads data transfer object models.

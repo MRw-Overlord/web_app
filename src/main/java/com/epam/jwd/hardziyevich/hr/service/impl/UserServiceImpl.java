@@ -97,10 +97,6 @@ public class UserServiceImpl implements UserService {
         );
     }
 
-    @Override
-    public boolean create(UserDto object) {
-        return false;
-    }
 
     @Override
     public boolean create(User object) {

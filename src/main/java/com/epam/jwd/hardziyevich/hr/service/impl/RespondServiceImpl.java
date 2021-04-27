@@ -45,9 +45,10 @@ public class RespondServiceImpl implements RespondService {
         return Optional.ofNullable(users);
     }
 
+
     @Override
-    public boolean create(RespondDto object) {
-        return false;
+    public boolean create(Respond object) {
+        return respondDao.create(object);
     }
 
     @Override

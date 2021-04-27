@@ -3,7 +3,6 @@ package com.epam.jwd.hardziyevich.hr.command.page;
 import com.epam.jwd.hardziyevich.hr.command.Command;
 import com.epam.jwd.hardziyevich.hr.command.RequestContext;
 import com.epam.jwd.hardziyevich.hr.command.ResponseContext;
-import com.epam.jwd.hardziyevich.hr.model.entityDto.RespondDto;
 import com.epam.jwd.hardziyevich.hr.model.entityDto.UserDto;
 import com.epam.jwd.hardziyevich.hr.service.RespondService;
 import com.epam.jwd.hardziyevich.hr.service.UserService;
@@ -15,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ShowUsersResponsesPage implements Command {
-    public static final ResponseContext RESPONSE_CONTEXT = new ResponseContext() {
+    public static final ResponseContext USER_RESPONSES_PAGE_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
             return "/WEB-INF/jsp/includeJsp/recruiter/usersResponsesPage.jsp";
@@ -44,11 +43,13 @@ public class ShowUsersResponsesPage implements Command {
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {
-        ResponseContext responseContext = RESPONSE_CONTEXT;
         final int vacancyId = Integer.parseInt(requestContext.getParameter("id"));
-        final List<UserDto> userDtoList = respondService.findAllUsersByIDWhichRespondVacancy(vacancyId).get();
-        requestContext.setAttribute("users", userDtoList.stream().filter(userDto -> !(userDto.getRoleName().equalsIgnoreCase("ADMIN")
-                || userDto.getRoleName().equalsIgnoreCase("HR"))).collect(Collectors.toList()));
-        return responseContext;
+        final Optional<List<UserDto>> optionalUserDtoList = respondService.findAllUsersByIDWhichRespondVacancy(vacancyId);
+        if(optionalUserDtoList.isPresent()){
+            final List<UserDto> userDtoList = optionalUserDtoList.get();
+            requestContext.setAttribute("users", userDtoList.stream().filter(userDto -> !(userDto.getRoleName().equalsIgnoreCase("ADMIN")
+                    || userDto.getRoleName().equalsIgnoreCase("HR"))).collect(Collectors.toList()));
+        }
+        return USER_RESPONSES_PAGE_CONTEXT;
     }
 }

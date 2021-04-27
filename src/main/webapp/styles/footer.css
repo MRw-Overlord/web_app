@@ -1,6 +1,7 @@
 .footer-body {
     background-color: black;
     height: 150px;
+    padding: 10px;
 }
 
 .language-select {

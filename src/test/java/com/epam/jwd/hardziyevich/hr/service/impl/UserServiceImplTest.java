@@ -4,14 +4,15 @@ import com.epam.jwd.hardziyevich.hr.dao.impl.UserDaoImpl;
 import com.epam.jwd.hardziyevich.hr.model.entity.Role;
 import com.epam.jwd.hardziyevich.hr.model.entity.User;
 import com.epam.jwd.hardziyevich.hr.model.entityDto.UserDto;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mindrot.jbcrypt.BCrypt;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ public class UserServiceImplTest {
     UserServiceImpl userService;
     @Mock
     UserDaoImpl userDaoMock;
+    @Mock
+    BCrypt bCryptMock;
     User user;
     List<User> userList;
     UserDto userDto;
@@ -57,17 +60,15 @@ public class UserServiceImplTest {
         Mockito.when(userDaoMock.findAll()).thenReturn(Optional.of(userList));
         Mockito.when(userDaoMock.findByLogin(USER_LOGIN)).thenReturn(Optional.of(user));
         Mockito.when(userDaoMock.update(user)).thenReturn(true);
+        Mockito.when(userDaoMock.create(user)).thenReturn(true);
+
         userService = UserServiceImpl.getInstance();
         userService.setUserDao(userDaoMock);
-    }
-
-    @After
-    public void tearDown() throws Exception {
 
     }
 
     @Test
-    public void getInstance() {
+    public void getInstancePositive() {
         final UserServiceImpl actual = UserServiceImpl.getInstance();
         final UserServiceImpl expected = this.userService;
         Assert.assertEquals(expected, actual);
@@ -79,13 +80,24 @@ public class UserServiceImplTest {
         final Optional<UserDto> expected = Optional.of(new UserDto(USER_ID, USER_LOGIN, USER_FIRSTNAME1, USER_LASTNAME1,
                 USER_AGE1, USER_EMAIL1, USER_ROLE, USER_STATUS, USER_AVATAR));
         Assert.assertEquals(expected, actual);
-
     }
 
     @Test
-    public void appointRecruiter() {
-
+    public void appointRecruiterPositive() {
+        final boolean actual = userService.appointRecruiter(USER_LOGIN);
+        final boolean expected = true;
+        Assert.assertEquals(expected, actual);
     }
+
+
+    @Test
+    public void appointRecruiterNegative() {
+        Mockito.when(userDaoMock.update(user)).thenReturn(false);
+        final boolean actual = userService.appointRecruiter(USER_LOGIN);
+        final boolean expected = false;
+        Assert.assertEquals(expected, actual);
+    }
+
 
     @Test
     public void banRecruiterPositive() {
@@ -116,16 +128,15 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void create() {
-
+    public void createPositive() {
+        final boolean actual = userService.create(user);
+        Assert.assertTrue(actual);
     }
 
-    @Test
-    public void testCreate() {
-    }
 
     @Test
     public void loginUser() {
+
     }
 
     @Test

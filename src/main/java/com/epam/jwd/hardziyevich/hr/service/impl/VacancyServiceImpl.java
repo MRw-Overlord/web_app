@@ -30,7 +30,7 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public boolean create(VacancyDto object) {
+    public boolean create(Vacancy object) {
         return false;
     }
 
