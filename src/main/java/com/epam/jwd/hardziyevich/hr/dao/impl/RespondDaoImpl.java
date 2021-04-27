@@ -6,7 +6,6 @@ import com.epam.jwd.hardziyevich.hr.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,23 +25,25 @@ public class RespondDaoImpl implements RespondDao {
     public static final String FIND_USERS_ID_BY_ID_VACANCY = "SELECT user_id from respond join respond_vacancy rv on respond.respond_id = rv.respond_id where vacancy_id = ?";
     private static RespondDaoImpl instance = null;
 
-    private RespondDaoImpl(){
+    private RespondDaoImpl() {
 
     }
 
-    public static RespondDaoImpl getInstance(){
-        if(instance == null){
+    public static RespondDaoImpl getInstance() {
+        if (instance == null) {
             instance = new RespondDaoImpl();
         }
         return instance;
     }
+
     private static final Logger LOGGER = LogManager.getLogger(RespondDaoImpl.class);
 
-    public Optional<List<Integer>> findUsersIdRespondVacancyById(int vacancyId){
+    @Override
+    public Optional<List<Integer>> findUsersIdRespondVacancyById(int vacancyId) {
         List<Integer> usersId = new ArrayList<>();
         try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
              final PreparedStatement statement1 = connection.prepareStatement(FIND_USERS_ID_BY_ID_VACANCY)) {
-            statement1.setInt(1,vacancyId);
+            statement1.setInt(1, vacancyId);
             final ResultSet respondsSet = statement1.executeQuery();
             while (respondsSet.next()) {
                 usersId.add(respondsSet.getInt(1));
@@ -58,11 +59,11 @@ public class RespondDaoImpl implements RespondDao {
     @Override
     public boolean create(Respond object) {
         boolean result = false;
-        try(final Connection connection = ConnectionPool.getInstance().retrieveConnection();
-            final PreparedStatement responseStatement1 = connection.prepareStatement(CREATE_RESPONSE_QUERY, Statement.RETURN_GENERATED_KEYS);
-            final PreparedStatement responseStatement2 = connection.prepareStatement(CREATE_RESPONSE_VACANCY_QUERY)) {
+        try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             final PreparedStatement responseStatement1 = connection.prepareStatement(CREATE_RESPONSE_QUERY, Statement.RETURN_GENERATED_KEYS);
+             final PreparedStatement responseStatement2 = connection.prepareStatement(CREATE_RESPONSE_VACANCY_QUERY)) {
             connection.setAutoCommit(false);
-            try{
+            try {
                 responseStatement1.setInt(1, object.getUserId());
                 responseStatement1.setTimestamp(2, object.getDate());
                 int affectedRows = responseStatement1.executeUpdate();
@@ -130,12 +131,12 @@ public class RespondDaoImpl implements RespondDao {
     }
 
     @Override
-    public Respond update(Respond object) {
-        return null;
+    public boolean update(Respond object) {
+        return false;
     }
 
     @Override
-    public boolean delete(Respond object){
+    public boolean delete(Respond object) {
         boolean result = false;
         try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
              final PreparedStatement deleteRespond = connection.prepareStatement(DELETE_RESPOND_QUERY)) {
@@ -158,11 +159,11 @@ public class RespondDaoImpl implements RespondDao {
 
     @Override
     public Optional<Respond> findById(int id) {
-        try(Connection connection = ConnectionPool.getInstance().retrieveConnection();
-            final PreparedStatement statement = connection.prepareStatement(FIND_ALL_RESPONDS_BY_ID_QUERY)) {
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             final PreparedStatement statement = connection.prepareStatement(FIND_ALL_RESPONDS_BY_ID_QUERY)) {
             statement.setInt(1, id);
             final ResultSet respondSet = statement.executeQuery();
-            while(respondSet.next()){
+            while (respondSet.next()) {
                 Respond respond = new Respond(respondSet.getInt("respond_id"),
                         respondSet.getInt("vacancy_id"),
                         respondSet.getInt("user_id"),

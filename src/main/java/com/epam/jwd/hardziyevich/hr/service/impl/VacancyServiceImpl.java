@@ -1,10 +1,14 @@
 package com.epam.jwd.hardziyevich.hr.service.impl;
 
+import com.epam.jwd.hardziyevich.hr.dao.VacancyDao;
+import com.epam.jwd.hardziyevich.hr.dao.impl.UserDaoImpl;
 import com.epam.jwd.hardziyevich.hr.dao.impl.VacancyDaoImpl;
 import com.epam.jwd.hardziyevich.hr.model.entity.Status;
 import com.epam.jwd.hardziyevich.hr.model.entity.Vacancy;
 import com.epam.jwd.hardziyevich.hr.model.entityDto.VacancyDto;
 import com.epam.jwd.hardziyevich.hr.service.VacancyService;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,16 +16,15 @@ import java.util.stream.Collectors;
 
 public class VacancyServiceImpl implements VacancyService {
     private static VacancyServiceImpl instance = null;
-    private static VacancyDaoImpl vacancyDao;
+    private VacancyDao vacancyDao;
 
-    private VacancyServiceImpl() {
-
+    private VacancyServiceImpl(VacancyDaoImpl vacancyDao) {
+        this.vacancyDao = vacancyDao;
     }
 
     public static VacancyServiceImpl getInstance() {
         if (instance == null) {
-            instance = new VacancyServiceImpl();
-            vacancyDao = VacancyDaoImpl.getInstance();
+            instance = new VacancyServiceImpl(VacancyDaoImpl.getInstance());
         }
         return instance;
     }
@@ -94,7 +97,11 @@ public class VacancyServiceImpl implements VacancyService {
         boolean result = false;
         final Optional<Vacancy> vacancyOptional = vacancyDao.findById(vacancyId);
         if (vacancyOptional.isPresent()) {
-            result = vacancyDao.delete(vacancyOptional.get());
+            try {
+                result = vacancyDao.delete(vacancyOptional.get());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -117,5 +124,9 @@ public class VacancyServiceImpl implements VacancyService {
             result = false;
         }
         return result;
+    }
+
+    public void setVacancyDao(VacancyDao vacancyDao) {
+        this.vacancyDao = vacancyDao ;
     }
 }

@@ -1,8 +1,8 @@
 package com.epam.jwd.hardziyevich.hr.dao;
 
 import com.epam.jwd.hardziyevich.hr.model.entity.Respond;
-import com.epam.jwd.hardziyevich.hr.model.entity.Vacancy;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface RespondDao extends CommonDao<Respond> {
@@ -15,4 +15,7 @@ public interface RespondDao extends CommonDao<Respond> {
      * @return Optional Vacancy model
      */
     Optional<Respond> findById(int id);
+
+    Optional<List<Integer>> findUsersIdRespondVacancyById(int vacancyId);
+
 }

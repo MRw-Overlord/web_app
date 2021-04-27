@@ -12,6 +12,7 @@ import com.epam.jwd.hardziyevich.hr.service.impl.UserServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ShowUsersResponsesPage implements Command {
     public static final ResponseContext RESPONSE_CONTEXT = new ResponseContext() {
@@ -46,7 +47,8 @@ public class ShowUsersResponsesPage implements Command {
         ResponseContext responseContext = RESPONSE_CONTEXT;
         final int vacancyId = Integer.parseInt(requestContext.getParameter("id"));
         final List<UserDto> userDtoList = respondService.findAllUsersByIDWhichRespondVacancy(vacancyId).get();
-        requestContext.setAttribute("users", userDtoList);
+        requestContext.setAttribute("users", userDtoList.stream().filter(userDto -> !(userDto.getRoleName().equalsIgnoreCase("ADMIN")
+                || userDto.getRoleName().equalsIgnoreCase("HR"))).collect(Collectors.toList()));
         return responseContext;
     }
 }

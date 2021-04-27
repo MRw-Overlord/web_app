@@ -39,7 +39,7 @@ body {
     bottom: 0;
     left: 0;
     background: rgba(0,0,0,0.5); /* цвет фона */
-    z-index: 1050;
+    z-index: 10500;
     opacity: 0; /* по умолчанию модальное окно прозрачно */
     -webkit-transition: opacity 200ms ease-in;
     -moz-transition: opacity 200ms ease-in;

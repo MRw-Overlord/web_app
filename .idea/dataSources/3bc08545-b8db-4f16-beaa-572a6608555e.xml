@@ -1189,108 +1189,112 @@ vacancy_id</ColNames>
       <Position>6</Position>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <index id="329" parent="291" name="fk_user_info_user_table1_idx">
+    <column id="329" parent="291" name="avatarImg">
+      <Position>7</Position>
+      <DataType>blob|0s</DataType>
+    </column>
+    <index id="330" parent="291" name="fk_user_info_user_table1_idx">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="330" parent="291" name="PRIMARY">
+    <key id="331" parent="291" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="331" parent="291" name="fk_user_info_user_table1">
+    <foreign-key id="332" parent="291" name="fk_user_info_user_table1">
       <ColNames>user_id</ColNames>
       <RefTableName>user_table</RefTableName>
       <RefColNames>user_id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="332" parent="292" name="user_id">
+    <column id="333" parent="292" name="user_id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="333" parent="292" name="user_login">
+    <column id="334" parent="292" name="user_login">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="334" parent="292" name="user_password">
+    <column id="335" parent="292" name="user_password">
       <Position>3</Position>
       <DataType>char(60)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="335" parent="292" name="user_role_name">
+    <column id="336" parent="292" name="user_role_name">
       <Position>4</Position>
       <Comment>GUEST</Comment>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;GUEST&apos;</DefaultExpression>
     </column>
-    <column id="336" parent="292" name="user_status">
+    <column id="337" parent="292" name="user_status">
       <Position>5</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;ACTIVE&apos;</DefaultExpression>
     </column>
-    <index id="337" parent="292" name="client_id_UNIQUE">
+    <index id="338" parent="292" name="client_id_UNIQUE">
       <ColNames>user_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="338" parent="292" name="user_name_UNIQUE">
+    <index id="339" parent="292" name="user_name_UNIQUE">
       <ColNames>user_login</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="339" parent="292" name="PRIMARY">
+    <key id="340" parent="292" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="340" parent="292" name="client_id_UNIQUE">
+    <key id="341" parent="292" name="client_id_UNIQUE">
       <ColNames>user_id</ColNames>
       <UnderlyingIndexName>client_id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="341" parent="292" name="user_name_UNIQUE">
+    <key id="342" parent="292" name="user_name_UNIQUE">
       <ColNames>user_login</ColNames>
       <UnderlyingIndexName>user_name_UNIQUE</UnderlyingIndexName>
     </key>
-    <trigger id="342" parent="292" name="user_table_AFTER_INSERT">
+    <trigger id="343" parent="292" name="user_table_AFTER_INSERT">
       <SourceTextLength>64</SourceTextLength>
       <Definer>root@localhost</Definer>
       <Turn>after-row</Turn>
       <Events>I</Events>
     </trigger>
-    <column id="343" parent="293" name="vacancy_id">
+    <column id="344" parent="293" name="vacancy_id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="344" parent="293" name="vacancyName">
+    <column id="345" parent="293" name="vacancyName">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="345" parent="293" name="companyName">
+    <column id="346" parent="293" name="companyName">
       <Position>3</Position>
       <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="346" parent="293" name="description">
+    <column id="347" parent="293" name="description">
       <Position>4</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="347" parent="293" name="skillsDescription">
+    <column id="348" parent="293" name="skillsDescription">
       <Position>5</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="348" parent="293" name="status">
+    <column id="349" parent="293" name="status">
       <Position>6</Position>
       <DataType>varchar(10)|0s</DataType>
       <DefaultExpression>&apos;HIDDEN&apos;</DefaultExpression>
     </column>
-    <key id="349" parent="293" name="PRIMARY">
+    <key id="350" parent="293" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>vacancy_id</ColNames>
       <Primary>1</Primary>

@@ -3,14 +3,12 @@ package com.epam.jwd.hardziyevich.hr.dao;
 
 import com.epam.jwd.hardziyevich.hr.model.entity.User;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
 /**
  * Data access object that performs various operations with User model in database
- *
  */
-public interface UserDao extends  CommonDao<User>{
+public interface UserDao extends CommonDao<User> {
     void updateProfile(User object, String name, String lastName, String email, Integer age);
 
     /**

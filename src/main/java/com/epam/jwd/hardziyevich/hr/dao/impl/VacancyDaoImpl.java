@@ -89,7 +89,8 @@ public class VacancyDaoImpl implements VacancyDao {
     }
 
     @Override
-    public Vacancy update(Vacancy object) {
+    public boolean update(Vacancy object) {
+        boolean result = false;
         try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
              final PreparedStatement statement = connection.prepareStatement(UPDATE_VACANCY_QUERY)) {
             statement.setInt(6, object.getId());
@@ -99,11 +100,12 @@ public class VacancyDaoImpl implements VacancyDao {
             statement.setString(4, object.getSkillsDescription());
             statement.setString(5, object.getStatus().name());
             statement.executeUpdate();
+            result = true;
         } catch (SQLException e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
         }
-        return object;
+        return result;
     }
 
     @Override
@@ -128,13 +130,14 @@ public class VacancyDaoImpl implements VacancyDao {
         return result;
     }
 
+
     @Override
     public Optional<List<Vacancy>> findAllRelevant() {
         List<Vacancy> vacancies = new ArrayList<>();
-        try(Connection connection = ConnectionPool.getInstance().retrieveConnection();
-        final PreparedStatement statement = connection.prepareStatement(FIND_ALL_RELEVANT_VACANCIES)) {
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             final PreparedStatement statement = connection.prepareStatement(FIND_ALL_RELEVANT_VACANCIES)) {
             final ResultSet vacancySet = statement.executeQuery();
-            while(vacancySet.next()){
+            while (vacancySet.next()) {
                 Vacancy vacancy = new Vacancy(vacancySet.getInt("vacancy_id"),
                         vacancySet.getString("vacancyName"),
                         vacancySet.getString("companyName"),
@@ -153,11 +156,11 @@ public class VacancyDaoImpl implements VacancyDao {
     @Override
     public Optional<List<Vacancy>> findAllByStatus(Status vacancyStatus) {
         List<Vacancy> vacancies = new ArrayList<>();
-        try(Connection connection = ConnectionPool.getInstance().retrieveConnection();
-            final PreparedStatement statement = connection.prepareStatement(FIND_ALL_VACANCIES_BYSTATUS_QUERY)) {
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             final PreparedStatement statement = connection.prepareStatement(FIND_ALL_VACANCIES_BYSTATUS_QUERY)) {
             statement.setString(1, vacancyStatus.name());
             final ResultSet vacancySet = statement.executeQuery();
-            while(vacancySet.next()){
+            while (vacancySet.next()) {
                 Vacancy vacancy = new Vacancy(vacancySet.getInt("vacancy_id"),
                         vacancySet.getString("vacancyName"),
                         vacancySet.getString("companyName"),
@@ -175,11 +178,11 @@ public class VacancyDaoImpl implements VacancyDao {
 
     @Override
     public Optional<Vacancy> findById(int id) {
-        try(Connection connection = ConnectionPool.getInstance().retrieveConnection();
-            final PreparedStatement statement = connection.prepareStatement(FIND_ALL_VACANCIES_BY_ID_QUERY)) {
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             final PreparedStatement statement = connection.prepareStatement(FIND_ALL_VACANCIES_BY_ID_QUERY)) {
             statement.setInt(1, id);
             final ResultSet vacancySet = statement.executeQuery();
-            while(vacancySet.next()){
+            while (vacancySet.next()) {
                 Vacancy vacancy = new Vacancy(vacancySet.getInt("vacancy_id"),
                         vacancySet.getString("vacancyName"),
                         vacancySet.getString("companyName"),

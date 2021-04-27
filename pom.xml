@@ -71,29 +71,18 @@
       <version>0.4</version>
     </dependency>
 
-
-
-    <!-- https://mvnrepository.com/artifact/com.google.api-client/google-api-client -->
     <dependency>
-      <groupId>com.google.api-client</groupId>
-      <artifactId>google-api-client</artifactId>
-      <version>1.31.1</version>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.3</version>
+    </dependency>
+    <!-- Apache HttpClient Mime -->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <version>4.5.3</version>
     </dependency>
 
-
-    <!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-jetty -->
-    <dependency>
-      <groupId>com.google.oauth-client</groupId>
-      <artifactId>google-oauth-client-jetty</artifactId>
-      <version>1.31.1</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-drive -->
-    <dependency>
-      <groupId>com.google.apis</groupId>
-      <artifactId>google-api-services-drive</artifactId>
-      <version>v3-rev197-1.25.0</version>
-    </dependency>
 
     <!-- https://mvnrepository.com/artifact/junit/junit -->
     <dependency>
@@ -102,6 +91,15 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.12.2</version>
+      <scope>test</scope>
+    </dependency>
+
 
     <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
     <dependency>

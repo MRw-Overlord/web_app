@@ -1,6 +1,7 @@
 package com.epam.jwd.hardziyevich.hr.service.impl;
 
 import com.epam.jwd.hardziyevich.hr.dao.impl.UserDaoImpl;
+import com.epam.jwd.hardziyevich.hr.exception.UnknownEntityException;
 import com.epam.jwd.hardziyevich.hr.model.entity.Role;
 import com.epam.jwd.hardziyevich.hr.model.entity.User;
 import com.epam.jwd.hardziyevich.hr.model.entityDto.UserDto;
@@ -36,29 +37,35 @@ public class UserServiceImpl implements UserService {
         byLogin.ifPresent(user -> userDao.updateProfile(user, name, lastName, email, age));
         UserDto userDto = null;
         if (byLogin.isPresent()) {
-            userDto = convertToDto(byLogin.get());
+            final User updateUser = new User(byLogin.get().getId(), byLogin.get().getLogin(), byLogin.get().getRole(),
+                    name, lastName, age, email, byLogin.get().getPassword(), byLogin.get().getStatus(), byLogin.get().getAvatarPath());
+            userDto = convertToDto(updateUser);
         }
         return Optional.ofNullable(userDto);
     }
 
     @Override
-    public void appointRecruiter(String recruiterLogin) {
+    public boolean appointRecruiter(String recruiterLogin) {
+        boolean result = false;
         final Optional<User> recruiterOptional = userDao.findByLogin(recruiterLogin);
         if (recruiterOptional.isPresent()) {
             User recruiter = recruiterOptional.get();
             recruiter.setRole(Role.HR);
-            userDao.update(recruiter);
+            result = userDao.update(recruiter);
         }
+        return result;
     }
 
     @Override
-    public void banRecruiter(String recruiterLogin) {
+    public boolean banRecruiter(String recruiterLogin) {
+        boolean result = false;
         final Optional<User> recruiterOptional = userDao.findByLogin(recruiterLogin);
         if (recruiterOptional.isPresent()) {
             User recruiter = recruiterOptional.get();
             recruiter.setRole(Role.GUEST);
-            userDao.update(recruiter);
+            result = userDao.update(recruiter);
         }
+        return result;
     }
 
     @Override

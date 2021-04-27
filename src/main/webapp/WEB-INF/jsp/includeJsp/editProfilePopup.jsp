@@ -22,6 +22,9 @@
                 <a href="#close" title="Close" class="close">X</a>
             </div>
             <div class="modal-body">
+                <div class="avatar-container">
+                    <img class="avatar-image" src="${user.avatarPath}"/>
+                </div>
                 <form class="auth-input-form" method="post"
                       action="${pageContext.request.contextPath}/controller?command=edit_profile">
                     <p>
@@ -39,6 +42,9 @@
                     <p>
                         <input class="auth-input" type="text" name="age"
                                placeholder="<fmt:message key="page.profile.word.age"/>" required>
+                    </p>
+                    <p>
+                        <input class="auth-input" type="file" name="avatar" placeholder="<fmt:message key="page.profile.word.uploadAvatar"/>" required/>
                     </p>
                     <button class="common-button" type="submit">
                             <fmt:message key="page.profile.word.confirm"/>

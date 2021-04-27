@@ -111,7 +111,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User update(User object) {
+    public boolean update(User object) {
+        boolean result = false;
         try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
              final PreparedStatement statement = connection.prepareStatement(UPDATE_USER)) {
             statement.setString(1, object.getLogin());
@@ -124,10 +125,11 @@ public class UserDaoImpl implements UserDao {
             statement.setString(8, object.getStatus());
             statement.setString(9, String.valueOf(object.getId()));
             statement.executeUpdate();
+            result = true;
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
-        return object;
+        return result;
     }
 
     @Override
@@ -168,7 +170,7 @@ public class UserDaoImpl implements UserDao {
              final PreparedStatement statement = connection.prepareStatement(GET_USER_BY_ID_QUERY)) {
             statement.setInt(1, id);
             final ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 user = new User(resultSet.getInt("user_id"),
                         resultSet.getString("user_login"),
                         Role.defineRoleByName(resultSet.getString("user_role_name")),

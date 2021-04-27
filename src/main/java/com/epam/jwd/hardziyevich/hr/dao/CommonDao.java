@@ -1,8 +1,5 @@
 package com.epam.jwd.hardziyevich.hr.dao;
 
-import java.util.List;
-import java.util.Optional;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +32,7 @@ public interface CommonDao<T> {
      * @param object describes a model we want to replace with the same ID in the table
      * @return passed object
      */
-    T update(T object);
+    boolean update(T object);
 
     /**
      * Method is used to drop a model from table in database
@@ -44,4 +41,5 @@ public interface CommonDao<T> {
      * @return passed object
      */
     boolean delete(T object) throws SQLException;
+
 }

@@ -50,7 +50,7 @@ public interface UserService extends CommonService<User, UserDto> {
 
     Optional<UserDto> editProfileUser(String login, String name, String lastName, String email, Integer age);
 
-    void appointRecruiter(String recruiterLogin);
+    boolean appointRecruiter(String recruiterLogin);
 
-    void banRecruiter(String recruiterLogin);
+    boolean banRecruiter(String recruiterLogin);
 }
