@@ -14,6 +14,22 @@ public class User {
     private String password;
     private String status;
     private String avatarPath;
+    private String avatarImg;
+
+    public User(int id, String login, Role role, String firstName, String lastName, int age, String email,
+                String password, String status, String avatarPath, String avatarImg) {
+        this.id = id;
+        this.login = login;
+        this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.status = status;
+        this.avatarPath = avatarPath;
+        this.avatarImg = avatarImg;
+    }
 
     public User(int id, String login, Role role, String firstName, String lastName, int age,
                 String email, String password, String status, String avatarPath) {
@@ -150,5 +166,13 @@ public class User {
                 ", status='" + status + '\'' +
                 ", avatarPath='" + avatarPath + '\'' +
                 '}';
+    }
+
+    public String getAvatarImg() {
+        return avatarImg;
+    }
+
+    public void setAvatarImg(String avatarImg) {
+        this.avatarImg = avatarImg;
     }
 }

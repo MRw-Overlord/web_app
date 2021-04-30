@@ -28,19 +28,21 @@
     <fmt:message key="page.admin.input.companyName" var="companyName"/>
     <fmt:message key="page.vacancy.button.createVacancy" var="createVacancy"/>
     <fmt:message key="page.admin.input.title.name" var="nameTitle"/>
-    <form method="post" action="${pageContext.request.contextPath}/controller?command=create_vacancy" class="create-vacancy-form" accept-charset="UTF-8">
+    <form method="post" action="${pageContext.request.contextPath}/controller?command=create_vacancy"
+          class="create-vacancy-form" accept-charset="UTF-8">
         <input class="create-form-input secondary" type="text" name="${vacancyNameParam}"
-                placeholder="${vacancyName}" pattern=".{1,30}" title="${nameTitle}" required/>
+               placeholder="${vacancyName}" pattern=".{1,30}" title="${nameTitle}" required/>
         <input class="create-form-input secondary" type="text" name="${companyNameParam}"
                placeholder="${companyName}" pattern=".{1,30}" title="${nameTitle}" required/>
         <input class="create-form-input secondary create-form-textarea" name="${vacancyDescriptionParam}"
-                  placeholder="${vacancyDescription}" required/>
+               placeholder="${vacancyDescription}" required/>
         <input class="create-form-input secondary create-form-textarea" name="${vacancySkillsDescriptionParam}"
-                  placeholder="${vacancySkillsDescription}" required/>
+               placeholder="${vacancySkillsDescription}" required/>
 
         <input class="common-button" type="submit" value="${createVacancy}">
     </form>
 </div>
+<jsp:include page="includeJsp/popupCookie.jsp"/>
 <jsp:include page="includeJsp/footer.jsp"/>
 </body>
 </html>

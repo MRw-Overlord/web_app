@@ -15,6 +15,21 @@ public class UserDto {
     private Role role;
     private String status;
     private String avatarPath;
+    private String avatarImg;
+
+    public UserDto(int id, String login, String firstName, String lastName, int age,
+                   String email, Role role, String status, String avatarPath, String avatarImg) {
+        this.id = id;
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.role = role;
+        this.status = status;
+        this.avatarPath = avatarPath;
+        this.avatarImg = avatarImg;
+    }
 
     public UserDto(int id, String login, String firstName, String lastName, int age, String email, Role role, String status, String avatarPath) {
         this.id = id;
@@ -141,5 +156,13 @@ public class UserDto {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getAvatarImg() {
+        return avatarImg;
+    }
+
+    public void setAvatarImg(String avatarImg) {
+        this.avatarImg = avatarImg;
     }
 }

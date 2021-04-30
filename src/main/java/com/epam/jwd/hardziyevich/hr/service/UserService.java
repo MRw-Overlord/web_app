@@ -3,6 +3,12 @@ package com.epam.jwd.hardziyevich.hr.service;
 import com.epam.jwd.hardziyevich.hr.model.entity.User;
 import com.epam.jwd.hardziyevich.hr.model.entityDto.UserDto;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public interface UserService extends CommonService<User, UserDto> {
@@ -10,7 +16,7 @@ public interface UserService extends CommonService<User, UserDto> {
     /**
      * Method is used to validate user's login data.
      *
-     * @param login is a provided user's login
+     * @param login    is a provided user's login
      * @param password a provided user's password
      * @return Optional UserDto model
      */
@@ -53,4 +59,9 @@ public interface UserService extends CommonService<User, UserDto> {
     boolean appointRecruiter(String recruiterLogin);
 
     boolean banRecruiter(String recruiterLogin);
+
+    void setAvatarPath(String path, int id);
+
+    public void writeAvatarImg(InputStream inputStream, int userId, File image);
+
 }

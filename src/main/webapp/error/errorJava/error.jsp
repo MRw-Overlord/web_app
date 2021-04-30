@@ -9,13 +9,21 @@
 <fmt:setBundle basename="lang"/>
 <html>
 <head>
+    <link rel="apple-touch-icon" sizes="180x180"
+          href="${pageContext.request.contextPath}static/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+          href="${pageContext.request.contextPath}static/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+          href="${pageContext.request.contextPath}static/favicon/favicon-16x16.png">
     <meta charset="UTF-8">
     <title><fmt:message key="page.error.java.message.title"/></title>
     <link href="${pageContext.request.contextPath}/error/page/css/404.css" rel="stylesheet">
 </head>
 <body>
 <h1><fmt:message key="page.error.java.message"/></h1>
-<p><fmt:message key="page.error.java.type"/> <%= exception%></p>
-<p><fmt:message key="page.error.java.description"/> <%= message%></p>
+<p><fmt:message key="page.error.java.type"/> <%= exception%>
+</p>
+<p><fmt:message key="page.error.java.description"/> <%= message%>
+</p>
 </body>
 </html>

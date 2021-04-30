@@ -20,3 +20,18 @@
 .vacancies-container {
     max-width: 900px;
 }
+
+.container {
+    max-width: 900px;
+}
+
+.container-badge {
+    position: center;
+    min-width: 900px;
+    background-color: #F5F5F5;
+    border-radius: 30px;
+    color: #707070;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+}

@@ -27,10 +27,11 @@
 }
 
 
-
-
 .avatar-image {
     height: 150px;
     z-index: inherit;
 }
 
+.avatar-info {
+    position: relative;
+}

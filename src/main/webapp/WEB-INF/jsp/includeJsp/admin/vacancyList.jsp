@@ -6,7 +6,7 @@
 <fmt:setBundle basename="lang" />
 <html>
 <head>
-    <title>VacancyList</title>
+    <title><fmt:message key="page.title.vacancyList"/> </title>
 </head>
 <body>
 <c:if test="${not empty vacancies}">

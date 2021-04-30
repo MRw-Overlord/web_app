@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/navbar.css">
 </head>
 <body>
-<a href="#openModal" ><img src="styles/img/Cookies-Logo.jpg" width="90" height="50"></a>
+<a href="#openModal"><img src="styles/img/Cookies-Logo.jpg" width="90" height="50"></a>
 <div id="openModal" class="modal">
     <div class="modal-dialog">
         <div class="modal-content">

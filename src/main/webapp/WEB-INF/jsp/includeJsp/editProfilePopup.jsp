@@ -29,25 +29,29 @@
                       action="${pageContext.request.contextPath}/controller?command=edit_profile">
                     <p>
                         <input class="auth-input" type="text" name="name"
-                               placeholder="<fmt:message key="page.profile.word.name"/>" required>
+                               placeholder="<fmt:message key="page.profile.word.name"/>" required
+                               pattern="{1,30}">
                     </p>
                     <p>
                         <input class="auth-input" type="text" name="lastName"
-                               placeholder="<fmt:message key="page.profile.word.lastName"/>" required>
+                               placeholder="<fmt:message key="page.profile.word.lastName"/>" required
+                               pattern="{1,30}">
                     </p>
                     <p>
                         <input class="auth-input" type="text" name="email"
-                               placeholder="<fmt:message key="page.profile.word.email"/>" required>
+                               placeholder="<fmt:message key="page.profile.word.email"/>" required
+                               pattern="{1,30}">
                     </p>
                     <p>
                         <input class="auth-input" type="text" name="age"
-                               placeholder="<fmt:message key="page.profile.word.age"/>" required>
+                               placeholder="<fmt:message key="page.profile.word.age"/>" required
+                               pattern="[0-9]{1,3}" title="<fmt:message key="page.profile.patternAge"/>">
                     </p>
-                    <p>
+                    <%--<p>
                         <input class="auth-input" type="file" name="avatar" placeholder="<fmt:message key="page.profile.word.uploadAvatar"/>" required/>
-                    </p>
+                    </p>--%>
                     <button class="common-button" type="submit">
-                            <fmt:message key="page.profile.word.confirm"/>
+                        <fmt:message key="page.profile.word.confirm"/>
                     </button>
                 </form>
             </div>

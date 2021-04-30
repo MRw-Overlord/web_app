@@ -6,7 +6,7 @@
 <fmt:setBundle basename="lang"/>
 <html>
 <head>
-    <title>User Responses</title>
+    <title><fmt:message key="page.title.userResponseList"/></title>
     <link rel="apple-touch-icon" sizes="180x180"
           href="${pageContext.request.contextPath}/static/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32"
@@ -31,26 +31,24 @@
                         </p>
                         <div class="header admin-item-header">${user.login}</div>
                         <div class="admin-item-options">
-                            <a class="common-button-inline" href="${pageContext.request.contextPath}/controller?command=show_user_profile_page&login=${user.login}"><fmt:message key="common.navbar.profile" /></a>
-                            <%--<c:set var="user" value="${user}" scope="request"/>--%>
-                            <%--<c:import url="userProfilePopup.jsp"/>--%>
                             <script src="../../../../static/popup.js"></script>
-                            <a href="#openModal${count}"  class="btn">
+                            <a href="#openModal${count}" class="btn">
                                 <fmt:message key="common.navbar.profile"/>
                             </a>
                             <div id="openModal${count}" class="modal">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h3 class="modal-title"><fmt:message key="page.profile.word.editProfile"/></h3>
+                                            <h3 class="modal-title"><fmt:message
+                                                    key="page.profile.word.editProfile"/></h3>
                                             <a href="#close" title="Close" class="close">X</a>
                                         </div>
                                         <div class="avatar-container">
-                                            <img class="avatar-image" src="${user.avatarPath}"/>
+                                            <img class="avatar-image" src="data:image/jpeg;base64,${user.avatarImg}"/>
                                         </div>
                                         <div class="modal-body">
                                             <div class="user-info">
-                                                <div class="header"><c:out value="${user.login}" />
+                                                <div class="header"><c:out value="${user.login}"/>
 
                                                     <div class="description">
                                                         <fmt:message key="page.profile.word.name"/>
@@ -107,6 +105,7 @@
         </c:if>
     </div>
 </div>
+<jsp:include page="../popupCookie.jsp"/>
 <jsp:include page="../footer.jsp"/>
 </body>
 </html>

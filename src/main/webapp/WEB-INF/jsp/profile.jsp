@@ -23,8 +23,17 @@
 <div class="page-content">
     <div class="profile-content">
         <div class="user-info">
-            <div class="avatar-container">
-                <img class="avatar-image" src="${user.avatarPath}"/>
+            <div class="avatar-info">
+                <div class="avatar-container">
+                    <img class="avatar-image" src="data:image/jpeg;base64,${user.avatarImg}"/>
+                </div>
+                <div>
+                    <form enctype="multipart/form-data" method="post"
+                          action="${pageContext.request.contextPath}/controller?command=upload_avatar&login=${user.login}">
+                        <p><input type="file" name="photo" accept="image/jpeg,image/png">
+                            <input type="submit" value="<fmt:message key="page.profile.word.uploadAvatar"/>"></p>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="user-info">
@@ -70,6 +79,7 @@
         </div>
     </div>
 </div>
+<jsp:include page="includeJsp/popupCookie.jsp"/>
 <jsp:include page="includeJsp/footer.jsp"/>
 </body>
 </html>

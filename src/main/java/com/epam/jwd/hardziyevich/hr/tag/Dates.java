@@ -7,7 +7,8 @@ public final class Dates {
 
     public static final String DATE_TIME_PATTERN = "dd.MM.yyyy hh:mm";
 
-    private Dates() {}
+    private Dates() {
+    }
 
     public static String formatLocalDateTime(LocalDateTime localDateTime) {
         return localDateTime.format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN));

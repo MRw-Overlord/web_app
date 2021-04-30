@@ -36,7 +36,7 @@
             </div>
             <div class="modal-body">
                 <div class="user-info">
-                    <div class="header"><c:out value="${user.login}" />
+                    <div class="header"><c:out value="${user.login}"/>
 
                         <div class="description">
                             <fmt:message key="page.profile.word.name"/>

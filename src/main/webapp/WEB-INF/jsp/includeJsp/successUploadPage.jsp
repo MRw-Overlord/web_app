@@ -20,30 +20,19 @@
 </head>
 
 <body>
-<jsp:include page="includeJsp/navbar.jsp"/>
+<jsp:include page="navbar.jsp"/>
+
 <div class="page-content">
-    <c:if test="${not empty requestScope.relevantVacancies}">
-        <div class="vacancies-container">
-            <c:forEach var="vacancy" items="${requestScope.relevantVacancies}">
-                <div class="badge">
-                    <div class="header">
-                        <a class="badge-link"
-                           href="${pageContext.request.contextPath}/controller?command=show_vacancy_page&id=${vacancy.vacancyId}">
-                            <c:out value="${vacancy.vacancyName}"/>
-                        </a>
-                    </div>
-                    <div class="description"><c:out value="${vacancy.description}"/></div>
-                    <div class="secondary">
-                        <div class="secondary-input">
-                            <c:out value="${vacancy.companyName}"/></div>
-                    </div>
-                </div>
-            </c:forEach>
+    <div class="container">
+        <div class="container-badge">
+            <div class="header">
+                <fmt:message key="page.profile.word.avatarUploadedSuccssesfully"/>
+            </div>
         </div>
-    </c:if>
+    </div>
 </div>
 
-<jsp:include page="includeJsp/popupCookie.jsp"/>
-<jsp:include page="includeJsp/footer.jsp"/>
+<jsp:include page="popupCookie.jsp"/>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

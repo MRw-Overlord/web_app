@@ -1,8 +1,13 @@
 package com.epam.jwd.hardziyevich.hr.dao;
 
 
+import com.epam.jwd.hardziyevich.hr.exception.UploadAvatarPathException;
+import com.epam.jwd.hardziyevich.hr.exception.WriteAvatarImgDbException;
 import com.epam.jwd.hardziyevich.hr.model.entity.User;
 
+import java.io.File;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.util.Optional;
 
 /**
@@ -21,4 +26,9 @@ public interface UserDao extends CommonDao<User> {
 
     Optional<User> findById(int id);
 
+    void uploadAvatarPath(int userId, String avatarPath) throws UploadAvatarPathException;
+
+    void writeAvatarImgtoDb(InputStream inputStream, int userId, File image) throws WriteAvatarImgDbException;
+
+    Blob getAvatarImg(int userId);
 }

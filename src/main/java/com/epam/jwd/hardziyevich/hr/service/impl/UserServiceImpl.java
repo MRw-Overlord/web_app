@@ -2,19 +2,36 @@ package com.epam.jwd.hardziyevich.hr.service.impl;
 
 import com.epam.jwd.hardziyevich.hr.dao.impl.UserDaoImpl;
 import com.epam.jwd.hardziyevich.hr.exception.UnknownEntityException;
+import com.epam.jwd.hardziyevich.hr.exception.UploadAvatarPathException;
+import com.epam.jwd.hardziyevich.hr.exception.WriteAvatarImgDbException;
 import com.epam.jwd.hardziyevich.hr.model.entity.Role;
 import com.epam.jwd.hardziyevich.hr.model.entity.User;
 import com.epam.jwd.hardziyevich.hr.model.entityDto.UserDto;
 import com.epam.jwd.hardziyevich.hr.pool.ActiveUserPool;
 import com.epam.jwd.hardziyevich.hr.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 public class UserServiceImpl implements UserService {
+    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
     private static UserServiceImpl instance = null;
 
     public static final String ANTIHACK_PASSWARD = "$2a$10$Z6P43xL3xPINRYG6pPwxxunfz53zO9jZ6gC.HDtzkQoQNXh52Prry";
@@ -142,10 +159,29 @@ public class UserServiceImpl implements UserService {
         return new UserDto(user.getId(), user.getLogin(),
                 user.getFirstName(), user.getLastName(),
                 user.getAge(), user.getEmail(), user.getRole(),
-                user.getStatus(), user.getAvatarPath());
+                user.getStatus(), user.getAvatarPath(), user.getAvatarImg());
     }
 
     public void setUserDao(UserDaoImpl userDao) {
         this.userDao = userDao;
+    }
+
+    public void setAvatarPath(String path, int id){
+        try {
+            userDao.uploadAvatarPath(id, path);
+        } catch (UploadAvatarPathException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void writeAvatarImg(InputStream inputStream, int userId, File image) {
+        try {
+            userDao.writeAvatarImgtoDb(inputStream, userId, image);
+        } catch (WriteAvatarImgDbException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

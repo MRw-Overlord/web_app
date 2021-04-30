@@ -1187,11 +1187,11 @@ vacancy_id</ColNames>
     </column>
     <column id="328" parent="291" name="avatarPath">
       <Position>6</Position>
-      <DataType>varchar(50)|0s</DataType>
+      <DataType>varchar(100)|0s</DataType>
     </column>
     <column id="329" parent="291" name="avatarImg">
       <Position>7</Position>
-      <DataType>blob|0s</DataType>
+      <DataType>longblob|0s</DataType>
     </column>
     <index id="330" parent="291" name="fk_user_info_user_table1_idx">
       <ColNames>user_id</ColNames>

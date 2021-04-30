@@ -25,6 +25,7 @@ import com.epam.jwd.hardziyevich.hr.command.specificCommand.LogoutCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.SignUpCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.UnbanUserCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.UpdateVacancyCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.UploadAvatarCommand;
 
 public enum CommandManager {
     LOGIN(LoginCommand.getInstance()),
@@ -51,7 +52,8 @@ public enum CommandManager {
     SHOW_FORBIDDEN_PAGE(ShowForbiddenPageCommand.getInstance()),
     APPLY_VACANCY(ApplyVacancyCommand.getInstance()),
     SHOW_USERS_RESPONSES_PAGE(ShowUsersResponsesPage.getInstance()),
-    SHOW_USER_PROFILE_PAGE(ShowUserProfilePageCommand.getInstance());
+    SHOW_USER_PROFILE_PAGE(ShowUserProfilePageCommand.getInstance()),
+    UPLOAD_AVATAR(UploadAvatarCommand.getInstance());
 
 
     private final Command command;

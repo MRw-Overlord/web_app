@@ -1,13 +1,25 @@
 package com.epam.jwd.hardziyevich.hr.dao.impl;
 
 import com.epam.jwd.hardziyevich.hr.dao.UserDao;
+import com.epam.jwd.hardziyevich.hr.exception.UploadAvatarPathException;
+import com.epam.jwd.hardziyevich.hr.exception.WriteAvatarImgDbException;
 import com.epam.jwd.hardziyevich.hr.model.entity.Role;
 import com.epam.jwd.hardziyevich.hr.model.entity.User;
 import com.epam.jwd.hardziyevich.hr.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
+import sun.misc.BASE64Encoder;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,11 +30,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
-    private static final String GET_USER_BY_ID_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath\n" +
+    private static final String GET_USER_BY_ID_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath, avatarImg\n" +
             "from user_table\n" +
             "JOIN user_info\n" +
             "ON user_table.user_id = user_info.user_id\n" +
             "WHERE user_table.user_id= ?";
+    public static final String DEFAULT_AVATAR_JPG = "F:/Work/EPAM/HR/src/main/webapp/static/userAvatarDump/DefaultAvatar.jpg";
     private static UserDaoImpl instance = null;
 
     private UserDaoImpl() {
@@ -36,12 +49,12 @@ public class UserDaoImpl implements UserDao {
         return instance;
     }
 
-    public static final String GET_ALL_USERS_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath\n" +
+    public static final String GET_ALL_USERS_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath, avatarImg\n" +
             "from user_table\n" +
             "JOIN user_info\n" +
             "ON user_table.user_id = user_info.user_id";
 
-    public static final String GET_USER_BY_LOGIN_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath\n" +
+    public static final String GET_USER_BY_LOGIN_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath, avatarImg\n" +
             "from user_table\n" +
             "JOIN user_info\n" +
             "ON user_table.user_id = user_info.user_id\n" +
@@ -87,9 +100,10 @@ public class UserDaoImpl implements UserDao {
                         resultSet.getString("user_email"),
                         resultSet.getString("user_password"),
                         resultSet.getString("user_status"),
-                        resultSet.getString("avatarPath")));
+                        resultSet.getString("avatarPath"),
+                        getAvatar(resultSet)));
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             logger.error(e.getMessage());
         }
         return Optional.of(users);
@@ -155,9 +169,10 @@ public class UserDaoImpl implements UserDao {
                         resultSet.getString("user_email"),
                         resultSet.getString("user_password"),
                         resultSet.getString("user_status"),
-                        resultSet.getString("avatarPath"));
+                        resultSet.getString("avatarPath"),
+                        getAvatar(resultSet));
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             logger.error(e.getMessage());
         }
         return Optional.ofNullable(user);
@@ -180,14 +195,110 @@ public class UserDaoImpl implements UserDao {
                         resultSet.getString("user_email"),
                         resultSet.getString("user_password"),
                         resultSet.getString("user_status"),
-                        resultSet.getString("avatarPath"));
+                        resultSet.getString("avatarPath"),
+                        getAvatar(resultSet));
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             logger.error(e.getMessage());
             e.printStackTrace();
         }
         return Optional.ofNullable(user);
     }
 
-}
+    private String getAvatar(ResultSet resultSet) throws SQLException, IOException {
+        String avatarImg = null;
+        Blob blob = resultSet.getBlob("avatarImg");
+        avatarImg = getStringImg(avatarImg, blob);
+        return avatarImg;
+    }
 
+    private String getStringImg(String avatarImg, Blob blob) throws SQLException, IOException {
+        if(blob != null ){
+            final InputStream binaryStream = blob.getBinaryStream();
+            final BufferedImage read = ImageIO.read(binaryStream);
+            if(read != null){
+                avatarImg = encodeToString(read);
+            }
+        } else {
+            File file = new File(DEFAULT_AVATAR_JPG);
+            final InputStream binaryStream = new FileInputStream(file);
+            final BufferedImage read = ImageIO.read(binaryStream);
+            if(read != null){
+                avatarImg = encodeToString(read);
+            }
+        }
+        return avatarImg;
+    }
+
+    private String encodeToString(BufferedImage image) {
+        String base64String = null;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(image, "jpg", bos);
+            byte[] imageBytes = bos.toByteArray();
+            BASE64Encoder encoder = new BASE64Encoder();
+            base64String = encoder.encode(imageBytes);
+            bos.close();
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return base64String;
+    }
+
+    public void uploadAvatarPath(int userId, String avatarPath) throws UploadAvatarPathException {
+        boolean result = false;
+        try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             final PreparedStatement statement = connection.prepareStatement("UPDATE user_info SET avatarPath=? WHERE user_id=?; ")) {
+            statement.setInt(2, userId);
+            statement.setString(1, avatarPath);
+            statement.executeUpdate();
+            result = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(!result){
+            throw new UploadAvatarPathException(userId);
+        }
+    }
+
+    @Override
+    public void writeAvatarImgtoDb(InputStream inputStream, int userId, File image) throws WriteAvatarImgDbException {
+        boolean result = false;
+        try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             final PreparedStatement statement = connection.prepareStatement("UPDATE user_info SET avatarImg=? WHERE user_id=?; ")) {
+            statement.setInt(2, userId);
+            BufferedImage image1 = ImageIO.read(image);
+            Blob blob = connection.createBlob();
+            try(OutputStream outputStream = blob.setBinaryStream(1)){
+                ImageIO.write(image1, "jpg", outputStream);
+            };
+            statement.setBlob(1, blob);
+            statement.executeUpdate();
+            result = true;
+        } catch (SQLException | IOException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+        if(!result){
+            throw new WriteAvatarImgDbException(userId);
+        }
+    }
+
+    @Override
+    public Blob getAvatarImg(int userId) {
+        Blob blob = null;
+        try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             final PreparedStatement statement = connection.prepareStatement("SELECT avatarImg from user_info WHERE user_id=?; ")) {
+            statement.setInt(1, userId);
+            final ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                blob = resultSet.getBlob("avatarImg");
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return blob;
+    }
+}

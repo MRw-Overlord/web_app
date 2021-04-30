@@ -1,7 +1,11 @@
 package com.epam.jwd.hardziyevich.hr.command;
 
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
@@ -11,8 +15,14 @@ public class WrappingRequestContext implements RequestContext {
 
     private final HttpServletRequest request;
 
+
     private WrappingRequestContext(HttpServletRequest request) {
         this.request = request;
+    }
+
+
+    public ServletRequest getRequest() {
+        return this.request;
     }
 
     @Override
@@ -66,6 +76,15 @@ public class WrappingRequestContext implements RequestContext {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Part getPart(String name) throws IOException, ServletException {
+        return request.getPart(name);
+    }
+
+    private HttpServletRequest _getHttpServletRequest() {
+        return (HttpServletRequest)this.getRequest();
     }
 
     public static RequestContext of(HttpServletRequest request) {

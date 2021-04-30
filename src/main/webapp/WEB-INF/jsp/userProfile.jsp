@@ -24,7 +24,7 @@
     <div class="profile-content">
         <div class="user-info">
             <div class="avatar-container">
-                <img class="avatar-image" src="${user.avatarPath}"/>
+                <img class="avatar-image" src="data:image/jpeg;base64,${user.avatarImg}"/>
             </div>
         </div>
         <div class="user-info">
@@ -69,6 +69,7 @@
         </div>
     </div>
 </div>
+<jsp:include page="includeJsp/popupCookie.jsp"/>
 <jsp:include page="includeJsp/footer.jsp"/>
 </body>
 </html>
