@@ -36,6 +36,9 @@ public class UserDaoImpl implements UserDao {
             "ON user_table.user_id = user_info.user_id\n" +
             "WHERE user_table.user_id= ?";
     public static final String DEFAULT_AVATAR_JPG = "F:/Work/EPAM/HR/src/main/webapp/static/userAvatarDump/DefaultAvatar.jpg";
+    public static final String DELETE_USER_FROMDB_QUARE = "DELETE from user_table where user_id=?";
+    public static final String SET_USER_AVATAR_PATH = "UPDATE user_info SET avatarPath=? WHERE user_id=?";
+    private static String DEFAULT_ENCODE_AVATAR_STRING;
     private static UserDaoImpl instance = null;
 
     private UserDaoImpl() {
@@ -45,6 +48,13 @@ public class UserDaoImpl implements UserDao {
     public static UserDaoImpl getInstance() {
         if (instance == null) {
             instance = new UserDaoImpl();
+            File file = new File(DEFAULT_AVATAR_JPG);
+            try (final InputStream binaryStream = new FileInputStream(file)) {
+                final BufferedImage read = ImageIO.read(binaryStream);
+                DEFAULT_ENCODE_AVATAR_STRING = encodeToString(read);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return instance;
     }
@@ -117,7 +127,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2, lastName);
             statement.setString(3, email);
             statement.setInt(4, age);
-            statement.setInt(5, (int) object.getId());
+            statement.setInt(5, object.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e.getMessage());
@@ -148,8 +158,24 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean delete(User object) {
-        //todo: implement the function of deleting a user from the database
-        return false;
+        boolean result = false;
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             final PreparedStatement deleteUser = connection.prepareStatement(DELETE_USER_FROMDB_QUARE)) {
+            connection.setAutoCommit(false);
+            try {
+                deleteUser.setInt(1, object.getId());
+                deleteUser.executeUpdate();
+                connection.commit();
+                result = true;
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
@@ -213,24 +239,20 @@ public class UserDaoImpl implements UserDao {
     }
 
     private String getStringImg(String avatarImg, Blob blob) throws SQLException, IOException {
-        if(blob != null ){
-            final InputStream binaryStream = blob.getBinaryStream();
-            final BufferedImage read = ImageIO.read(binaryStream);
-            if(read != null){
-                avatarImg = encodeToString(read);
+        if (blob != null) {
+            try (final InputStream binaryStream = blob.getBinaryStream()) {
+                final BufferedImage read = ImageIO.read(binaryStream);
+                if (read != null) {
+                    avatarImg = encodeToString(read);
+                }
             }
         } else {
-            File file = new File(DEFAULT_AVATAR_JPG);
-            final InputStream binaryStream = new FileInputStream(file);
-            final BufferedImage read = ImageIO.read(binaryStream);
-            if(read != null){
-                avatarImg = encodeToString(read);
-            }
+            avatarImg = DEFAULT_ENCODE_AVATAR_STRING;
         }
         return avatarImg;
     }
 
-    private String encodeToString(BufferedImage image) {
+    private static String encodeToString(BufferedImage image) {
         String base64String = null;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
@@ -249,7 +271,7 @@ public class UserDaoImpl implements UserDao {
     public void uploadAvatarPath(int userId, String avatarPath) throws UploadAvatarPathException {
         boolean result = false;
         try (final Connection connection = ConnectionPool.getInstance().retrieveConnection();
-             final PreparedStatement statement = connection.prepareStatement("UPDATE user_info SET avatarPath=? WHERE user_id=?; ")) {
+             final PreparedStatement statement = connection.prepareStatement(SET_USER_AVATAR_PATH)) {
             statement.setInt(2, userId);
             statement.setString(1, avatarPath);
             statement.executeUpdate();
@@ -257,7 +279,7 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(!result){
+        if (!result) {
             throw new UploadAvatarPathException(userId);
         }
     }
@@ -270,9 +292,9 @@ public class UserDaoImpl implements UserDao {
             statement.setInt(2, userId);
             BufferedImage image1 = ImageIO.read(image);
             Blob blob = connection.createBlob();
-            try(OutputStream outputStream = blob.setBinaryStream(1)){
+            try (OutputStream outputStream = blob.setBinaryStream(1)) {
                 ImageIO.write(image1, "jpg", outputStream);
-            };
+            }
             statement.setBlob(1, blob);
             statement.executeUpdate();
             result = true;
@@ -280,7 +302,7 @@ public class UserDaoImpl implements UserDao {
             logger.error(e.getMessage());
             e.printStackTrace();
         }
-        if(!result){
+        if (!result) {
             throw new WriteAvatarImgDbException(userId);
         }
     }
@@ -292,7 +314,7 @@ public class UserDaoImpl implements UserDao {
              final PreparedStatement statement = connection.prepareStatement("SELECT avatarImg from user_info WHERE user_id=?; ")) {
             statement.setInt(1, userId);
             final ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 blob = resultSet.getBlob("avatarImg");
             }
         } catch (SQLException e) {

@@ -31,7 +31,7 @@
                                     <a href="#close" title="Close" class="close">X</a>
                                 </div>
                                 <div class="avatar-container">
-                                    <img class="avatar-image" src="${user.avatarPath}"/>
+                                    <img class="avatar-image" src="data:image/jpeg;base64,${user.avatarImg}"/>
                                 </div>
                                 <div class="modal-body">
                                     <div class="user-info">

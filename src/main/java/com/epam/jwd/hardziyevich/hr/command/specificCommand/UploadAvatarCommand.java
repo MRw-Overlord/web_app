@@ -59,6 +59,7 @@ public class UploadAvatarCommand implements Command {
                 userService.setAvatarPath("/static/" + fileName, user.get().getId());
                 userService.writeAvatarImg(inputStream, user.get().getId(), new File(PATH_AVATAR_IMG + fileName));
             }
+            inputStream.close();
         } catch (IOException | ServletException e) {
             e.printStackTrace();
         }

@@ -5,6 +5,7 @@ import com.epam.jwd.hardziyevich.hr.command.RequestContext;
 import com.epam.jwd.hardziyevich.hr.command.ResponseContext;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowAdminPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowEditVacancyPageCommand;
+import com.epam.jwd.hardziyevich.hr.command.page.ShowMainPageCommand;
 import com.epam.jwd.hardziyevich.hr.model.entity.Status;
 import com.epam.jwd.hardziyevich.hr.service.VacancyService;
 import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
@@ -42,7 +43,7 @@ public class UpdateVacancyCommand implements Command {
             requestContext.setAttribute("companyName", companyName);
             requestContext.setAttribute("description", description);
             requestContext.setAttribute("skillsDescription", skillsDescription);
-            responseResult = ShowAdminPageCommand.getInstance().execute(requestContext);
+            responseResult = ShowMainPageCommand.getInstance().execute(requestContext);
         }
         return responseResult;
     }
