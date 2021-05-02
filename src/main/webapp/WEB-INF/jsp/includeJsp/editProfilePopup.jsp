@@ -22,9 +22,6 @@
                 <a href="#close" title="Close" class="close">X</a>
             </div>
             <div class="modal-body">
-                <div class="avatar-container">
-                    <img class="avatar-image" src="${user.avatarPath}"/>
-                </div>
                 <form class="auth-input-form" method="post"
                       action="${pageContext.request.contextPath}/controller?command=edit_profile">
                     <p>

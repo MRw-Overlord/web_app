@@ -19,6 +19,7 @@ import com.epam.jwd.hardziyevich.hr.command.specificCommand.AppointRecruiterComm
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.BanRecruiterCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.BanUserCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.CreateVacancyCommand;
+import com.epam.jwd.hardziyevich.hr.command.specificCommand.DeleteUserCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.DeleteVacancyCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.EditProfileCommand;
 import com.epam.jwd.hardziyevich.hr.command.specificCommand.LoginCommand;
@@ -55,7 +56,8 @@ public enum CommandManager {
     SHOW_USERS_RESPONSES_PAGE(ShowUsersResponsesPage.getInstance()),
     SHOW_USER_PROFILE_PAGE(ShowUserProfilePageCommand.getInstance()),
     UPLOAD_AVATAR(UploadAvatarCommand.getInstance()),
-    SHOW_RESULT_VACANCY_SEARCH_PAGE(ShowResultVacancySearchPage.getInstance());
+    SHOW_RESULT_VACANCY_SEARCH_PAGE(ShowResultVacancySearchPage.getInstance()),
+    DELETE_USER(DeleteUserCommand.getInstance());
 
 
     private final Command command;

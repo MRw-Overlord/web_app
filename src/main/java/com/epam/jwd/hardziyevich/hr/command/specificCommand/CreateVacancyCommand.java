@@ -28,7 +28,7 @@ public class CreateVacancyCommand implements Command {
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {
-        ResponseContext responseResult = null; // todo: exception error create!
+        ResponseContext responseResult = null;
         final String vacancyName = String.valueOf(requestContext.getParameter("vacancyName"));
         final String companyName = String.valueOf(requestContext.getParameter("companyName"));
         final String description = String.valueOf(requestContext.getParameter("description"));

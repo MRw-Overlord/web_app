@@ -1,7 +1,7 @@
 package com.epam.jwd.hardziyevich.hr.service.impl;
 
 import com.epam.jwd.hardziyevich.hr.dao.impl.UserDaoImpl;
-import com.epam.jwd.hardziyevich.hr.exception.UnknownEntityException;
+import com.epam.jwd.hardziyevich.hr.exception.DeleteUserException;
 import com.epam.jwd.hardziyevich.hr.exception.UploadAvatarPathException;
 import com.epam.jwd.hardziyevich.hr.exception.WriteAvatarImgDbException;
 import com.epam.jwd.hardziyevich.hr.model.entity.Role;
@@ -13,18 +13,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -182,6 +172,23 @@ public class UserServiceImpl implements UserService {
         } catch (WriteAvatarImgDbException e) {
             logger.error(e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int userId) {
+        final Optional<User> byId = userDao.findById(userId);
+        boolean result = false;
+        if(byId.isPresent()){
+          result = userDao.delete(byId.get());
+        }
+        if(!result){
+            try {
+                throw new DeleteUserException(userId);
+            } catch (DeleteUserException e) {
+                logger.error(e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 }

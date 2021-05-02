@@ -29,6 +29,6 @@ public class DeleteVacancyCommand implements Command {
     public ResponseContext execute(RequestContext requestContext) {
         final int vacancyId = Integer.parseInt(requestContext.getParameter("id"));
         vacancyService.delete(vacancyId);
-        return ShowRecruiterPageCommand.getInstance().execute(requestContext);
+        return ShowMainPageCommand.getInstance().execute(requestContext);
     }
 }
