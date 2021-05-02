@@ -22,20 +22,9 @@
 <body>
 <jsp:include page="includeJsp/navbar.jsp"/>
 <div class="page-content">
-    <c:if test="${not empty requestScope.relevantVacancies}">
+    <c:if test="${not empty requestScope.searchResult}">
         <div class="vacancies-container">
-
-            <form class="search"
-                  action="${pageContext.request.contextPath}/controller?command=show_result_vacancy_search_page"
-                  method="post">
-                <label>
-                    <input class="search" type="search" name="vacancySearch"
-                           placeholder="<fmt:message key="page.main.input.vacancySearch"/>"/>
-                </label>
-                <button class="search" type="submit"><i class="fa fa-search"></i></button>
-            </form>
-
-            <c:forEach var="vacancy" items="${requestScope.relevantVacancies}">
+                        <c:forEach var="vacancy" items="${requestScope.searchResult}">
                 <div class="badge">
                     <div class="header">
                         <a class="badge-link"
@@ -53,7 +42,6 @@
         </div>
     </c:if>
 </div>
-
 <jsp:include page="includeJsp/popupCookie.jsp"/>
 <jsp:include page="includeJsp/footer.jsp"/>
 </body>

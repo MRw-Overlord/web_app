@@ -9,6 +9,7 @@ import com.epam.jwd.hardziyevich.hr.command.page.ShowMainPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowNotFoundPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowProfilePageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowRecruiterPageCommand;
+import com.epam.jwd.hardziyevich.hr.command.page.ShowResultVacancySearchPage;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowSignUpPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowUserProfilePageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowUsersResponsesPage;
@@ -53,7 +54,8 @@ public enum CommandManager {
     APPLY_VACANCY(ApplyVacancyCommand.getInstance()),
     SHOW_USERS_RESPONSES_PAGE(ShowUsersResponsesPage.getInstance()),
     SHOW_USER_PROFILE_PAGE(ShowUserProfilePageCommand.getInstance()),
-    UPLOAD_AVATAR(UploadAvatarCommand.getInstance());
+    UPLOAD_AVATAR(UploadAvatarCommand.getInstance()),
+    SHOW_RESULT_VACANCY_SEARCH_PAGE(ShowResultVacancySearchPage.getInstance());
 
 
     private final Command command;
