@@ -31,7 +31,7 @@
     <form method="post" action="${pageContext.request.contextPath}/controller?command=create_vacancy"
           class="create-vacancy-form" accept-charset="UTF-8">
         <input class="create-form-input secondary" type="text" name="${vacancyNameParam}"
-               placeholder="${vacancyName}" pattern=".{1,30}" title="${nameTitle}" required/>
+               placeholder="${vacancyName}" pattern=".{1,50}" title="${nameTitle}" required/>
         <input class="create-form-input secondary" type="text" name="${companyNameParam}"
                placeholder="${companyName}" pattern=".{1,30}" title="${nameTitle}" required/>
         <input class="create-form-input secondary create-form-textarea" name="${vacancyDescriptionParam}"

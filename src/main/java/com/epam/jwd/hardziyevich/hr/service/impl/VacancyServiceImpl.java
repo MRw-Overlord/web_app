@@ -51,9 +51,8 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public boolean create(String vacancyName, String companyName, String description, String skillsDescription, Status status) {
-        if (vacancyName.length() > 30 || vacancyName.isEmpty() || description.length() > 500
+        if (vacancyName.length() > 30 || vacancyName.isEmpty()
                 || companyName.length() > 30
-                || skillsDescription.length() > 500
                 || status == null) {
             return false;
         }

@@ -21,10 +21,20 @@
 
 <body>
 <jsp:include page="includeJsp/navbar.jsp"/>
+<c:if test="${empty requestScope.searchResult}">
+    <div class="badgeerror">
+        <div class="header">
+            <a class="badge-link"
+               href="${pageContext.request.contextPath}/controller?command=show_main_page_command">
+                <fmt:message key="page.main.oopsNothingFound"/>
+            </a>
+        </div>
+    </div>
+</c:if>
 <div class="page-content">
     <c:if test="${not empty requestScope.searchResult}">
         <div class="vacancies-container">
-                        <c:forEach var="vacancy" items="${requestScope.searchResult}">
+            <c:forEach var="vacancy" items="${requestScope.searchResult}">
                 <div class="badge">
                     <div class="header">
                         <a class="badge-link"
@@ -42,6 +52,7 @@
         </div>
     </c:if>
 </div>
+
 <jsp:include page="includeJsp/popupCookie.jsp"/>
 <jsp:include page="includeJsp/footer.jsp"/>
 </body>

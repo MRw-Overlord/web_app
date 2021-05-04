@@ -39,6 +39,7 @@ public class UserServiceImplTest {
     UserDaoImpl userDaoMock;
     @Mock
     BCrypt bCryptMock;
+
     User user;
     List<User> userList;
     UserDto userDto;
@@ -135,8 +136,13 @@ public class UserServiceImplTest {
 
 
     @Test
-    public void loginUser() {
+    public void loginUserPositive() {
+//        Mockito.when(BCrypt.checkpw(USER_PASSWORD, user.getPassword())).thenReturn(true);
 
+        Mockito.when(userDaoMock.findByLogin(USER_LOGIN)).thenReturn(Optional.of(user));
+        final Optional<UserDto> actual = userService.loginUser(USER_LOGIN, USER_PASSWORD);
+        final Optional<UserDto> expected = Optional.of(userDto);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
