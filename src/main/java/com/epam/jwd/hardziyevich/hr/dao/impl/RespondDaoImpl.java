@@ -23,7 +23,7 @@ public class RespondDaoImpl implements RespondDao {
     private static final String CREATE_RESPONSE_VACANCY_QUERY = "insert into respond_vacancy (respond_id, vacancy_id) values (?, ?)";
     private static final String FIND_ALL_RESPOND_VACANCY = "select * from respond_vacancy";
     public static final String FIND_USERS_ID_BY_ID_VACANCY = "SELECT user_id from respond join respond_vacancy rv on respond.respond_id = rv.respond_id where vacancy_id = ?";
-    private static RespondDaoImpl instance = null;
+    private static volatile RespondDaoImpl instance = null;
 
     private RespondDaoImpl() {
 
@@ -31,7 +31,11 @@ public class RespondDaoImpl implements RespondDao {
 
     public static RespondDaoImpl getInstance() {
         if (instance == null) {
-            instance = new RespondDaoImpl();
+            synchronized (RespondDaoImpl.class) {
+                if (instance == null) {
+                    instance = new RespondDaoImpl();
+                }
+            }
         }
         return instance;
     }

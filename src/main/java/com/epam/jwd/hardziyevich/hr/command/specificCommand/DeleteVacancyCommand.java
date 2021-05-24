@@ -10,7 +10,7 @@ import com.epam.jwd.hardziyevich.hr.service.VacancyService;
 import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
 
 public class DeleteVacancyCommand implements Command {
-    private static DeleteVacancyCommand instance = null;
+    private static volatile DeleteVacancyCommand instance = null;
 
     private DeleteVacancyCommand(){
 
@@ -18,7 +18,11 @@ public class DeleteVacancyCommand implements Command {
 
     public static DeleteVacancyCommand getInstance(){
         if(instance == null){
-            instance = new DeleteVacancyCommand();
+            synchronized (DeleteUserCommand.class) {
+                if (instance == null) {
+                    instance = new DeleteVacancyCommand();
+                }
+            }
         }
         return instance;
     }

@@ -31,7 +31,7 @@ public class UploadAvatarCommand implements Command {
         }
     };
     public static final String PATH_AVATAR_IMG = "F:/Work/EPAM/HR/src/main/webapp/static/userAvatarDump/";
-    private static UploadAvatarCommand instance = null;
+    private static volatile UploadAvatarCommand instance = null;
 
     private UploadAvatarCommand() {
 
@@ -39,7 +39,11 @@ public class UploadAvatarCommand implements Command {
 
     public static UploadAvatarCommand getInstance() {
         if (instance == null) {
-            instance = new UploadAvatarCommand();
+            synchronized (UploadAvatarCommand.class) {
+                if (instance == null) {
+                    instance = new UploadAvatarCommand();
+                }
+            }
         }
         return instance;
     }

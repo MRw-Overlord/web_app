@@ -11,15 +11,19 @@ import com.epam.jwd.hardziyevich.hr.service.impl.UserServiceImpl;
 import java.util.Optional;
 
 public class DeleteUserCommand implements Command {
-    private static DeleteUserCommand instance = null;
+    private static volatile DeleteUserCommand instance = null;
 
     private DeleteUserCommand(){
 
     }
 
     public static DeleteUserCommand getInstance(){
-        if(instance == null){
-            instance = new DeleteUserCommand();
+        if(instance == null) {
+            synchronized (DeleteUserCommand.class) {
+                if (instance == null) {
+                    instance = new DeleteUserCommand();
+                }
+            }
         }
         return instance;
     }

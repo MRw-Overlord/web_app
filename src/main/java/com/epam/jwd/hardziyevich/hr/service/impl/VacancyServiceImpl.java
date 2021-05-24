@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class VacancyServiceImpl implements VacancyService {
-    private static VacancyServiceImpl instance = null;
+    private static volatile VacancyServiceImpl instance = null;
     private VacancyDao vacancyDao;
 
     private VacancyServiceImpl(VacancyDaoImpl vacancyDao) {
@@ -24,7 +24,11 @@ public class VacancyServiceImpl implements VacancyService {
 
     public static VacancyServiceImpl getInstance() {
         if (instance == null) {
-            instance = new VacancyServiceImpl(VacancyDaoImpl.getInstance());
+            synchronized (VacancyServiceImpl.class) {
+                if (instance == null) {
+                    instance = new VacancyServiceImpl(VacancyDaoImpl.getInstance());
+                }
+            }
         }
         return instance;
     }

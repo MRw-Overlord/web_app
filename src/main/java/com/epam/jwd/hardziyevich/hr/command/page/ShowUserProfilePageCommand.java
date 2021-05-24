@@ -21,15 +21,19 @@ public class ShowUserProfilePageCommand implements Command {
             return false;
         }
     };
-    private static ShowUserProfilePageCommand instance = null;
+    private static volatile ShowUserProfilePageCommand instance = null;
 
     private ShowUserProfilePageCommand(){
 
     }
 
     public static ShowUserProfilePageCommand getInstance(){
-        if(instance == null){
-            instance = new ShowUserProfilePageCommand();
+        if(instance == null) {
+            synchronized (ShowUserProfilePageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowUserProfilePageCommand();
+                }
+            }
         }
         return instance;
     }

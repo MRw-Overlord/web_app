@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ShowAllUserCommand implements Command {
 
-    private static ShowAllUserCommand instance = null;
+    private static volatile ShowAllUserCommand instance = null;
 
     private static final ResponseContext USER_PAGE = new ResponseContext() {
         @Override
@@ -32,8 +32,12 @@ public class ShowAllUserCommand implements Command {
     }
 
     public static ShowAllUserCommand getInstance(){
-        if(instance == null){
-            instance = new ShowAllUserCommand();
+        if(instance == null) {
+            synchronized (ShowAllUserCommand.class) {
+                if (instance == null) {
+                    instance = new ShowAllUserCommand();
+                }
+            }
         }
         return instance;
     }

@@ -11,15 +11,19 @@ import java.util.Optional;
 
 
 public class ShowProfilePageCommand implements Command {
-    private static ShowProfilePageCommand instance = null;
+    private static volatile ShowProfilePageCommand instance = null;
 
     private ShowProfilePageCommand(){
 
     }
 
     public static ShowProfilePageCommand getInstance() {
-        if(instance == null){
-            instance = new ShowProfilePageCommand();
+        if(instance == null) {
+            synchronized (ShowProfilePageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowProfilePageCommand();
+                }
+            }
         }
         return instance;
 

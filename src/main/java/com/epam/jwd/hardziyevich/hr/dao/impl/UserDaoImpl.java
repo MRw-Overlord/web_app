@@ -39,21 +39,21 @@ public class UserDaoImpl implements UserDao {
     public static final String DELETE_USER_FROMDB_QUARE = "DELETE from user_table where user_id=?";
     public static final String SET_USER_AVATAR_PATH = "UPDATE user_info SET avatarPath=? WHERE user_id=?";
     private static String DEFAULT_ENCODE_AVATAR_STRING;
-    private static UserDaoImpl instance = null;
-
-    private UserDaoImpl() {
-
-    }
+    private static volatile UserDaoImpl instance = null;
 
     public static UserDaoImpl getInstance() {
         if (instance == null) {
-            instance = new UserDaoImpl();
-            File file = new File(DEFAULT_AVATAR_JPG);
-            try (final InputStream binaryStream = new FileInputStream(file)) {
-                final BufferedImage read = ImageIO.read(binaryStream);
-                DEFAULT_ENCODE_AVATAR_STRING = encodeToString(read);
-            } catch (IOException e) {
-                e.printStackTrace();
+            synchronized (UserDaoImpl.class) {
+                if (instance == null) {
+                    instance = new UserDaoImpl();
+                    File file = new File(DEFAULT_AVATAR_JPG);
+                    try (final InputStream binaryStream = new FileInputStream(file)) {
+                        final BufferedImage read = ImageIO.read(binaryStream);
+                        DEFAULT_ENCODE_AVATAR_STRING = encodeToString(read);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
         return instance;

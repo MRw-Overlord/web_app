@@ -12,7 +12,7 @@ import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
 
 
 public class UpdateVacancyCommand implements Command {
-    private static UpdateVacancyCommand instance = null;
+    private static volatile UpdateVacancyCommand instance = null;
 
     private UpdateVacancyCommand() {
 
@@ -20,7 +20,11 @@ public class UpdateVacancyCommand implements Command {
 
     public static UpdateVacancyCommand getInstance() {
         if (instance == null) {
-            instance = new UpdateVacancyCommand();
+            synchronized (UpdateVacancyCommand.class) {
+                if (instance == null) {
+                    instance = new UpdateVacancyCommand();
+                }
+            }
         }
         return instance;
     }

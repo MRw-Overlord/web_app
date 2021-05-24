@@ -19,7 +19,7 @@ public class ShowCreateVacancyPageCommand implements Command {
             return false;
         }
     };
-    public static ShowCreateVacancyPageCommand instance = null;
+    public static volatile ShowCreateVacancyPageCommand instance = null;
     public static final String COMPANY_NAME_PARAM = "companyName";
     public static final String VACANCY_NAME_PARAM = "vacancyName";
     public static final String VACANCY_DESCRIPTION_PARAM = "description";
@@ -31,8 +31,12 @@ public class ShowCreateVacancyPageCommand implements Command {
     }
 
     public static ShowCreateVacancyPageCommand getInstance(){
-        if(instance == null){
-            instance = new ShowCreateVacancyPageCommand();
+        if(instance == null) {
+            synchronized (ShowCreateVacancyPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowCreateVacancyPageCommand();
+                }
+            }
         }
         return instance;
     }

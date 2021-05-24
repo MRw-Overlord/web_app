@@ -22,15 +22,19 @@ public class ConnectionPool {
     public static final int INITIAL_CONNECTIONS_AMOUNT = 8;
     private final Stack<ProxyConnection> connections = new Stack<>();
 
-    private static ConnectionPool instance = null;
+    private static volatile ConnectionPool instance = null;
 
     private ConnectionPool(){
 
     }
 
     public static ConnectionPool getInstance(){
-        if(instance == null){
-            instance = new ConnectionPool();
+        if(instance == null) {
+            synchronized (ConnectionPool.class) {
+                if (instance == null) {
+                    instance = new ConnectionPool();
+                }
+            }
         }
         return instance;
     }

@@ -23,7 +23,7 @@ import java.sql.Blob;
 import java.util.Optional;
 
 public class EditProfileCommand implements Command {
-    private static EditProfileCommand instance = null;
+    private static volatile EditProfileCommand instance = null;
 
     private EditProfileCommand() {
 
@@ -31,7 +31,11 @@ public class EditProfileCommand implements Command {
 
     public static EditProfileCommand getInstance() {
         if (instance == null) {
-            instance = new EditProfileCommand();
+            synchronized (EditProfileCommand.class) {
+                if (instance == null) {
+                    instance = new EditProfileCommand();
+                }
+            }
         }
         return instance;
     }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowMainPageCommand implements Command {
-    private static ShowMainPageCommand instance = null;
+    private static volatile ShowMainPageCommand instance = null;
 
     private ShowMainPageCommand() {
 
@@ -19,7 +19,11 @@ public class ShowMainPageCommand implements Command {
 
     public static ShowMainPageCommand getInstance() {
         if (instance == null) {
-            instance = new ShowMainPageCommand();
+            synchronized (ShowMainPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowMainPageCommand();
+                }
+            }
         }
         return instance;
     }

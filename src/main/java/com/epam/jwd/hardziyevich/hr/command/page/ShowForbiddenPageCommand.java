@@ -5,15 +5,19 @@ import com.epam.jwd.hardziyevich.hr.command.RequestContext;
 import com.epam.jwd.hardziyevich.hr.command.ResponseContext;
 
 public class ShowForbiddenPageCommand implements Command {
-    private static ShowForbiddenPageCommand instance = null;
+    private static volatile ShowForbiddenPageCommand instance = null;
 
     private ShowForbiddenPageCommand(){
 
     }
 
     public static ShowForbiddenPageCommand getInstance(){
-        if(instance == null){
-            instance = new ShowForbiddenPageCommand();
+        if(instance == null) {
+            synchronized (ShowForbiddenPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowForbiddenPageCommand();
+                }
+            }
         }
         return instance;
     }

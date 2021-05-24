@@ -11,15 +11,19 @@ import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
 import java.util.Optional;
 
 public class ShowVacancyPageCommand implements Command {
-    private static ShowVacancyPageCommand instance = null;
+    private static volatile ShowVacancyPageCommand instance = null;
 
     private ShowVacancyPageCommand() {
 
     }
 
     public static ShowVacancyPageCommand getInstance(){
-        if(instance == null){
-            instance = new ShowVacancyPageCommand();
+        if(instance == null) {
+            synchronized (ShowVacancyPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowVacancyPageCommand();
+                }
+            }
         }
         return instance;
     }

@@ -4,7 +4,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ActiveUserPool {
-    private static ActiveUserPool instance = null;
+    private static volatile ActiveUserPool instance = null;
     private final BlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>();
 
     private ActiveUserPool(){
@@ -12,8 +12,12 @@ public class ActiveUserPool {
     }
 
     public static ActiveUserPool getInstance(){
-        if(instance == null){
-            instance = new ActiveUserPool();
+        if(instance == null) {
+            synchronized (ActiveUserPool.class) {
+                if (instance == null) {
+                    instance = new ActiveUserPool();
+                }
+            }
         }
         return instance;
     }

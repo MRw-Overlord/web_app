@@ -12,15 +12,19 @@ import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
 
 
 public class CreateVacancyCommand implements Command {
-    private static CreateVacancyCommand instance = null;
+    private static volatile CreateVacancyCommand instance = null;
 
     private CreateVacancyCommand(){
 
     }
 
     public static CreateVacancyCommand getInstance(){
-        if(instance == null){
-            instance = new CreateVacancyCommand();
+        if(instance == null) {
+            synchronized (CreateVacancyCommand.class) {
+                if (instance == null) {
+                    instance = new CreateVacancyCommand();
+                }
+            }
         }
         return instance;
     }

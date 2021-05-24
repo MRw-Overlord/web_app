@@ -14,15 +14,19 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class ApplyVacancyCommand implements Command {
-    private static ApplyVacancyCommand instance;
+    private static volatile ApplyVacancyCommand instance;
 
     private ApplyVacancyCommand(){
 
     }
 
     public static ApplyVacancyCommand getInstance(){
-        if(instance == null){
-            instance = new ApplyVacancyCommand();
+        if(instance == null) {
+            synchronized (ApplyVacancyCommand.class) {
+                if (instance == null) {
+                    instance = new ApplyVacancyCommand();
+                }
+            }
         }
         return instance;
     }

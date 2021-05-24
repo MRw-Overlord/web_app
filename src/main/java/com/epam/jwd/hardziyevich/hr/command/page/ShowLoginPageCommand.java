@@ -6,7 +6,7 @@ import com.epam.jwd.hardziyevich.hr.command.RequestContext;
 import com.epam.jwd.hardziyevich.hr.command.ResponseContext;
 
 public class ShowLoginPageCommand implements Command {
-    private static ShowLoginPageCommand instance = null;
+    private static volatile ShowLoginPageCommand instance = null;
 
     private ShowLoginPageCommand() {
 
@@ -14,7 +14,11 @@ public class ShowLoginPageCommand implements Command {
 
     public static ShowLoginPageCommand getInstance() {
         if (instance == null) {
-            instance = new ShowLoginPageCommand();
+            synchronized (ShowLoginPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowLoginPageCommand();
+                }
+            }
         }
         return instance;
     }

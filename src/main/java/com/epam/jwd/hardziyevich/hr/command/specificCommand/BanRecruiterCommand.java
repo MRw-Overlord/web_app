@@ -9,7 +9,7 @@ import com.epam.jwd.hardziyevich.hr.service.UserService;
 import com.epam.jwd.hardziyevich.hr.service.impl.UserServiceImpl;
 
 public class BanRecruiterCommand implements Command {
-    private static BanRecruiterCommand instance = null;
+    private static volatile BanRecruiterCommand instance = null;
 
     private BanRecruiterCommand() {
 
@@ -17,7 +17,11 @@ public class BanRecruiterCommand implements Command {
 
     public static BanRecruiterCommand getInstance() {
         if (instance == null) {
-            instance = new BanRecruiterCommand();
+            synchronized (BanRecruiterCommand.class) {
+                if(instance == null ) {
+                    instance = new BanRecruiterCommand();
+                }
+            }
         }
         return instance;
     }

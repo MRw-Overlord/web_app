@@ -10,15 +10,19 @@ import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
 import java.util.stream.Collectors;
 
 public class ShowRecruiterPageCommand implements Command {
-    private static ShowRecruiterPageCommand instance;
+    private static volatile ShowRecruiterPageCommand instance;
 
     private ShowRecruiterPageCommand(){
 
     }
 
     public static ShowRecruiterPageCommand getInstance(){
-        if(instance == null){
-            instance = new ShowRecruiterPageCommand();
+        if(instance == null) {
+            synchronized (ShowRecruiterPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowRecruiterPageCommand();
+                }
+            }
         }
         return instance;
     }

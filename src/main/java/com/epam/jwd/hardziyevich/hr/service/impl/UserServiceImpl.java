@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
-    private static UserServiceImpl instance = null;
+    private static volatile UserServiceImpl instance = null;
 
     public static final String ANTIHACK_PASSWARD = "$2a$10$Z6P43xL3xPINRYG6pPwxxunfz53zO9jZ6gC.HDtzkQoQNXh52Prry";
     private UserDaoImpl userDao;
@@ -33,7 +33,11 @@ public class UserServiceImpl implements UserService {
 
     public static UserServiceImpl getInstance() {
         if (instance == null) {
-            instance = new UserServiceImpl(UserDaoImpl.getInstance());
+            synchronized (UserServiceImpl.class) {
+                if (instance == null) {
+                    instance = new UserServiceImpl(UserDaoImpl.getInstance());
+                }
+            }
         }
         return instance;
     }

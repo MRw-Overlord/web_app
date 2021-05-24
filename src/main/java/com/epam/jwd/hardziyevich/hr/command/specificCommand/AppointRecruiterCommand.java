@@ -9,15 +9,19 @@ import com.epam.jwd.hardziyevich.hr.service.UserService;
 import com.epam.jwd.hardziyevich.hr.service.impl.UserServiceImpl;
 
 public class AppointRecruiterCommand implements Command {
-    private static AppointRecruiterCommand instance = null;
+    private static volatile AppointRecruiterCommand instance = null;
 
     private AppointRecruiterCommand(){
 
     }
 
     public static AppointRecruiterCommand getInstance(){
-        if(instance == null){
-            instance = new AppointRecruiterCommand();
+        if(instance == null) {
+            synchronized (AppointRecruiterCommand.class) {
+                if (instance == null) {
+                    instance = new AppointRecruiterCommand();
+                }
+            }
         }
         return instance;
     }

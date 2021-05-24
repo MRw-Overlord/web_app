@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class RespondServiceImpl implements RespondService {
-    private static RespondServiceImpl instance = null;
+    private static volatile RespondServiceImpl instance = null;
     private RespondDao respondDao;
 
     private RespondServiceImpl(RespondDao respondDao) {
@@ -25,17 +25,17 @@ public class RespondServiceImpl implements RespondService {
 
     public static RespondServiceImpl getInstance() {
         if (instance == null) {
-            instance = new RespondServiceImpl(RespondDaoImpl.getInstance());
+            synchronized (RespondServiceImpl.class) {
+                if (instance == null) {
+                    instance = new RespondServiceImpl(RespondDaoImpl.getInstance());
+                }
+            }
         }
         return instance;
     }
 
     @Override
     public Optional<List<UserDto>> findAllUsersByIDWhichRespondVacancy(int vacancyId) {
-        /*return respondDao.findUsersIdRespondVacancyById(vacancyId).map(
-                usersId -> usersId.stream()
-                        .map(userID -> UserServiceImpl.getInstance().findUserById(userID).get())
-                        .collect(Collectors.toList());*/
         final Optional<List<Integer>> usersId = respondDao.findUsersIdRespondVacancyById(vacancyId);
         List<UserDto> users = null;
         if (usersId.isPresent()) {

@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class LoginCommand implements Command {
 
-    private static LoginCommand instance = null;
+    private static volatile LoginCommand instance = null;
 
     private LoginCommand() {
 
@@ -23,7 +23,11 @@ public class LoginCommand implements Command {
 
     public static LoginCommand getInstance() {
         if (instance == null) {
-            instance = new LoginCommand();
+            synchronized (LoginCommand.class) {
+                if (instance == null) {
+                    instance = new LoginCommand();
+                }
+            }
         }
         return instance;
     }

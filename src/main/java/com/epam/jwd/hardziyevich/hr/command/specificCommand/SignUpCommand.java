@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 public class SignUpCommand implements Command {
 
-    private static SignUpCommand instance = null;
+    private static volatile SignUpCommand instance = null;
 
     private SignUpCommand(){
 
@@ -22,7 +22,11 @@ public class SignUpCommand implements Command {
 
     public static SignUpCommand getInstance(){
         if(instance == null){
-            instance = new SignUpCommand();
+            synchronized (SignUpCommand.class) {
+                if (instance == null) {
+                    instance = new SignUpCommand();
+                }
+            }
         }
         return instance;
     }

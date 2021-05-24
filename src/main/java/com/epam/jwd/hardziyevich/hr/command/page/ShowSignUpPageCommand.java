@@ -7,15 +7,19 @@ import com.epam.jwd.hardziyevich.hr.command.ResponseContext;
 
 public class ShowSignUpPageCommand implements Command {
 
-    private static ShowSignUpPageCommand instance = null;
+    private static volatile ShowSignUpPageCommand instance = null;
 
     private ShowSignUpPageCommand(){
 
     }
 
     public static ShowSignUpPageCommand getInstance(){
-        if(instance == null){
-            instance = new ShowSignUpPageCommand();
+        if(instance == null) {
+            synchronized (ShowSignUpPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowSignUpPageCommand();
+                }
+            }
         }
         return instance;
     }

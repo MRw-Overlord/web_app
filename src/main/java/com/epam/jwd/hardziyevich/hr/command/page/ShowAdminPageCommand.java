@@ -10,7 +10,7 @@ import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
 import java.util.stream.Collectors;
 
 public class ShowAdminPageCommand implements Command {
-    private static ShowAdminPageCommand instance = null;
+    private static volatile ShowAdminPageCommand instance = null;
 
     private ShowAdminPageCommand() {
 
@@ -18,7 +18,11 @@ public class ShowAdminPageCommand implements Command {
 
     public static ShowAdminPageCommand getInstance() {
         if (instance == null) {
-            instance = new ShowAdminPageCommand();
+            synchronized (ShowAdminPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowAdminPageCommand();
+                }
+            }
         }
         return instance;
     }

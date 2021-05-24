@@ -25,7 +25,7 @@ public class ShowUsersResponsesPage implements Command {
             return false;
         }
     };
-    private static ShowUsersResponsesPage instance = null;
+    private static volatile ShowUsersResponsesPage instance = null;
 
     private ShowUsersResponsesPage() {
 
@@ -33,7 +33,11 @@ public class ShowUsersResponsesPage implements Command {
 
     public static ShowUsersResponsesPage getInstance() {
         if (instance == null) {
-            instance = new ShowUsersResponsesPage();
+            synchronized (ShowUsersResponsesPage.class) {
+                if (instance == null) {
+                    instance = new ShowUsersResponsesPage();
+                }
+            }
         }
         return instance;
     }

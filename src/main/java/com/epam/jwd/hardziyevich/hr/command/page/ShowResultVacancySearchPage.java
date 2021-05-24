@@ -24,15 +24,19 @@ public class ShowResultVacancySearchPage implements Command {
             return false;
         }
     };
-    private static ShowResultVacancySearchPage instance = null;
+    private static volatile ShowResultVacancySearchPage instance = null;
 
     private ShowResultVacancySearchPage(){
 
     }
 
     public static ShowResultVacancySearchPage getInstance(){
-        if(instance == null){
-            instance = new ShowResultVacancySearchPage();
+        if(instance == null) {
+            synchronized (ShowResultVacancySearchPage.class) {
+                if (instance == null) {
+                    instance = new ShowResultVacancySearchPage();
+                }
+            }
         }
         return instance;
     }

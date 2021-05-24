@@ -8,15 +8,19 @@ import com.epam.jwd.hardziyevich.hr.service.UserService;
 import com.epam.jwd.hardziyevich.hr.service.impl.UserServiceImpl;
 
 public class BanUserCommand implements Command {
-    private static BanUserCommand instance = null;
+    private static volatile BanUserCommand instance = null;
 
     private BanUserCommand(){
 
     }
 
     public static BanUserCommand getInstance(){
-        if(instance == null){
-            instance = new BanUserCommand();
+        if(instance == null) {
+            synchronized (BanUserCommand.class) {
+                if (instance == null) {
+                    instance = new BanUserCommand();
+                }
+            }
         }
         return instance;
     }
