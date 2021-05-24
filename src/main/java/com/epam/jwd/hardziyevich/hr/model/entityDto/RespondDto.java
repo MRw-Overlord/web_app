@@ -1,7 +1,5 @@
 package com.epam.jwd.hardziyevich.hr.model.entityDto;
 
-import com.epam.jwd.hardziyevich.hr.model.entity.Respond;
-
 import java.sql.Timestamp;
 import java.util.Objects;
 

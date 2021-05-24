@@ -12,13 +12,14 @@ import java.util.Optional;
 
 public class DeleteUserCommand implements Command {
     private static volatile DeleteUserCommand instance = null;
+    private final UserService userService = UserServiceImpl.getInstance();
 
-    private DeleteUserCommand(){
+    private DeleteUserCommand() {
 
     }
 
-    public static DeleteUserCommand getInstance(){
-        if(instance == null) {
+    public static DeleteUserCommand getInstance() {
+        if (instance == null) {
             synchronized (DeleteUserCommand.class) {
                 if (instance == null) {
                     instance = new DeleteUserCommand();
@@ -28,7 +29,6 @@ public class DeleteUserCommand implements Command {
         return instance;
     }
 
-    private final UserService userService = UserServiceImpl.getInstance();
     @Override
 
     public ResponseContext execute(RequestContext requestContext) {

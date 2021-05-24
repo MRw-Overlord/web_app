@@ -5,23 +5,6 @@ import com.epam.jwd.hardziyevich.hr.command.RequestContext;
 import com.epam.jwd.hardziyevich.hr.command.ResponseContext;
 
 public class ShowForbiddenPageCommand implements Command {
-    private static volatile ShowForbiddenPageCommand instance = null;
-
-    private ShowForbiddenPageCommand(){
-
-    }
-
-    public static ShowForbiddenPageCommand getInstance(){
-        if(instance == null) {
-            synchronized (ShowForbiddenPageCommand.class) {
-                if (instance == null) {
-                    instance = new ShowForbiddenPageCommand();
-                }
-            }
-        }
-        return instance;
-    }
-
     public static final ResponseContext SHOW_FORBIDDEN_PAGE_COMMAND = new ResponseContext() {
         @Override
         public String getPage() {
@@ -33,6 +16,22 @@ public class ShowForbiddenPageCommand implements Command {
             return false;
         }
     };
+    private static volatile ShowForbiddenPageCommand instance = null;
+
+    private ShowForbiddenPageCommand() {
+
+    }
+
+    public static ShowForbiddenPageCommand getInstance() {
+        if (instance == null) {
+            synchronized (ShowForbiddenPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowForbiddenPageCommand();
+                }
+            }
+        }
+        return instance;
+    }
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

@@ -16,13 +16,14 @@ import java.util.List;
 import java.util.Optional;
 
 public class RespondDaoImpl implements RespondDao {
+    public static final String FIND_USERS_ID_BY_ID_VACANCY = "SELECT user_id from respond join respond_vacancy rv on respond.respond_id = rv.respond_id where vacancy_id = ?";
     private static final String CREATE_RESPONSE_QUERY = "INSERT into respond (user_id, date) VALUES (?, ?)";
     private static final String FIND_ALL_RESPONDS = "select * from respond left join respond_vacancy rv on respond.respond_id = rv.respond_id;";
     private static final String DELETE_RESPOND_QUERY = "DELETE respond, respond_vacancy from respond inner join respond_vacancy on respond.respond_id = respong_vacancy.respond_id where respond.respond_id = ?";
     private static final String FIND_ALL_RESPONDS_BY_ID_QUERY = "select * from respond left join respond_vacancy rv on respond.respond_id = rv.respond_id where respond_id = ?";
     private static final String CREATE_RESPONSE_VACANCY_QUERY = "insert into respond_vacancy (respond_id, vacancy_id) values (?, ?)";
     private static final String FIND_ALL_RESPOND_VACANCY = "select * from respond_vacancy";
-    public static final String FIND_USERS_ID_BY_ID_VACANCY = "SELECT user_id from respond join respond_vacancy rv on respond.respond_id = rv.respond_id where vacancy_id = ?";
+    private static final Logger LOGGER = LogManager.getLogger(RespondDaoImpl.class);
     private static volatile RespondDaoImpl instance = null;
 
     private RespondDaoImpl() {
@@ -39,8 +40,6 @@ public class RespondDaoImpl implements RespondDao {
         }
         return instance;
     }
-
-    private static final Logger LOGGER = LogManager.getLogger(RespondDaoImpl.class);
 
     @Override
     public Optional<List<Integer>> findUsersIdRespondVacancyById(int vacancyId) {

@@ -9,13 +9,14 @@ import com.epam.jwd.hardziyevich.hr.service.impl.UserServiceImpl;
 
 public class UnbanUserCommand implements Command {
     private static volatile UnbanUserCommand instance = null;
+    private final UserService userService = UserServiceImpl.getInstance();
 
-    private UnbanUserCommand(){
+    private UnbanUserCommand() {
 
     }
 
-    public static UnbanUserCommand getInstance(){
-        if(instance == null) {
+    public static UnbanUserCommand getInstance() {
+        if (instance == null) {
             synchronized (UnbanUserCommand.class) {
                 if (instance == null) {
                     instance = new UnbanUserCommand();
@@ -24,8 +25,6 @@ public class UnbanUserCommand implements Command {
         }
         return instance;
     }
-
-    private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

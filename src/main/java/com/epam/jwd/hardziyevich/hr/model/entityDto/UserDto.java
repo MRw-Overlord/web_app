@@ -99,12 +99,12 @@ public class UserDto {
         return role;
     }
 
-    public String getRoleName(){
-        return this.role.name();
-    }
-
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getRoleName() {
+        return this.role.name();
     }
 
     public String getStatus() {

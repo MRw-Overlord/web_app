@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserDaoImplTest {
@@ -36,11 +37,12 @@ public class UserDaoImplTest {
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         this.userDao = UserDaoImpl.getInstance();
     }
+
     @Test
-    public void findByLogin_Should_Return_True()  {
+    public void findByLogin_Should_Return_True() {
         Optional<User> user = userDao.findByLogin("Nastena");
         assertThat(user).isNotEmpty();
         assertThat(user.get().getLogin()).isNotNull().isEqualTo("Nastena");

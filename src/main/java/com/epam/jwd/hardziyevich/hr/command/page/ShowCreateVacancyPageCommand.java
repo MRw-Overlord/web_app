@@ -19,19 +19,21 @@ public class ShowCreateVacancyPageCommand implements Command {
             return false;
         }
     };
-    public static volatile ShowCreateVacancyPageCommand instance = null;
     public static final String COMPANY_NAME_PARAM = "companyName";
     public static final String VACANCY_NAME_PARAM = "vacancyName";
     public static final String VACANCY_DESCRIPTION_PARAM = "description";
     public static final String VACANCY_SKILLS_DESCRIPTION_PARAM = "skillsDescription";
     public static final String VACANCY_STATUS_PARAM = "status";
-    public static final	 String FORM_ACTION_UPDATE = "/controller?command=update_vacancy&id=";
-    private ShowCreateVacancyPageCommand(){
+    public static final String FORM_ACTION_UPDATE = "/controller?command=update_vacancy&id=";
+    public static volatile ShowCreateVacancyPageCommand instance = null;
+    private final VacancyService vacancyService = VacancyServiceImpl.getInstance();
+
+    private ShowCreateVacancyPageCommand() {
 
     }
 
-    public static ShowCreateVacancyPageCommand getInstance(){
-        if(instance == null) {
+    public static ShowCreateVacancyPageCommand getInstance() {
+        if (instance == null) {
             synchronized (ShowCreateVacancyPageCommand.class) {
                 if (instance == null) {
                     instance = new ShowCreateVacancyPageCommand();
@@ -40,9 +42,6 @@ public class ShowCreateVacancyPageCommand implements Command {
         }
         return instance;
     }
-
-
-    private final VacancyService vacancyService = VacancyServiceImpl.getInstance();
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

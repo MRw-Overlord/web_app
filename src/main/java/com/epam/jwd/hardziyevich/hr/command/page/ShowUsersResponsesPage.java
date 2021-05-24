@@ -26,6 +26,8 @@ public class ShowUsersResponsesPage implements Command {
         }
     };
     private static volatile ShowUsersResponsesPage instance = null;
+    private final UserService userService = UserServiceImpl.getInstance();
+    private final RespondService respondService = RespondServiceImpl.getInstance();
 
     private ShowUsersResponsesPage() {
 
@@ -42,14 +44,11 @@ public class ShowUsersResponsesPage implements Command {
         return instance;
     }
 
-    private final UserService userService = UserServiceImpl.getInstance();
-    private final RespondService respondService = RespondServiceImpl.getInstance();
-
     @Override
     public ResponseContext execute(RequestContext requestContext) {
         final int vacancyId = Integer.parseInt(requestContext.getParameter("id"));
         final Optional<List<UserDto>> optionalUserDtoList = respondService.findAllUsersByIDWhichRespondVacancy(vacancyId);
-        if(optionalUserDtoList.isPresent()){
+        if (optionalUserDtoList.isPresent()) {
             final List<UserDto> userDtoList = optionalUserDtoList.get();
             requestContext.setAttribute("users", userDtoList.stream().filter(userDto -> !(userDto.getRoleName().equalsIgnoreCase("ADMIN")
                     || userDto.getRoleName().equalsIgnoreCase("HR"))).collect(Collectors.toList()));

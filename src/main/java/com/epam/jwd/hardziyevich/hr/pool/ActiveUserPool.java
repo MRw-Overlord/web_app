@@ -7,12 +7,12 @@ public class ActiveUserPool {
     private static volatile ActiveUserPool instance = null;
     private final BlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>();
 
-    private ActiveUserPool(){
+    private ActiveUserPool() {
 
     }
 
-    public static ActiveUserPool getInstance(){
-        if(instance == null) {
+    public static ActiveUserPool getInstance() {
+        if (instance == null) {
             synchronized (ActiveUserPool.class) {
                 if (instance == null) {
                     instance = new ActiveUserPool();

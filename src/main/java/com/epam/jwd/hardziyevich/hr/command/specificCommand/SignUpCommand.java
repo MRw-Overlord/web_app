@@ -15,13 +15,14 @@ import javax.servlet.http.HttpSession;
 public class SignUpCommand implements Command {
 
     private static volatile SignUpCommand instance = null;
+    private final UserService service = UserServiceImpl.getInstance();
 
-    private SignUpCommand(){
+    private SignUpCommand() {
 
     }
 
-    public static SignUpCommand getInstance(){
-        if(instance == null){
+    public static SignUpCommand getInstance() {
+        if (instance == null) {
             synchronized (SignUpCommand.class) {
                 if (instance == null) {
                     instance = new SignUpCommand();
@@ -30,8 +31,6 @@ public class SignUpCommand implements Command {
         }
         return instance;
     }
-
-    private final UserService service = UserServiceImpl.getInstance();
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

@@ -11,26 +11,7 @@ import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
 import java.util.Optional;
 
 public class ShowVacancyPageCommand implements Command {
-    private static volatile ShowVacancyPageCommand instance = null;
-
-    private ShowVacancyPageCommand() {
-
-    }
-
-    public static ShowVacancyPageCommand getInstance(){
-        if(instance == null) {
-            synchronized (ShowVacancyPageCommand.class) {
-                if (instance == null) {
-                    instance = new ShowVacancyPageCommand();
-                }
-            }
-        }
-        return instance;
-    }
-
     public static final String HIDDEN = "HIDDEN";
-    VacancyService vacancyService = VacancyServiceImpl.getInstance();
-
     public static final ResponseContext SHOW_VACANCY_PAGE_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
@@ -42,6 +23,22 @@ public class ShowVacancyPageCommand implements Command {
             return false;
         }
     };
+    private static volatile ShowVacancyPageCommand instance = null;
+    VacancyService vacancyService = VacancyServiceImpl.getInstance();
+    private ShowVacancyPageCommand() {
+
+    }
+
+    public static ShowVacancyPageCommand getInstance() {
+        if (instance == null) {
+            synchronized (ShowVacancyPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowVacancyPageCommand();
+                }
+            }
+        }
+        return instance;
+    }
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

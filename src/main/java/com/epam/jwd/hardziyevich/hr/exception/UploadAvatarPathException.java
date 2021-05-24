@@ -1,11 +1,10 @@
 package com.epam.jwd.hardziyevich.hr.exception;
 
 
-
-public class UploadAvatarPathException extends Exception{
+public class UploadAvatarPathException extends Exception {
     private final int userId;
 
-    public UploadAvatarPathException(int userId){
+    public UploadAvatarPathException(int userId) {
         super();
         this.userId = userId;
     }

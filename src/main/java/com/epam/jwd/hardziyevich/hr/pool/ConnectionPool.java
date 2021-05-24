@@ -1,9 +1,10 @@
 package com.epam.jwd.hardziyevich.hr.pool;
 
-import java.sql.Connection;
 import com.mysql.cj.jdbc.Driver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
@@ -15,21 +16,19 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
 
+    public static final int INITIAL_CONNECTIONS_AMOUNT = 8;
     private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
-
+    private static volatile ConnectionPool instance = null;
     final Lock lock = new ReentrantLock();
     final Condition notFull = lock.newCondition();
-    public static final int INITIAL_CONNECTIONS_AMOUNT = 8;
     private final Stack<ProxyConnection> connections = new Stack<>();
 
-    private static volatile ConnectionPool instance = null;
-
-    private ConnectionPool(){
+    private ConnectionPool() {
 
     }
 
-    public static ConnectionPool getInstance(){
-        if(instance == null) {
+    public static ConnectionPool getInstance() {
+        if (instance == null) {
             synchronized (ConnectionPool.class) {
                 if (instance == null) {
                     instance = new ConnectionPool();
@@ -38,6 +37,7 @@ public class ConnectionPool {
         }
         return instance;
     }
+
     public Connection retrieveConnection() {
         ProxyConnection conn = null;
         lock.lock();

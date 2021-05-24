@@ -13,13 +13,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
+    public static final String USER_LASTNAME1 = "Testio1";
+    public static final String USER_EMAIL1 = "test1@gmail.com";
+    public static final int USER_AGE1 = 19;
     private static final int USER_ID = 23;
     private static final String USER_LOGIN = "testLogin";
     private static final Role USER_ROLE = Role.HR;
@@ -31,9 +33,6 @@ public class UserServiceImplTest {
     private static final String USER_PASSWORD = "$2a$10$UIICnEbOYE21qL4mWes8GOzOBnpNDAEMIPTt0roKYWHPccAGBvV92";
     private static final String USER_AVATAR = "avatar";
     private static final String USER_FIRSTNAME1 = "Test1";
-    public static final String USER_LASTNAME1 = "Testio1";
-    public static final String USER_EMAIL1 = "test1@gmail.com";
-    public static final int USER_AGE1 = 19;
     UserServiceImpl userService;
     @Mock
     UserDaoImpl userDaoMock;

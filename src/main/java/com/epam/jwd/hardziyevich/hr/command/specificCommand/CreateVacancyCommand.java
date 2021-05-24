@@ -10,16 +10,16 @@ import com.epam.jwd.hardziyevich.hr.service.VacancyService;
 import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
 
 
-
 public class CreateVacancyCommand implements Command {
     private static volatile CreateVacancyCommand instance = null;
+    private final VacancyService vacancyService = VacancyServiceImpl.getInstance();
 
-    private CreateVacancyCommand(){
+    private CreateVacancyCommand() {
 
     }
 
-    public static CreateVacancyCommand getInstance(){
-        if(instance == null) {
+    public static CreateVacancyCommand getInstance() {
+        if (instance == null) {
             synchronized (CreateVacancyCommand.class) {
                 if (instance == null) {
                     instance = new CreateVacancyCommand();
@@ -29,8 +29,6 @@ public class CreateVacancyCommand implements Command {
         return instance;
     }
 
-    private final VacancyService vacancyService = VacancyServiceImpl.getInstance();
-
     @Override
     public ResponseContext execute(RequestContext requestContext) {
         ResponseContext responseResult = null;
@@ -38,8 +36,8 @@ public class CreateVacancyCommand implements Command {
         final String companyName = String.valueOf(requestContext.getParameter("companyName"));
         final String description = String.valueOf(requestContext.getParameter("description"));
         final String skillsDescription = String.valueOf(requestContext.getParameter("skillsDescription"));
-        final boolean result = vacancyService.create(vacancyName,companyName, description, skillsDescription, Status.ACTIVE);
-        if(result){
+        final boolean result = vacancyService.create(vacancyName, companyName, description, skillsDescription, Status.ACTIVE);
+        if (result) {
             responseResult = ShowRecruiterPageCommand.getInstance().execute(requestContext);
         }
         responseResult = ShowMainPageCommand.getInstance().execute(requestContext);

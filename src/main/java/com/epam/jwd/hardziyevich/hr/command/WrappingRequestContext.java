@@ -20,6 +20,9 @@ public class WrappingRequestContext implements RequestContext {
         this.request = request;
     }
 
+    public static RequestContext of(HttpServletRequest request) {
+        return new WrappingRequestContext(request);
+    }
 
     public ServletRequest getRequest() {
         return this.request;
@@ -84,11 +87,7 @@ public class WrappingRequestContext implements RequestContext {
     }
 
     private HttpServletRequest _getHttpServletRequest() {
-        return (HttpServletRequest)this.getRequest();
-    }
-
-    public static RequestContext of(HttpServletRequest request) {
-        return new WrappingRequestContext(request);
+        return (HttpServletRequest) this.getRequest();
     }
 
 }

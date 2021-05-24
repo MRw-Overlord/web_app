@@ -3,7 +3,7 @@ package com.epam.jwd.hardziyevich.hr.exception;
 public class WriteAvatarImgDbException extends Exception {
     private final int userId;
 
-    public WriteAvatarImgDbException(int userId){
+    public WriteAvatarImgDbException(int userId) {
         super();
         this.userId = userId;
     }

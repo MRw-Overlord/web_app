@@ -10,13 +10,14 @@ import com.epam.jwd.hardziyevich.hr.service.impl.UserServiceImpl;
 
 public class AppointRecruiterCommand implements Command {
     private static volatile AppointRecruiterCommand instance = null;
+    private final UserService userService = UserServiceImpl.getInstance();
 
-    private AppointRecruiterCommand(){
+    private AppointRecruiterCommand() {
 
     }
 
-    public static AppointRecruiterCommand getInstance(){
-        if(instance == null) {
+    public static AppointRecruiterCommand getInstance() {
+        if (instance == null) {
             synchronized (AppointRecruiterCommand.class) {
                 if (instance == null) {
                     instance = new AppointRecruiterCommand();
@@ -26,12 +27,10 @@ public class AppointRecruiterCommand implements Command {
         return instance;
     }
 
-    private final UserService userService = UserServiceImpl.getInstance();
-
     @Override
     public ResponseContext execute(RequestContext requestContext) {
         final String recruiterLogin = requestContext.getParameter("login");
-        if(!userService.appointRecruiter(recruiterLogin)){
+        if (!userService.appointRecruiter(recruiterLogin)) {
             return ShowForbiddenPageCommand.getInstance().execute(requestContext);
         }
         requestContext.setAttribute("redirect", true);

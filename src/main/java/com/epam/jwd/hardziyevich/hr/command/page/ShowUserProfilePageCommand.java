@@ -22,13 +22,14 @@ public class ShowUserProfilePageCommand implements Command {
         }
     };
     private static volatile ShowUserProfilePageCommand instance = null;
+    private final UserService userService = UserServiceImpl.getInstance();
 
-    private ShowUserProfilePageCommand(){
+    private ShowUserProfilePageCommand() {
 
     }
 
-    public static ShowUserProfilePageCommand getInstance(){
-        if(instance == null) {
+    public static ShowUserProfilePageCommand getInstance() {
+        if (instance == null) {
             synchronized (ShowUserProfilePageCommand.class) {
                 if (instance == null) {
                     instance = new ShowUserProfilePageCommand();
@@ -37,8 +38,6 @@ public class ShowUserProfilePageCommand implements Command {
         }
         return instance;
     }
-
-    private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

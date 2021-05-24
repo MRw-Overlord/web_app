@@ -25,13 +25,14 @@ public class ShowResultVacancySearchPage implements Command {
         }
     };
     private static volatile ShowResultVacancySearchPage instance = null;
+    private final VacancyService vacancyService = VacancyServiceImpl.getInstance();
 
-    private ShowResultVacancySearchPage(){
+    private ShowResultVacancySearchPage() {
 
     }
 
-    public static ShowResultVacancySearchPage getInstance(){
-        if(instance == null) {
+    public static ShowResultVacancySearchPage getInstance() {
+        if (instance == null) {
             synchronized (ShowResultVacancySearchPage.class) {
                 if (instance == null) {
                     instance = new ShowResultVacancySearchPage();
@@ -41,15 +42,12 @@ public class ShowResultVacancySearchPage implements Command {
         return instance;
     }
 
-    private final VacancyService vacancyService = VacancyServiceImpl.getInstance();
-
-
     @Override
     public ResponseContext execute(RequestContext requestContext) {
         final String searchVacancy = requestContext.getParameter("vacancySearch").trim().toLowerCase();
         final Optional<List<VacancyDto>> allRelevantVacancies = vacancyService.findAllRelevantVacancies();
         List<VacancyDto> resultSearch = new ArrayList<>();
-        if(allRelevantVacancies.isPresent()){
+        if (allRelevantVacancies.isPresent()) {
             final List<VacancyDto> vacancyDtos = allRelevantVacancies.get();
             resultSearch = vacancyDtos.stream().filter(vacancyDto -> vacancyDto.getVacancyName().toLowerCase().equalsIgnoreCase(searchVacancy) ||
                     vacancyDto.getCompanyName().toLowerCase().equalsIgnoreCase(searchVacancy) ||

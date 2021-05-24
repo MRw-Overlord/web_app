@@ -6,7 +6,7 @@ public interface ResponseContext {
 
     boolean isRedirect();
 
-    default String getUrlToRedirect(){
+    default String getUrlToRedirect() {
         return "/";
     }
 

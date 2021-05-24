@@ -11,12 +11,10 @@ import java.util.List;
 
 public class ShowAllUserCommand implements Command {
 
-    private static volatile ShowAllUserCommand instance = null;
-
     private static final ResponseContext USER_PAGE = new ResponseContext() {
         @Override
         public String getPage() {
-            return "/WEB-INF/view/jsp/users.jsp" ;
+            return "/WEB-INF/view/jsp/users.jsp";
         }
 
         @Override
@@ -24,15 +22,15 @@ public class ShowAllUserCommand implements Command {
             return false;
         }
     };
-
+    private static volatile ShowAllUserCommand instance = null;
     private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     private ShowAllUserCommand() {
 
     }
 
-    public static ShowAllUserCommand getInstance(){
-        if(instance == null) {
+    public static ShowAllUserCommand getInstance() {
+        if (instance == null) {
             synchronized (ShowAllUserCommand.class) {
                 if (instance == null) {
                     instance = new ShowAllUserCommand();

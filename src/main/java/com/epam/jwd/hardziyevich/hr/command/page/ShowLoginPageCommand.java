@@ -6,23 +6,6 @@ import com.epam.jwd.hardziyevich.hr.command.RequestContext;
 import com.epam.jwd.hardziyevich.hr.command.ResponseContext;
 
 public class ShowLoginPageCommand implements Command {
-    private static volatile ShowLoginPageCommand instance = null;
-
-    private ShowLoginPageCommand() {
-
-    }
-
-    public static ShowLoginPageCommand getInstance() {
-        if (instance == null) {
-            synchronized (ShowLoginPageCommand.class) {
-                if (instance == null) {
-                    instance = new ShowLoginPageCommand();
-                }
-            }
-        }
-        return instance;
-    }
-
     public static final ResponseContext LOGIN_PAGE_RESPONSE = new ResponseContext() {
         @Override
         public String getPage() {
@@ -34,7 +17,6 @@ public class ShowLoginPageCommand implements Command {
             return false;
         }
     };
-
     private static final ResponseContext LOGIN_PAGE_REDIRECT = new ResponseContext() {
         @Override
         public String getPage() {
@@ -51,6 +33,22 @@ public class ShowLoginPageCommand implements Command {
             return "/login";
         }
     };
+    private static volatile ShowLoginPageCommand instance = null;
+
+    private ShowLoginPageCommand() {
+
+    }
+
+    public static ShowLoginPageCommand getInstance() {
+        if (instance == null) {
+            synchronized (ShowLoginPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowLoginPageCommand();
+                }
+            }
+        }
+        return instance;
+    }
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

@@ -10,32 +10,6 @@ import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
 import java.util.stream.Collectors;
 
 public class ShowAdminPageCommand implements Command {
-    private static volatile ShowAdminPageCommand instance = null;
-
-    private ShowAdminPageCommand() {
-
-    }
-
-    public static ShowAdminPageCommand getInstance() {
-        if (instance == null) {
-            synchronized (ShowAdminPageCommand.class) {
-                if (instance == null) {
-                    instance = new ShowAdminPageCommand();
-                }
-            }
-        }
-        return instance;
-    }
-
-    private final static String VACANCIES_LIST_TYPE = "vacancies";
-    private final static String HR_LIST_TYPE = "hr";
-    private final static String USERS_LIST_TYPE = "users";
-    private final static String LIST_TYPE_PARAM = "adminListType";
-
-    //todo: create in userService
-    private final VacancyServiceImpl vacancyService = VacancyServiceImpl.getInstance();
-    private final UserService userService = UserServiceImpl.getInstance();
-
     public static final ResponseContext ADMIN_PAGE = new ResponseContext() {
         @Override
         public String getPage() {
@@ -47,7 +21,6 @@ public class ShowAdminPageCommand implements Command {
             return false;
         }
     };
-
     public static final ResponseContext ADMIN_PANEL_REDIRECT = new ResponseContext() {
         @Override
         public String getPage() {
@@ -64,6 +37,29 @@ public class ShowAdminPageCommand implements Command {
             return "/controller?command=show_admin_page";
         }
     };
+    private final static String VACANCIES_LIST_TYPE = "vacancies";
+    private final static String HR_LIST_TYPE = "hr";
+    private final static String USERS_LIST_TYPE = "users";
+    private final static String LIST_TYPE_PARAM = "adminListType";
+    private static volatile ShowAdminPageCommand instance = null;
+    //todo: create in userService
+    private final VacancyServiceImpl vacancyService = VacancyServiceImpl.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
+
+    private ShowAdminPageCommand() {
+
+    }
+
+    public static ShowAdminPageCommand getInstance() {
+        if (instance == null) {
+            synchronized (ShowAdminPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowAdminPageCommand();
+                }
+            }
+        }
+        return instance;
+    }
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

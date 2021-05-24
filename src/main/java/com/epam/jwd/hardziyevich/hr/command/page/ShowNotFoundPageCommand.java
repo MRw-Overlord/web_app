@@ -5,23 +5,6 @@ import com.epam.jwd.hardziyevich.hr.command.RequestContext;
 import com.epam.jwd.hardziyevich.hr.command.ResponseContext;
 
 public class ShowNotFoundPageCommand implements Command {
-    private static volatile ShowNotFoundPageCommand instance = null;
-
-    private ShowNotFoundPageCommand(){
-
-    }
-
-    public static ShowNotFoundPageCommand getInstance(){
-        if(instance == null) {
-            synchronized (ShowNotFoundPageCommand.class) {
-                if (instance == null) {
-                    instance = new ShowNotFoundPageCommand();
-                }
-            }
-        }
-        return instance;
-    }
-
     public static final ResponseContext SHOW_NOT_FOUND_PAGE_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
@@ -33,6 +16,22 @@ public class ShowNotFoundPageCommand implements Command {
             return false;
         }
     };
+    private static volatile ShowNotFoundPageCommand instance = null;
+
+    private ShowNotFoundPageCommand() {
+
+    }
+
+    public static ShowNotFoundPageCommand getInstance() {
+        if (instance == null) {
+            synchronized (ShowNotFoundPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowNotFoundPageCommand();
+                }
+            }
+        }
+        return instance;
+    }
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

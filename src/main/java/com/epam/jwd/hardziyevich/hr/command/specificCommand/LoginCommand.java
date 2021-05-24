@@ -16,6 +16,7 @@ import java.util.Optional;
 public class LoginCommand implements Command {
 
     private static volatile LoginCommand instance = null;
+    private final UserService service = UserServiceImpl.getInstance();
 
     private LoginCommand() {
 
@@ -31,8 +32,6 @@ public class LoginCommand implements Command {
         }
         return instance;
     }
-
-    private final UserService service = UserServiceImpl.getInstance();
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

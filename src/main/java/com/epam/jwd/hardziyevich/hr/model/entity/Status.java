@@ -8,7 +8,8 @@ public enum Status {
     HIDDEN(1),
     ACTIVE(0);
     private final int id;
-    Status(int id){
+
+    Status(int id) {
         this.id = id;
     }
 

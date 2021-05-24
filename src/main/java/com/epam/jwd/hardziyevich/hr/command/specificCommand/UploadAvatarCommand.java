@@ -32,6 +32,7 @@ public class UploadAvatarCommand implements Command {
     };
     public static final String PATH_AVATAR_IMG = "F:/Work/EPAM/HR/src/main/webapp/static/userAvatarDump/";
     private static volatile UploadAvatarCommand instance = null;
+    private final UserService userService = UserServiceImpl.getInstance();
 
     private UploadAvatarCommand() {
 
@@ -47,8 +48,6 @@ public class UploadAvatarCommand implements Command {
         }
         return instance;
     }
-
-    private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

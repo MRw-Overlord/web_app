@@ -11,26 +11,6 @@ import java.util.Optional;
 
 
 public class ShowProfilePageCommand implements Command {
-    private static volatile ShowProfilePageCommand instance = null;
-
-    private ShowProfilePageCommand(){
-
-    }
-
-    public static ShowProfilePageCommand getInstance() {
-        if(instance == null) {
-            synchronized (ShowProfilePageCommand.class) {
-                if (instance == null) {
-                    instance = new ShowProfilePageCommand();
-                }
-            }
-        }
-        return instance;
-
-    }
-
-    private final UserService userService = UserServiceImpl.getInstance();
-
     public static final ResponseContext PROFILE_PAGE = new ResponseContext() {
         @Override
         public String getPage() {
@@ -42,6 +22,24 @@ public class ShowProfilePageCommand implements Command {
             return false;
         }
     };
+    private static volatile ShowProfilePageCommand instance = null;
+    private final UserService userService = UserServiceImpl.getInstance();
+
+    private ShowProfilePageCommand() {
+
+    }
+
+    public static ShowProfilePageCommand getInstance() {
+        if (instance == null) {
+            synchronized (ShowProfilePageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowProfilePageCommand();
+                }
+            }
+        }
+        return instance;
+
+    }
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

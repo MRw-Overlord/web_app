@@ -5,7 +5,6 @@ import com.epam.jwd.hardziyevich.hr.pool.ConnectionPool;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import java.sql.SQLException;
 
 @WebListener
 public class ApplicationListener implements ServletContextListener {

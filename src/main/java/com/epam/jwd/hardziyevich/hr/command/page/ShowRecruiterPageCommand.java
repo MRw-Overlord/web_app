@@ -10,30 +10,6 @@ import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
 import java.util.stream.Collectors;
 
 public class ShowRecruiterPageCommand implements Command {
-    private static volatile ShowRecruiterPageCommand instance;
-
-    private ShowRecruiterPageCommand(){
-
-    }
-
-    public static ShowRecruiterPageCommand getInstance(){
-        if(instance == null) {
-            synchronized (ShowRecruiterPageCommand.class) {
-                if (instance == null) {
-                    instance = new ShowRecruiterPageCommand();
-                }
-            }
-        }
-        return instance;
-    }
-    private final static String VACANCIES_LIST_TYPE = "vacancies";
-    private final static String USERS_LIST_TYPE = "users";
-    private final static String LIST_TYPE_PARAM = "recruiterListType";
-
-
-    private final VacancyServiceImpl vacancyService = VacancyServiceImpl.getInstance();
-    private final UserService userService = UserServiceImpl.getInstance();
-
     public static final ResponseContext RECRUITER_PAGE = new ResponseContext() {
         @Override
         public String getPage() {
@@ -45,7 +21,6 @@ public class ShowRecruiterPageCommand implements Command {
             return false;
         }
     };
-
     public static final ResponseContext RECRUITER_PANEL_REDIRECT = new ResponseContext() {
         @Override
         public String getPage() {
@@ -62,6 +37,27 @@ public class ShowRecruiterPageCommand implements Command {
             return "/controller?command=show_recruiter_page";
         }
     };
+    private final static String VACANCIES_LIST_TYPE = "vacancies";
+    private final static String USERS_LIST_TYPE = "users";
+    private final static String LIST_TYPE_PARAM = "recruiterListType";
+    private static volatile ShowRecruiterPageCommand instance;
+    private final VacancyServiceImpl vacancyService = VacancyServiceImpl.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
+
+    private ShowRecruiterPageCommand() {
+
+    }
+
+    public static ShowRecruiterPageCommand getInstance() {
+        if (instance == null) {
+            synchronized (ShowRecruiterPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowRecruiterPageCommand();
+                }
+            }
+        }
+        return instance;
+    }
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

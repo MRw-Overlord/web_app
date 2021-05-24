@@ -13,6 +13,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
 }
+
 H1 {
     display: inline-block;
     position: relative;
@@ -26,6 +27,7 @@ H1 {
     color: white;
     transition: all 1s;
 }
+
 H1:before {
     content: "";
     position: absolute;
@@ -37,9 +39,10 @@ H1:before {
     background: linear-gradient(-45deg,
     rgba(72, 209, 204, 0) 2px,
     mediumturquoise 3px,
-    rgba(72, 209, 204, 0) 3px ) repeat;
+    rgba(72, 209, 204, 0) 3px) repeat;
     background-size: 4px 4px;
 }
+
 H1:after {
     content: attr(data-name);
     position: relative;
@@ -53,12 +56,15 @@ H1:after {
     color: white;
     transition: all 1s;
 }
+
 H1:hover {
     color: lemonchiffon;
 }
+
 H1:hover:before {
     animation: 5s move_lines infinite linear;
 }
+
 H1:hover:after {
     color: lemonchiffon;
     text-shadow: 1px 1px lemonchiffon,

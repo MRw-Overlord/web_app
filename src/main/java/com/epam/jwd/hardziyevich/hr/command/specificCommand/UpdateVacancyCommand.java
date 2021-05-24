@@ -3,16 +3,15 @@ package com.epam.jwd.hardziyevich.hr.command.specificCommand;
 import com.epam.jwd.hardziyevich.hr.command.Command;
 import com.epam.jwd.hardziyevich.hr.command.RequestContext;
 import com.epam.jwd.hardziyevich.hr.command.ResponseContext;
-import com.epam.jwd.hardziyevich.hr.command.page.ShowAdminPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowEditVacancyPageCommand;
 import com.epam.jwd.hardziyevich.hr.command.page.ShowMainPageCommand;
-import com.epam.jwd.hardziyevich.hr.model.entity.Status;
 import com.epam.jwd.hardziyevich.hr.service.VacancyService;
 import com.epam.jwd.hardziyevich.hr.service.impl.VacancyServiceImpl;
 
 
 public class UpdateVacancyCommand implements Command {
     private static volatile UpdateVacancyCommand instance = null;
+    private final VacancyService service = VacancyServiceImpl.getInstance();
 
     private UpdateVacancyCommand() {
 
@@ -29,8 +28,6 @@ public class UpdateVacancyCommand implements Command {
         return instance;
     }
 
-    private final VacancyService service = VacancyServiceImpl.getInstance();
-
     @Override
     public ResponseContext execute(RequestContext requestContext) {
         ResponseContext responseResult = null;
@@ -41,7 +38,7 @@ public class UpdateVacancyCommand implements Command {
         final String description = String.valueOf(requestContext.getParameter(ShowEditVacancyPageCommand.VACANCY_DESCRIPTION_PARAM));
         final String skillsDescription = String.valueOf(requestContext.getParameter(ShowEditVacancyPageCommand.VACANCY_SKILLS_DESCRIPTION_PARAM));
         final boolean result = service.update(vacancyId, vacancyName, companyName, description, skillsDescription);
-        if(result){
+        if (result) {
             requestContext.setAttribute("vacancyId", vacancyId);
             requestContext.setAttribute("vacancyName", vacancyName);
             requestContext.setAttribute("companyName", companyName);

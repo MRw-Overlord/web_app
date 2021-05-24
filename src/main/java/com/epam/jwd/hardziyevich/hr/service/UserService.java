@@ -58,7 +58,7 @@ public interface UserService extends CommonService<User, UserDto> {
 
     void setAvatarPath(String path, int id);
 
-    public void writeAvatarImg(InputStream inputStream, int userId, File image);
+    void writeAvatarImg(InputStream inputStream, int userId, File image);
 
     void delete(int userId);
 

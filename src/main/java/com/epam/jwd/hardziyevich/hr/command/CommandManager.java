@@ -66,9 +66,9 @@ public enum CommandManager {
         this.command = command;
     }
 
-    static Command of(String name){
-        for(CommandManager action : values()){
-            if(action.name().equalsIgnoreCase(name)){
+    static Command of(String name) {
+        for (CommandManager action : values()) {
+            if (action.name().equalsIgnoreCase(name)) {
                 return action.command;
             }
         }

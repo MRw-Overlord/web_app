@@ -26,8 +26,8 @@ public class VacancyDaoImpl implements VacancyDao {
     public static final String FIND_ALL_RELEVANT_VACANCIES = "SELECT vacancy_id, vacancyName, companyName, description, skillsDescription, status from vacancy where status = 'ACTIVE'";
     public static final String FIND_ALL_VACANCIES_BYSTATUS_QUERY = "SELECT vacancy_id, vacancyName, companyName, description, skillsDescription, status from vacancy where status = ?";
     public static final String FIND_ALL_VACANCIES_BY_ID_QUERY = "SELECT vacancy_id, vacancyName, companyName, description, skillsDescription, status from vacancy where vacancy_id=?";
-    private static volatile VacancyDaoImpl  instance = null;
     private static final Logger LOGGER = LogManager.getLogger(VacancyDaoImpl.class);
+    private static volatile VacancyDaoImpl instance = null;
 
     private VacancyDaoImpl() {
 

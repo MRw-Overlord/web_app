@@ -21,10 +21,9 @@ import java.util.stream.Collectors;
 
 
 public class UserServiceImpl implements UserService {
+    public static final String ANTIHACK_PASSWARD = "$2a$10$Z6P43xL3xPINRYG6pPwxxunfz53zO9jZ6gC.HDtzkQoQNXh52Prry";
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
     private static volatile UserServiceImpl instance = null;
-
-    public static final String ANTIHACK_PASSWARD = "$2a$10$Z6P43xL3xPINRYG6pPwxxunfz53zO9jZ6gC.HDtzkQoQNXh52Prry";
     private UserDaoImpl userDao;
 
     private UserServiceImpl(UserDaoImpl userDao) {
@@ -160,7 +159,7 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-    public void setAvatarPath(String path, int id){
+    public void setAvatarPath(String path, int id) {
         try {
             userDao.uploadAvatarPath(id, path);
         } catch (UploadAvatarPathException e) {
@@ -183,10 +182,10 @@ public class UserServiceImpl implements UserService {
     public void delete(int userId) {
         final Optional<User> byId = userDao.findById(userId);
         boolean result = false;
-        if(byId.isPresent()){
-          result = userDao.delete(byId.get());
+        if (byId.isPresent()) {
+            result = userDao.delete(byId.get());
         }
-        if(!result){
+        if (!result) {
             try {
                 throw new DeleteUserException(userId);
             } catch (DeleteUserException e) {

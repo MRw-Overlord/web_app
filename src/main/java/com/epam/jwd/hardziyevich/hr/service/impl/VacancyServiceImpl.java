@@ -1,7 +1,6 @@
 package com.epam.jwd.hardziyevich.hr.service.impl;
 
 import com.epam.jwd.hardziyevich.hr.dao.VacancyDao;
-import com.epam.jwd.hardziyevich.hr.dao.impl.UserDaoImpl;
 import com.epam.jwd.hardziyevich.hr.dao.impl.VacancyDaoImpl;
 import com.epam.jwd.hardziyevich.hr.model.entity.Status;
 import com.epam.jwd.hardziyevich.hr.model.entity.Vacancy;
@@ -130,6 +129,6 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     public void setVacancyDao(VacancyDao vacancyDao) {
-        this.vacancyDao = vacancyDao ;
+        this.vacancyDao = vacancyDao;
     }
 }

@@ -30,14 +30,30 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
+    public static final String DEFAULT_AVATAR_JPG = "F:/Work/EPAM/HR/src/main/webapp/static/userAvatarDump/DefaultAvatar.jpg";
+    public static final String DELETE_USER_FROMDB_QUARE = "DELETE from user_table where user_id=?";
+    public static final String SET_USER_AVATAR_PATH = "UPDATE user_info SET avatarPath=? WHERE user_id=?";
+    public static final String GET_ALL_USERS_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath, avatarImg\n" +
+            "from user_table\n" +
+            "JOIN user_info\n" +
+            "ON user_table.user_id = user_info.user_id";
+    public static final String GET_USER_BY_LOGIN_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath, avatarImg\n" +
+            "from user_table\n" +
+            "JOIN user_info\n" +
+            "ON user_table.user_id = user_info.user_id\n" +
+            "WHERE user_login= ?";
+    public static final String UPDATE_USER = "UPDATE user_table\n" +
+            "INNER JOIN user_info ON user_info.user_id=user_table.user_id\n" +
+            "SET user_table.user_login=?, user_table.user_password=?, user_info.user_firstName=?, user_info.user_lastName=?, user_info.user_email=?, \n" +
+            "    user_info.age=?, user_table.user_role_name=?, user_table.user_status=?  where user_table.user_id=?";
+    public static final String UPDATE_USER_PROFILE = "UPDATE user_info SET user_firstName=?, user_lastName=?, user_email=?, age=? WHERE user_id=?; ";
+    public static final String CREATE_USER_QUERY = "INSERT INTO user_table(user_login, user_password) VALUES (?, ?)"; //todo: check user_role_name
     private static final String GET_USER_BY_ID_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath, avatarImg\n" +
             "from user_table\n" +
             "JOIN user_info\n" +
             "ON user_table.user_id = user_info.user_id\n" +
             "WHERE user_table.user_id= ?";
-    public static final String DEFAULT_AVATAR_JPG = "F:/Work/EPAM/HR/src/main/webapp/static/userAvatarDump/DefaultAvatar.jpg";
-    public static final String DELETE_USER_FROMDB_QUARE = "DELETE from user_table where user_id=?";
-    public static final String SET_USER_AVATAR_PATH = "UPDATE user_info SET avatarPath=? WHERE user_id=?";
+    private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
     private static String DEFAULT_ENCODE_AVATAR_STRING;
     private static volatile UserDaoImpl instance = null;
 
@@ -59,23 +75,21 @@ public class UserDaoImpl implements UserDao {
         return instance;
     }
 
-    public static final String GET_ALL_USERS_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath, avatarImg\n" +
-            "from user_table\n" +
-            "JOIN user_info\n" +
-            "ON user_table.user_id = user_info.user_id";
-
-    public static final String GET_USER_BY_LOGIN_QUERY = "SELECT user_info.user_id, user_login, user_password, user_firstName, user_lastName, user_email, age, user_role_name, user_status, avatarPath, avatarImg\n" +
-            "from user_table\n" +
-            "JOIN user_info\n" +
-            "ON user_table.user_id = user_info.user_id\n" +
-            "WHERE user_login= ?";
-    public static final String UPDATE_USER = "UPDATE user_table\n" +
-            "INNER JOIN user_info ON user_info.user_id=user_table.user_id\n" +
-            "SET user_table.user_login=?, user_table.user_password=?, user_info.user_firstName=?, user_info.user_lastName=?, user_info.user_email=?, \n" +
-            "    user_info.age=?, user_table.user_role_name=?, user_table.user_status=?  where user_table.user_id=?";
-    public static final String UPDATE_USER_PROFILE = "UPDATE user_info SET user_firstName=?, user_lastName=?, user_email=?, age=? WHERE user_id=?; ";
-    public static final String CREATE_USER_QUERY = "INSERT INTO user_table(user_login, user_password) VALUES (?, ?)"; //todo: check user_role_name
-    private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
+    private static String encodeToString(BufferedImage image) {
+        String base64String = null;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(image, "jpg", bos);
+            byte[] imageBytes = bos.toByteArray();
+            BASE64Encoder encoder = new BASE64Encoder();
+            base64String = encoder.encode(imageBytes);
+            bos.close();
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return base64String;
+    }
 
     @Override
     public boolean create(User object) {
@@ -250,22 +264,6 @@ public class UserDaoImpl implements UserDao {
             avatarImg = DEFAULT_ENCODE_AVATAR_STRING;
         }
         return avatarImg;
-    }
-
-    private static String encodeToString(BufferedImage image) {
-        String base64String = null;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(image, "jpg", bos);
-            byte[] imageBytes = bos.toByteArray();
-            BASE64Encoder encoder = new BASE64Encoder();
-            base64String = encoder.encode(imageBytes);
-            bos.close();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-            e.printStackTrace();
-        }
-        return base64String;
     }
 
     public void uploadAvatarPath(int userId, String avatarPath) throws UploadAvatarPathException {

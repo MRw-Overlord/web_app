@@ -7,23 +7,6 @@ import com.epam.jwd.hardziyevich.hr.command.ResponseContext;
 
 public class ShowSignUpPageCommand implements Command {
 
-    private static volatile ShowSignUpPageCommand instance = null;
-
-    private ShowSignUpPageCommand(){
-
-    }
-
-    public static ShowSignUpPageCommand getInstance(){
-        if(instance == null) {
-            synchronized (ShowSignUpPageCommand.class) {
-                if (instance == null) {
-                    instance = new ShowSignUpPageCommand();
-                }
-            }
-        }
-        return instance;
-    }
-
     public static final ResponseContext SIGN_UP_RESPONSE = new ResponseContext() {
         @Override
         public String getPage() {
@@ -35,6 +18,22 @@ public class ShowSignUpPageCommand implements Command {
             return false;
         }
     };
+    private static volatile ShowSignUpPageCommand instance = null;
+
+    private ShowSignUpPageCommand() {
+
+    }
+
+    public static ShowSignUpPageCommand getInstance() {
+        if (instance == null) {
+            synchronized (ShowSignUpPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowSignUpPageCommand();
+                }
+            }
+        }
+        return instance;
+    }
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

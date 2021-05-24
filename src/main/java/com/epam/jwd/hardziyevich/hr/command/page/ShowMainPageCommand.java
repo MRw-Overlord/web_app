@@ -11,23 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowMainPageCommand implements Command {
-    private static volatile ShowMainPageCommand instance = null;
-
-    private ShowMainPageCommand() {
-
-    }
-
-    public static ShowMainPageCommand getInstance() {
-        if (instance == null) {
-            synchronized (ShowMainPageCommand.class) {
-                if (instance == null) {
-                    instance = new ShowMainPageCommand();
-                }
-            }
-        }
-        return instance;
-    }
-
     public static final ResponseContext MAIN_PAGE_RESPONSE = new ResponseContext() {
         @Override
         public String getPage() {
@@ -39,7 +22,6 @@ public class ShowMainPageCommand implements Command {
             return false;
         }
     };
-
     public static final ResponseContext MAIN_PAGE_RESPONSE_REDIRECT = new ResponseContext() {
         @Override
         public String getPage() {
@@ -56,8 +38,23 @@ public class ShowMainPageCommand implements Command {
             return "/";
         }
     };
-
+    private static volatile ShowMainPageCommand instance = null;
     private final VacancyService vacancyService = VacancyServiceImpl.getInstance();
+
+    private ShowMainPageCommand() {
+
+    }
+
+    public static ShowMainPageCommand getInstance() {
+        if (instance == null) {
+            synchronized (ShowMainPageCommand.class) {
+                if (instance == null) {
+                    instance = new ShowMainPageCommand();
+                }
+            }
+        }
+        return instance;
+    }
 
     @Override
     public ResponseContext execute(RequestContext requestContext) {

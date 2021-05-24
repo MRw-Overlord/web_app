@@ -21,20 +21,21 @@ public class ShowEditVacancyPageCommand implements Command {
             return false;
         }
     };
-    public static volatile ShowEditVacancyPageCommand instance = null;
     public static final String COMPANY_NAME_PARAM = "companyName";
     public static final String VACANCY_NAME_PARAM = "vacancyName"; //todo: check later
     public static final String VACANCY_DESCRIPTION_PARAM = "description";
     public static final String VACANCY_SKILLS_DESCRIPTION_PARAM = "skillsDescription";
     public static final String VACANCY_STATUS_PARAM = "status";
-    public static final	 String FORM_ACTION_UPDATE = "/controller?command=update_vacancy&id=";
+    public static final String FORM_ACTION_UPDATE = "/controller?command=update_vacancy&id=";
+    public static volatile ShowEditVacancyPageCommand instance = null;
+    private final VacancyService vacancyService = VacancyServiceImpl.getInstance();
 
-    private ShowEditVacancyPageCommand(){
+    private ShowEditVacancyPageCommand() {
 
     }
 
-    public static ShowEditVacancyPageCommand getInstance(){
-        if(instance == null) {
+    public static ShowEditVacancyPageCommand getInstance() {
+        if (instance == null) {
             synchronized (ShowEditVacancyPageCommand.class) {
                 if (instance == null) {
                     instance = new ShowEditVacancyPageCommand();
@@ -44,15 +45,12 @@ public class ShowEditVacancyPageCommand implements Command {
         return instance;
     }
 
-
-    private final VacancyService vacancyService = VacancyServiceImpl.getInstance();
-
     @Override
     public ResponseContext execute(RequestContext requestContext) {
         final int vacancyId = Integer.parseInt(requestContext.getParameter("id".trim()));
         final Optional<VacancyDto> vacancyDto = vacancyService.findById(vacancyId);
         ResponseContext response = EDIT_VACANCY_PAGE;
-        if(vacancyDto.isPresent()){
+        if (vacancyDto.isPresent()) {
             requestContext.setAttribute("formAction", FORM_ACTION_UPDATE + vacancyId);
             requestContext.setAttribute("vacancyNameParam", VACANCY_NAME_PARAM);
             requestContext.setAttribute("vacancyDescriptionParam", VACANCY_DESCRIPTION_PARAM);
